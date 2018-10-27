@@ -3,6 +3,7 @@ Radiation Damage Recovery Project UMD
 The project contains scripts/data/results only for measurements with the alpha source for now. 
 Most of the code has been written by Geng-Yuan Jeng.
 
+```bash
 .
 └── alphaSource                 // Main directory
     ├── data                    // Here  you put your .root files
@@ -10,3 +11,4 @@ Most of the code has been written by Geng-Yuan Jeng.
     │   └── 20181027
     └── scripts                 // All the scripts and the routines that we are going to use
         └── Plotter             // Routines for plotting, fitting and style configuration
+...
