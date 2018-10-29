@@ -14,3 +14,5 @@ Most of the code has been written by Geng-Yuan Jeng.
 ```
 
 In order to able to run this code you should have already installed Python and ROOT.
+
+I will provide more info on how to run the scripts later.
