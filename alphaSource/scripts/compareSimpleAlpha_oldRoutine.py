@@ -1,22 +1,27 @@
 #!/usr/bin/python
+
+# Import some python libraries
 import os, sys, math, datetime
+
+# Import ROOT
 from ROOT import gROOT, gStyle, TFile, TTree, TH1F, TH1D, TCanvas, TPad, TMath, TF1, TLegend, gPad, gDirectory
 from ROOT import kRed, kBlue, kGreen, kWhite
 
+# Some more python libraries
 from collections import OrderedDict
 import numpy
 
+# Pass the current working directory to the compiler
 sys.path.append(os.path.abspath(os.path.curdir))
 
+# Import some custom styling methods
 from Plotter import parseLYAnaInputArgs
 options = parseLYAnaInputArgs()
 
-
-#Will uncomment this when I add the real files. Now, we have only symlinks to the files right now.  
-#gROOT.LoadMacro("Plotter/UMDStyle.C")
-#from ROOT import SetUMDStyle
-#SetUMDStyle()
-#gROOT.SetBatch()
+gROOT.LoadMacro("Plotter/UMDStyle.C")
+from ROOT import SetUMDStyle
+SetUMDStyle()
+gROOT.SetBatch()
 
 ####################################################################################################
 ####################################################################################################
@@ -33,10 +38,11 @@ if __name__ == '__main__':
     valsyst = {}
     runSyst = False
 
-
+    ## Import all measurements
     ## Meas 1
+    ### Import the file
     myfile["meas1"] = TFile("../data/Pu239new_EJ200-2X_3_Default_Nofoil_FaceA_FastFrame_20181011.root")
-
+    ## and then get the TTree
     mytree["meas1"] = myfile["meas1"].Get("tree")
 
     ## Meas 2
@@ -54,10 +60,14 @@ if __name__ == '__main__':
 
     mytree["meas4"] = myfile["meas4"].Get("tree")
     
+    ## Then define a TCanvas to contain all graphics
     c1 = TCanvas("c1","c1",800,600)
 
+    ## Get all measurement histograms
     ## FastFrame
+    ### First create an empty TH1D histogram
     myhist["meas1"] = TH1D("myhist_meas1","meas1",256,-0.5,7.5)
+    ### Then get the saved histogram into the new one and normalize to ns from s by *1.e9
     mytree["meas1"].Draw("area*1.e9>>myhist_meas1","","")
 
     myhist["meas2"] = TH1D("myhist_meas2","meas2",256,-0.5,7.5)
@@ -69,27 +79,32 @@ if __name__ == '__main__':
     myhist["meas4"] = TH1D("myhist_meas4","meas4",256,-0.5,7.5)
     mytree["meas4"].Draw("area*1.e9>>myhist_meas4","","")
 
+    ## Draw the first measurement
     #myhist["meas1"].Scale(1./myhist["meas1"].Integral())
     myhist["meas1"].SetLineColor(2)
     myhist["meas1"].Draw()
 
-    
+    ## Some drawing options for meas1
     myhist["meas1"].GetXaxis().SetTitle("Energy [V#timesns]")
-##    myhist["meas1"].GetYaxis().SetTitle("Events")
+    #myhist["meas1"].GetYaxis().SetTitle("Events")
     myhist["meas1"].GetYaxis().SetTitle("A.U.")
     myhist["meas1"].GetYaxis().SetRangeUser(5.e-2,2.e6)
     #myhist["meas1"].GetYaxis().SetRangeUser(5.e-7,1.e1)
 
+    ## Set y-axis to log and update the TCanvas to actually draw meas1
     gPad.SetLogy()
     gPad.Update()
     c1.Update()
 
+    ## Normalize meas2 to meas1
     myhist["meas2"].Scale(myhist["meas1"].Integral()/myhist["meas2"].Integral())
     #myhist["meas2"].Scale(1./myhist["meas2"].Integral())
+    ## Draw meas2 using the same TCanvas/Hist
     myhist["meas2"].SetLineColor(4)
     myhist["meas2"].SetLineStyle(1)
     myhist["meas2"].Draw("same")
 
+    ## The same...
     myhist["meas3"].Scale(myhist["meas1"].Integral()/myhist["meas3"].Integral())
     #myhist["meas3"].Scale(1./myhist["meas3"].Integral())
     myhist["meas3"].SetLineColor(3)
@@ -102,6 +117,7 @@ if __name__ == '__main__':
     myhist["meas4"].SetLineStyle(1)
     myhist["meas4"].Draw("same")
 
+    ## Create a legend and customize it
     leg = TLegend(0.58,0.7,0.89,0.92)
     leg.SetFillColor(kWhite)
     leg.SetLineColor(kWhite)
@@ -114,16 +130,18 @@ if __name__ == '__main__':
 
     leg.Draw()
 
+    ## Get today's date to use in filenames
     today = datetime.date.today()
     fTag = today.strftime("%Y%m%d")
     #fTag="20181027"
     fnameTag = "%s_p%s"%(options.outtag,fTag)
 
+    ## Save results
     c1.SaveAs("../results/20181027/Alpha_eng_%s.png"%fnameTag)
     c1.SaveAs("../results/20181027/Alpha_eng_%s.pdf"%fnameTag)
     c1.SaveAs("../results/20181027/Alpha_eng_%s.root"%fnameTag)
 
-
+    ##Calculate total histogram means and RMSs
     mean1 = myhist["meas1"].GetMean()
     mean2 = myhist["meas2"].GetMean()
     mean3 = myhist["meas3"].GetMean()
