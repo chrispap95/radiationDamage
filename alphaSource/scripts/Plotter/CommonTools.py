@@ -314,7 +314,7 @@ class AlphaSourceFitter:
 
         myfit = TF1("myfit_%s"%sigName,"gaus",tempMax-fitRng[0],tempMax+fitRng[1])
 
-        tmpstatus = mHist.Fit("myfit_%s"%sigName,"SREMQ0","")
+        tmpstatus = mHist.Fit("myfit_%s"%sigName,"SREMQ","")
         #tmpstatus = mHist.Fit("myfit_%s"%sigName,"SREMQ","same")
         print "[GausFit Base] chi2 = %f; ndf = %i; nChi2 = %8.5f"%(myfit.GetChisquare()/nScale,myfit.GetNDF()+1,
                                                                    myfit.GetChisquare()/nScale/(myfit.GetNDF()+1))

@@ -74,8 +74,8 @@ TStyle* UMDStyle()
   umdStyle->SetTitleSize(tsize,"z");
 
   // use bold lines and markers
-  umdStyle->SetMarkerStyle(20);
-  umdStyle->SetMarkerSize(1.2);
+  // umdStyle->SetMarkerStyle(1);
+  // umdStyle->SetMarkerSize(1);
   umdStyle->SetHistLineWidth(2.);
   umdStyle->SetLineStyleString(2,"[12 12]"); // postscript dashes
 

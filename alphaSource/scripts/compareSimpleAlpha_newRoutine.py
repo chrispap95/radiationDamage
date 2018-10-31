@@ -11,9 +11,9 @@ from Plotter import parseLYAnaInputArgs
 from Plotter.CommonTools import DrawHistSimple
 options = parseLYAnaInputArgs()
 
-#gROOT.LoadMacro("Plotter/UMDStyle.C")
-#from ROOT import SetUMDStyle
-#SetUMDStyle()
+gROOT.LoadMacro("Plotter/UMDStyle.C")
+from ROOT import SetUMDStyle
+SetUMDStyle()
 gROOT.SetBatch()
 
 ####################################################################################################
