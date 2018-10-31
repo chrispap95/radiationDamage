@@ -1,5 +1,6 @@
-Radiation Damage Recovery Project UMD
+#UMD Radiation Damage Recovery Project
 
+##Current Status
 The project contains scripts/data/results only for measurements with the alpha source for now. 
 Most of the code has been written by Geng-Yuan Jeng.
 
@@ -12,17 +13,19 @@ Most of the code has been written by Geng-Yuan Jeng.
     └── scripts                 # All the scripts and the routines that we are going to use
         └── Plotter             # Routines for plotting, fitting and style configuration
 ```
+##Prerequisites
+In order to able to run this code you should have already installed Python 2 and ROOT.
+Warning: Do not use python 3!
 
-In order to able to run this code you should have already installed Python and ROOT.
-
+##Instructions
 I will provide more info on how to run the scripts later.
 
 ##############################################################################################
-FREADME file contents
+##FREADME file contents
 
 Save your data txt files in alphaSource/data.
 
-ALPHA SOURCE ANALYSIS
+###ALPHA SOURCE ANALYSIS
 
 First, make a txt file that lists all the data txt files that you want to process. Usually you take all your measurements for a set of samples on the same day; in the example command below, the date is 20180223, but you should replace that with the date of your measurements of interest. Then, from alphaSource directory run
 
