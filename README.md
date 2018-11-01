@@ -21,7 +21,6 @@ In order to able to run this code you should have already installed Python 2 and
 ## Instructions
 I will provide more info on how to run the scripts later.
 
-##############################################################################################
 ## FREADME file contents
 
 Save your data txt files in alphaSource/data.
