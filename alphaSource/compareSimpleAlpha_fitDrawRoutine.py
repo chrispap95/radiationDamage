@@ -8,9 +8,10 @@
 
 # Import some python libraries
 import os, sys, math, datetime
+from array import array
 
 # Import ROOT
-from ROOT import gROOT, gStyle, TFile, TTree, TH1F, TH1D, TCanvas, TPad, TMath, TF1, TLegend, gPad, gDirectory
+from ROOT import gROOT, gStyle, TFile, TTree, TH1F, TH1D, TH2D, TCanvas, TPad, TMath, TGraph, TF1, TLegend, gPad, gDirectory
 from ROOT import kRed, kBlue, kGreen, kWhite
 
 # Some more python libraries
@@ -25,7 +26,7 @@ from Plotter import parseLYAnaInputArgs
 options = parseLYAnaInputArgs()
 
 # Import fitter
-from Plotter.CommonTools import AlphaSourceFitter 
+from Plotter.CommonTools import AlphaSourceFitter
 
 gROOT.LoadMacro("Plotter/UMDStyle.C")
 from ROOT import SetUMDStyle
@@ -43,6 +44,8 @@ if __name__ == '__main__':
     mytree = {}
     myhist = {}
     myfit = {}
+    vEng = {}
+    sFit = {}
     valphys = {}
     valsyst = {}
     runSyst = False
@@ -50,30 +53,28 @@ if __name__ == '__main__':
     ## Import all measurements
     ## Meas 1
     ### Import the file
-    myfile["meas1"] = TFile("root/AlphaSource/Pu239new_EJ200-2X_3_Default_Nofoil_FaceA_FastFrame_20181011.root")
+    myfile["meas1"] = TFile("root/AlphaSource/Pu239new_EJ200-2X_3_Default_Nofoil_FaceA_FastFrame_20181101_chris_end.root")
     ## and then get the TTree
     mytree["meas1"] = myfile["meas1"].Get("tree")
 
     ## Meas 2
-    myfile["meas2"] = TFile("root/AlphaSource/Pu239new_EJ200-2X_3_Default_Nofoil_FaceA_FastFrame_20181012.root")
+    myfile["meas2"] = TFile("root/AlphaSource/Pu239new_EJ200-2X_3_Default_Nofoil_FaceA_FastFrame_20181106.root")
 
     mytree["meas2"] = myfile["meas2"].Get("tree")
 
     ## Meas 3
-    myfile["meas3"] = TFile("root/AlphaSource/Pu239new_EJ200-2X_3_Default_Nofoil_FaceA_FastFrame_20181023.root")
+    myfile["meas3"] = TFile("root/AlphaSource/Pu239new_EJ200-2X_3_Default_Nofoil_FaceA_FastFrame_20181108_Yzhu.root")
 
     mytree["meas3"] = myfile["meas3"].Get("tree")
 
     ## Meas 4
-    myfile["meas4"] = TFile("root/AlphaSource/Pu239new_EJ200-2X_3_Default_Nofoil_FaceA_FastFrame_20181024.root")
+    myfile["meas4"] = TFile("root/AlphaSource/Pu239new_EJ200-2X_3_Default_Nofoil_FaceA_FastFrame_20181108_chris_begin.root")
 
     mytree["meas4"] = myfile["meas4"].Get("tree")
-    
+
     ## Then define a TCanvas to contain all graphics
     c1 = TCanvas("c1","c1",800,600)
-    c1.Divide(2,2)
-    c1.cd(1)
-    
+
     ## Get all measurement histograms
     ## FastFrame
     ### First create an empty TH1D histogram
@@ -94,18 +95,13 @@ if __name__ == '__main__':
     myhist["meas1"].SetLineColor(2)
     ## Fit meas1
     fitopt = [0.4,1.4]
-    vEng_1, sFit_1, myfit_1 = AlphaSourceFitter().GausFitEngPeak(myhist["meas1"],"meas1",fitopt,1)
+    vEng[1], sFit[1], myfit_1 = AlphaSourceFitter().GausFitEngPeak(myhist["meas1"],"Chris 3",fitopt,1)
     ## Some drawing options for meas1
     myhist["meas1"].GetXaxis().SetTitle("Energy [V#timesns]")
     myhist["meas1"].GetYaxis().SetTitle("A.U.")
     #myhist["meas1"].GetYaxis().SetRangeUser(5.e-2,2.e6)     ##Used for LogY
     myhist["meas1"].GetYaxis().SetRangeUser(0,3.e3)
-    ## Update the TCanvas to actually draw meas1
-    gPad.Update()
-    c1.Update()
 
-    ## Draw meas2 using another TPad
-    c1.cd(2)
     myhist["meas2"].Scale(myhist["meas1"].Integral()/myhist["meas2"].Integral())
     myhist["meas2"].SetLineColor(4)
     myhist["meas2"].SetLineStyle(1)
@@ -115,12 +111,8 @@ if __name__ == '__main__':
     myhist["meas2"].GetYaxis().SetTitle("A.U.")
     #myhist["meas2"].GetYaxis().SetRangeUser(5.e-2,2.e6)
     myhist["meas2"].GetYaxis().SetRangeUser(0,3.e3)
-    gPad.Update()
-    vEng_2, sFit_2, myfit_2 = AlphaSourceFitter().GausFitEngPeak(myhist["meas2"],"meas2",fitopt,1)
-    c1.Update()
+    vEng[2], sFit[2], myfit[2] = AlphaSourceFitter().GausFitEngPeak(myhist["meas2"],"Claire 2",fitopt,1)
 
-    ## The same...
-    c1.cd(3)
     myhist["meas3"].Scale(myhist["meas1"].Integral()/myhist["meas3"].Integral())
     myhist["meas3"].SetLineColor(3)
     myhist["meas3"].SetLineStyle(1)
@@ -128,12 +120,8 @@ if __name__ == '__main__':
     myhist["meas3"].GetXaxis().SetTitle("Energy [V#timesns]")
     myhist["meas3"].GetYaxis().SetTitle("A.U.")
     myhist["meas3"].GetYaxis().SetRangeUser(0,3.e3)
-    gPad.Update()
-    c1.Update()
-    vEng_3, sFit_3, myfit_3 = AlphaSourceFitter().GausFitEngPeak(myhist["meas3"],"meas3",fitopt,1)
-    c1.Update()
+    vEng[3], sFit[3], myfit[3] = AlphaSourceFitter().GausFitEngPeak(myhist["meas3"],"Chris 4",fitopt,1)
 
-    c1.cd(4)
     myhist["meas4"].Scale(myhist["meas1"].Integral()/myhist["meas4"].Integral())
     myhist["meas4"].SetLineColor(5)
     myhist["meas4"].SetLineStyle(1)
@@ -141,10 +129,7 @@ if __name__ == '__main__':
     myhist["meas4"].GetXaxis().SetTitle("Energy [V#timesns]")
     myhist["meas4"].GetYaxis().SetTitle("A.U.")
     myhist["meas4"].GetYaxis().SetRangeUser(0,3.e3)
-    gPad.Update()
-    c1.Update()
-    vEng_4, sFit_4, myfit_4 = AlphaSourceFitter().GausFitEngPeak(myhist["meas4"],"meas4",fitopt,1)
-    c1.Update()
+    vEng[4], sFit[4], myfit[4] = AlphaSourceFitter().GausFitEngPeak(myhist["meas4"],"Yingyue 2",fitopt,1)
 
     ## Create a legend and customize it
     #leg = TLegend(0.58,0.7,0.89,0.92)
@@ -164,6 +149,17 @@ if __name__ == '__main__':
     fnameTag = "%s_p%s"%(options.outtag,fTag)
 
     ## Save results
-    c1.SaveAs("Results/20181027/Alpha_eng_%s_fit.png"%fnameTag)
-    c1.SaveAs("Results/20181027/Alpha_eng_%s_fit.pdf"%fnameTag)
-    c1.SaveAs("Results/20181027/Alpha_eng_%s_fit.root"%fnameTag)
+    c1.SaveAs("Results/%s/Alpha_eng_%s_fit.png" %(fTag, fnameTag))
+    c1.SaveAs("Results/%s/Alpha_eng_%s_fit.pdf" %(fTag, fnameTag))
+    c1.SaveAs("Results/%s/Alpha_eng_%s_fit.root" %(fTag, fnameTag))
+
+
+    ## Compare Peaks
+    n = 4
+    y = array( 'f' )
+    err = array( 'f' )
+    for i in range(n):
+        y.append(vEng[i+1])
+        err.append(sFit[i+1])
+    print y
+    print err

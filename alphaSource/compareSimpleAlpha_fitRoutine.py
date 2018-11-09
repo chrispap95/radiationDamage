@@ -25,7 +25,7 @@ from Plotter import parseLYAnaInputArgs
 options = parseLYAnaInputArgs()
 
 # Import fitter
-from Plotter.CommonTools import AlphaSourceFitter 
+from Plotter.CommonTools import AlphaSourceFitter
 
 gROOT.LoadMacro("Plotter/UMDStyle.C")
 from ROOT import SetUMDStyle
@@ -50,15 +50,15 @@ if __name__ == '__main__':
     ## Import all measurements
     ## Meas 1
     ### Import the file
-    myfile["meas1"] = TFile("root/AlphaSource/Pu239new_EJ200-2X_3_Default_Nofoil_FaceA_FastFrame_20181011.root")
+    myfile["meas1"] = TFile("root/AlphaSource/Pu239new_EJ200-2X_3_Default_Nofoil_FaceA_FastFrame_20181108_chris_begin.root")
     ## and then get the TTree
     mytree["meas1"] = myfile["meas1"].Get("tree")
-    
+
     ## Then define a TCanvas to contain all graphics
     c1 = TCanvas("c1","c1",800,600)
     c1.Divide(2,2)
     c1.cd(1)
-    
+
     ## Get all measurement histograms
     ## FastFrame
     ### First create an empty TH1D histogram

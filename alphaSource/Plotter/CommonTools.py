@@ -105,7 +105,7 @@ def numf(s):
 
 ####################################################################################################
 ####################################################################################################
-#            
+#
 def PlotAlphaNoAvg(files, outtag, x_range, y_range, kw, plotOpts, mypedcut):
     ## plot options
     avghist = plotOpts['average']
@@ -181,7 +181,7 @@ def PlotAlphaNoAvg(files, outtag, x_range, y_range, kw, plotOpts, mypedcut):
     print myhists
 
 
-    fidx = 0 
+    fidx = 0
     for hn,hist in sorted(myhists.items()):
         hist.Scale(1./hist.Integral("width"))
         if fidx == 0:
@@ -314,7 +314,7 @@ class AlphaSourceFitter:
 
         myfit = TF1("myfit_%s"%sigName,"gaus",tempMax-fitRng[0],tempMax+fitRng[1])
 
-        tmpstatus = mHist.Fit("myfit_%s"%sigName,"SREMQ","")
+        tmpstatus = mHist.Fit("myfit_%s"%sigName,"SREMQ","same")
         #tmpstatus = mHist.Fit("myfit_%s"%sigName,"SREMQ","same")
         print "[GausFit Base] chi2 = %f; ndf = %i; nChi2 = %8.5f"%(myfit.GetChisquare()/nScale,myfit.GetNDF()+1,
                                                                    myfit.GetChisquare()/nScale/(myfit.GetNDF()+1))
@@ -1119,7 +1119,7 @@ def HistToTGRaphErrorsUniform(h,nf=1,type=0,unc_=0.02):
     gr.SetFillStyle(3002)
 
     return gr
-  
+
 def HistStackToTGRaphErrorsUniform(stack):
     'Transforms a rootpy.HistStack into a TGRaphErrors with same values and errors'
     return HistToTGRaphErrorsUniform(sum(stack.GetHists()))
@@ -1596,7 +1596,7 @@ def PrintResults(vDconst, vInput, vOffset, sampleset, header, doselabel, refPlot
         idx+=1
 
     ###############################
-    ## Save to a text file 
+    ## Save to a text file
     ###############################
     fnameTag = "%s_p%s"%(poptions.outtag,fTag)
     filetag = header.replace(" ","_").replace("-","_")
