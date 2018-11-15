@@ -95,7 +95,7 @@ if __name__ == '__main__':
     myhist["meas1"].SetLineColor(2)
     ## Fit meas1
     fitopt = [0.4,1.4]
-    vEng[1], sFit[1], myfit_1 = AlphaSourceFitter().GausFitEngPeak(myhist["meas1"],"Chris 3",fitopt,1)
+    vEng[1], sFit[1], myfit[1] = AlphaSourceFitter().GausFitEngPeak(myhist["meas1"],"Chris 20181101",fitopt,1)
     ## Some drawing options for meas1
     myhist["meas1"].GetXaxis().SetTitle("Energy [V#timesns]")
     myhist["meas1"].GetYaxis().SetTitle("A.U.")
@@ -111,7 +111,7 @@ if __name__ == '__main__':
     myhist["meas2"].GetYaxis().SetTitle("A.U.")
     #myhist["meas2"].GetYaxis().SetRangeUser(5.e-2,2.e6)
     myhist["meas2"].GetYaxis().SetRangeUser(0,3.e3)
-    vEng[2], sFit[2], myfit[2] = AlphaSourceFitter().GausFitEngPeak(myhist["meas2"],"Claire 2",fitopt,1)
+    vEng[2], sFit[2], myfit[2] = AlphaSourceFitter().GausFitEngPeak(myhist["meas2"],"Claire 20181106",fitopt,1)
 
     myhist["meas3"].Scale(myhist["meas1"].Integral()/myhist["meas3"].Integral())
     myhist["meas3"].SetLineColor(3)
@@ -120,7 +120,7 @@ if __name__ == '__main__':
     myhist["meas3"].GetXaxis().SetTitle("Energy [V#timesns]")
     myhist["meas3"].GetYaxis().SetTitle("A.U.")
     myhist["meas3"].GetYaxis().SetRangeUser(0,3.e3)
-    vEng[3], sFit[3], myfit[3] = AlphaSourceFitter().GausFitEngPeak(myhist["meas3"],"Chris 4",fitopt,1)
+    vEng[3], sFit[3], myfit[3] = AlphaSourceFitter().GausFitEngPeak(myhist["meas3"],"Yingyue 20181108",fitopt,1)
 
     myhist["meas4"].Scale(myhist["meas1"].Integral()/myhist["meas4"].Integral())
     myhist["meas4"].SetLineColor(5)
@@ -129,7 +129,7 @@ if __name__ == '__main__':
     myhist["meas4"].GetXaxis().SetTitle("Energy [V#timesns]")
     myhist["meas4"].GetYaxis().SetTitle("A.U.")
     myhist["meas4"].GetYaxis().SetRangeUser(0,3.e3)
-    vEng[4], sFit[4], myfit[4] = AlphaSourceFitter().GausFitEngPeak(myhist["meas4"],"Yingyue 2",fitopt,1)
+    vEng[4], sFit[4], myfit[4] = AlphaSourceFitter().GausFitEngPeak(myhist["meas4"],"Chris 20181108",fitopt,1)
 
     ## Create a legend and customize it
     #leg = TLegend(0.58,0.7,0.89,0.92)
@@ -161,5 +161,9 @@ if __name__ == '__main__':
     for i in range(n):
         y.append(vEng[i+1])
         err.append(sFit[i+1])
-    print y
-    print err
+
+    text_file = open("peak_data.dat", "w")
+    for i in range(n):
+        name = myfit[i+1].GetName()
+        text_file.write("%s %f %f\n" %(name[6:], y[i], err[i]))
+    text_file.close()
