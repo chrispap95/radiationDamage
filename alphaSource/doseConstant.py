@@ -56,18 +56,16 @@ if __name__ == '__main__':
     doselabel = "7 Mrad@ 390 krad/hr; 112 days aft. irr."
 
     ## 10/11/18
-    myfile["EJ200_2X_03-20181011"] = ["Ref",TFile("root/AlphaSource/Pu239new_EJ200-2X_3_Default_Nofoil_FaceA_FastFrame_20181011.root")]
+    myfile["EJ200PVT_1X1P_N8-20181011"] = ["Ref",TFile("root/AlphaSource/Pu239new_EJ200-2X_3_Default_Nofoil_FaceA_FastFrame_20181011.root")]
 
     ## 10/12/18
-    myfile["EJ200_2X_03-20181012"] = ["Ref",TFile("root/AlphaSource/Pu239new_EJ200-2X_3_Default_Nofoil_FaceA_FastFrame_20181012.root")]
-
-    ## 10/23/18
-    myfile["EJ200_2X_03-20181023"] = ["Ref",TFile("root/AlphaSource/Pu239new_EJ200-2X_3_Default_Nofoil_FaceA_FastFrame_20181023.root")]
-
-    ## 10/24/18
-    myfile["EJ200_2X_03-20181024"] = ["Ref",TFile("root/AlphaSource/Pu239new_EJ200-2X_3_Default_Nofoil_FaceA_FastFrame_20181024.root")]
-
+    myfile["EJ200PVT_1X1P_N1-20181012"] = ["Ref",TFile("root/AlphaSource/Pu239new_EJ200-2X_3_Default_Nofoil_FaceA_FastFrame_20181012.root")]
 
     plotSets = {}
-    plotSets['0'] = ["EJ200_2X_03-20181023","EJ200_2X_03-20181024","EJ200_2X_03-20181012","EJ200_2X_03-20181012"]
-    D,sigmaD,R,sigmaR,NPE = DrawDvsTHist(myfile, plotSets, outDir, sampleSet_, fTag, doselabel_, hxrng, options, uncreftag_, dosescheme_)
+    plotSets['0'] = ["EJ200_2X_03-20181023","EJ200_2X_03-20181024"]
+
+    sampleSet = "EJ200PVT"
+    doselabel = "GIF++"
+    uncreftag = "EJ200PVT"
+    dosescheme = "GIF++"
+    D,sigmaD,R,sigmaR,NPE = DrawDvsTHist(myfile, plotSets, outDir, sampleSet, fTag, doselabel, hxrng, options, uncreftag, dosescheme)
