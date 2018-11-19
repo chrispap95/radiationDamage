@@ -50,7 +50,7 @@ if __name__ == '__main__':
     ## Import all measurements
     ## Meas 1
     ### Import the file
-    myfile["meas1"] = TFile("root/AlphaSource/Pu239new_EJ200-2X_3_Default_Nofoil_FaceA_FastFrame_20181108_chris_begin.root")
+    myfile["meas1"] = TFile("root/AlphaSource/Pu239new_EJ200PS-2X1P-2_Default_Nofoil_FaceD_FastFrame_20181108_shiyuan.root")
     ## and then get the TTree
     mytree["meas1"] = myfile["meas1"].Get("tree")
 
