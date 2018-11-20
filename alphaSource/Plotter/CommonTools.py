@@ -1302,7 +1302,7 @@ def DrawDvsTHist(myfiles_, plotSets_, outDir_, sampleSet_, fTag_, doselabel_, hx
     ###############################
     ## Dark current common
     ###############################
-    fDC50 = TFile("root/AlphaSource/DarkCurrent_HV1700_201608_merged_FastFrame.root")
+    fDC50 = TFile("root/AlphaSource/DarkCurrent_EJ260PVT-1X2P_N1_HV1700_trigger_101mV_amp50p5mVpDiv_20181119.root")
     tDC50 = fDC50.Get("tree")
 
     ###############################
