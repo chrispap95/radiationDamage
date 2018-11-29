@@ -1247,12 +1247,15 @@ def DrawHistSimple(myfiles_, plotSets_, outDir_, fTag_, doselabel_, hxrng_, opti
 ####################################################################################################
 def DrawDvsTHist(myfiles_, plotSets_, outDir_, sampleSet_, fTag_, doselabel_, hxrng_, options_, uncreftag_, dosescheme_, debug_=False):
     if debug_: print "Style [DrawDvsTHist] = ",gStyle.GetName()
+    ## Setting the value for the pedestal cut. You can define that by passing the option -myPedCut=someValue
     mypedcut = 0.0
     if options_.myPedCut:
         mypedcut = float(options_.myPedCut)
 
+    ## Setting the time cut value
     timecut = float(options_.timeCut)
 
+    ## Initializing the arrays
     myhist_ = {}
     myfit_  = {}
     fitopt_ = {}
@@ -1269,8 +1272,9 @@ def DrawDvsTHist(myfiles_, plotSets_, outDir_, sampleSet_, fTag_, doselabel_, hx
     # 20% for Castor table; 5% for UMD high dose;
     # Goddard (GSFC) 10% temporary
     ###############################
+    ## Setting the dose schemes
     vDose_ = {}
-    vDose_["GIF++"] = [0.3,0.00005]
+    vDose_["GIF++"] = [1.2,0.00022]
     vDose_["NIST"]  = [2.95,0.016]
     vDose_["NIST1"] = [4.00,0.017]
     vDose_["NIST2"] = [5.82,0.016]
@@ -1283,6 +1287,7 @@ def DrawDvsTHist(myfiles_, plotSets_, outDir_, sampleSet_, fTag_, doselabel_, hx
     vDose_["GSFC"]  = [0.38,0.038]
 
     ###############################
+    ## Uncertainties for each measurement type
     ## calculate measurement+fit uncertainties
     uncEng_["EJ200"]               = 0.0110424
     uncEng_["EJ200PVT"]            = 0.0110424
@@ -1302,7 +1307,8 @@ def DrawDvsTHist(myfiles_, plotSets_, outDir_, sampleSet_, fTag_, doselabel_, hx
     ###############################
     ## Dark current common
     ###############################
-    fDC50 = TFile("root/AlphaSource/DarkCurrent_EJ260PVT-1X2P_N1_HV1700_trigger_101mV_amp50p5mVpDiv_20181119.root")
+    ## Load dark current file and the TTree
+    fDC50 = TFile("root/AlphaSource/DarkCurrent_HV1700_trigger_101mV_amp50p5mVpDiv_20181121.root")
     tDC50 = fDC50.Get("tree")
 
     ###############################
@@ -1310,17 +1316,21 @@ def DrawDvsTHist(myfiles_, plotSets_, outDir_, sampleSet_, fTag_, doselabel_, hx
     ###############################
 
     #############
-    ## fit only
-    hDC50 = TH1D("myhist_DC50","DC50",52,-0.2,0.0)
+    ## Create 2 histograms and insert the area histogram from the tree.
+    ## Use |amplitude|>mypedcut && time > 3600 to skim the data.
+    ## The first hist has limited range and it is only for fitting.
+    hDC50 = TH1D("myhist_DC50","DC50",52,-1,0.)
     tDC50.Draw("area*1.e9>>myhist_DC50","abs(amplitude)>%f && time>%f"%(mypedcut,3600.0))
 
-    ## plot only
+    ## The second is for plotting (wide range).
     hDC50p = TH1D("myhist_DC50p","DC50p",288,-1.,8.)
     tDC50.Draw("area*1.e9>>myhist_DC50p","abs(amplitude)>%f && time>%f"%(mypedcut,3600.0))
     #############
 
     ###############################
-    ## Normalized to same number of events
+    ## Normalized to same number of event
+    ## Currently does nothing (???). One can just set the nscale to 1.
+    ## Get number of events by integrating the 2nd hist
     nevt_num = hDC50p.Integral()
     print nevt_num
 
@@ -1333,17 +1343,21 @@ def DrawDvsTHist(myfiles_, plotSets_, outDir_, sampleSet_, fTag_, doselabel_, hx
     print nscale["DC50p"]
 
     ## Find overall max (this is energy offset)
+    ## Fit 1st hist
+    ## Range value seemed suspicious. Total range is [-0.2,0] but he fits in +-0.2 from the maxbin (???)
     DCName = "DC50"
     vEng_[DCName],sFit_[DCName],myfit_[DCName]=AlphaSourceFitter().GausFitEngPeak(hDC50,DCName,[0.2,0.2],nscale["DC50p"])
 
     ###############################
     ## offset
     ###############################
+    ## Set fit output for peak as the offset value
     vOffset = [vEng_[DCName],sFit_[DCName]]
 
     ###############################
     ## Main files section        ##
     ###############################
+    ## Loop over the plotSets items. nf is the UnIrr and fl is each one of the Irr corresponding to that.
     for nf, fl in sorted(plotSets_.items()):
         fNames_ = {}
         grTemp_ = {}
@@ -1353,7 +1367,9 @@ def DrawDvsTHist(myfiles_, plotSets_, outDir_, sampleSet_, fTag_, doselabel_, hx
         refPlot_  = []
         irrPlots_ = []
 
+        ### Loop over the fl items for each nf (Irr over each UnIrr)
         for ni in range(len(fl)):
+            #### Give a temporary name of the form UnIrr_nameIrr_name)
             tmpName = "%s_%i"%(nf,ni)
             if debug_: print tmpName
             fNames_[tmpName] = fl[ni]
@@ -1538,7 +1554,7 @@ def DrawDvsTHist(myfiles_, plotSets_, outDir_, sampleSet_, fTag_, doselabel_, hx
                 leg.AddEntry(myhist_[fNames_[fntmp]],"Non-irradiated","l")
             else:
                 tmpTxt_ = fNames_[fntmp].split("-")[1]
-                tmpTxt_ = tmpTxt_[:len(tmpTxt_)-1] ## strip "d"
+                tmpTxt_ = tmpTxt_[:len(tmpTxt_)]## don't need that for now ##-1] ## strip "d"
                 if debug_: print tmpTxt_
                 if len(tmpTxt_.lstrip("0")) == 0:
                     leg1.AddEntry(myhist_[fNames_[fntmp]],"0 day aft. irr.","l")
@@ -1546,7 +1562,8 @@ def DrawDvsTHist(myfiles_, plotSets_, outDir_, sampleSet_, fTag_, doselabel_, hx
                     if int(tmpTxt_.lstrip("0")) < 2:
                         leg1.AddEntry(myhist_[fNames_[fntmp]],"%s day aft. irr."%tmpTxt_.lstrip("0"),"l")
                     else:
-                        leg1.AddEntry(myhist_[fNames_[fntmp]],"%s days aft. irr."%tmpTxt_.lstrip("0"),"l")
+                        #### Changed the code a bit to reflect the fact that we don't use measurements for days after irr.
+                        leg1.AddEntry(myhist_[fNames_[fntmp]],"Measured on %s"%tmpTxt_.lstrip("0"),"l")
 
         leg.Draw()
         leg1.Draw()

@@ -50,7 +50,7 @@ if __name__ == '__main__':
     ## Import all measurements
     ## Meas 1
     ### Import the file
-    myfile["meas1"] = TFile("root/AlphaSource/Pu239new_EJ200PS-2X1P-2_Default_Nofoil_FaceD_FastFrame_20181108_shiyuan.root")
+    myfile["meas1"] = TFile("root/AlphaSource/Pu239new_EJ200PVT-1X1P_N8_Default_Nofoil_FaceA_FastFrame_20181116.root")
     ## and then get the TTree
     mytree["meas1"] = myfile["meas1"].Get("tree")
 
@@ -69,7 +69,7 @@ if __name__ == '__main__':
     ## Draw the first measurement
     myhist["meas1"].SetLineColor(2)
     ## Fit meas1
-    fitopt = [0.4,1.4]
+    fitopt = [0.4,1.5]
     vEng_1, sFit_1, myfit_1 = AlphaSourceFitter().GausFitEngPeak(myhist["meas1"],"meas1",fitopt,1)
     ## Some drawing options for meas1
     myhist["meas1"].GetXaxis().SetTitle("Energy [V#timesns]")

@@ -51,10 +51,10 @@ if __name__ == '__main__':
     ## [fitrng0,fitrng1,fitterType,biasOffset]
     ## [1.3,1.1,"G2",0.3112]
 
-    myfile["EJ200PVT_1X1P-UnIr"] = [
-        "T1",TFile("root/AlphaSource/Pu239new_EJ200PVT-1X1P_unirradiated_Default_Nofoil_FaceA_FastFrame_20181113.root"),[1.1,1.1,"G2",0.]]
+    myfile["EJ200PVT_1X1P-UnIrr"] = [
+        "T1",TFile("root/AlphaSource/Pu239new_EJ200PVT-1X1P_unirradiated_Default_Nofoil_FaceA_FastFrame_20181113.root"),[1.,1.,"G2",0.]]
     myfile["EJ200PVT_1X1P-20181116"]  = [
-        "T1",TFile("root/AlphaSource/Pu239new_EJ200PVT-1X1P_N8_Default_Nofoil_FaceA_FastFrame_20181116.root"),[1.1,1.1,"G2",0.3112]]
+        "T1",TFile("root/AlphaSource/Pu239new_EJ200PVT-1X1P_N8_Default_Nofoil_FaceA_FastFrame_20181116.root"),[1.,1.,"G2",0.3112]]
 
     plotSets = {}
 

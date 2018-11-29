@@ -53,7 +53,7 @@ Save your data txt files in alphaSource/data.
 
 First, make a txt file that lists all the data txt files that you want to process. Usually you take all your measurements for a set of samples on the same day; in the example command below, the date is 20180223, but you should replace that with the date of your measurements of interest. Then, from alphaSource directory run
 ```bash
-ls -l Data/alphaSource | grep -ir 20180223 | awk '{print substr($10,0,length($10))}' > RunLists/List-AlphaSource-20180223.txt
+ls -l Data/AlphaSource | grep -ir 20180223 | awk '{print substr($10,0,length($10))}' > RunLists/List-AlphaSource-20180223.txt
 ```
 At this point you should check if the list file has been created correctly. issue
 ```bash
@@ -63,7 +63,7 @@ You should see a list containing all the filenames of measurements done on 20180
 
 Then, you want to run makeTree.py on this list of files to convert them into ROOT histograms. So, you do the following with your list file from the scripts directory:
 ```bash
-python makeTree.py - -i RunLists/List-AlphaSource-20180223.txt -d Data/alphaSource
+python makeTree.py - -i RunLists/List-AlphaSource-20180223.txt -d Data/AlphaSource
 ```
 The files are being written inside the root/alphaSource directory. You might want to check if they were created properly.
 

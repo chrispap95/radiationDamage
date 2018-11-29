@@ -1,3 +1,0 @@
-Pu239new_EJ200-2X_3_Default_Nofoil_FaceA_FastFrame_20181107.txt
-Pu239new_EJ200-2X_3_Default_Nofoil_FaceA_FastFrame_20181107_Yzhu.txt
-Pu239new_EJ200-2X_3_Default_Nofoil_FaceB_FastFrame_20181107_Yzhu.txt
