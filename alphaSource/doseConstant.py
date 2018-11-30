@@ -46,19 +46,19 @@ if __name__ == '__main__':
     doselabel = "300 krad@ 50 rad/hr"
 
     ## Un-irr samples
-    myfile["EJ200PVT_1X1P-20181113"] = ["T1",TFile("root/AlphaSource/Pu239new_EJ200PVT-1X1P_unirradiated_Default_Nofoil_FaceA_FastFrame_20181113.root")]
+    myfile["EJ200PS_1X1P-20181115"] = ["T1",TFile("root/AlphaSource/Pu239new_EJ200PVT-1X2P_N1_Default_Nofoil_FaceA_FastFrame_20181120.root")]
 
     ## [fitrng0,fitrng1,fitterType,biasOffset]
     ## [1.3,1.1,"G2",0.3112]
 
-    myfile["EJ200PVT_1X1P-UnIrr"] = [
-        "T1",TFile("root/AlphaSource/Pu239new_EJ200PVT-1X1P_unirradiated_Default_Nofoil_FaceA_FastFrame_20181113.root"),[1.,1.,"G2",0.]]
-    myfile["EJ200PVT_1X1P-20181116"]  = [
-        "T1",TFile("root/AlphaSource/Pu239new_EJ200PVT-1X1P_N8_Default_Nofoil_FaceA_FastFrame_20181116.root"),[1.,1.,"G2",0.3112]]
+    myfile["EJ200PS_1X1P-UnIrr"] = [
+        "T1",TFile("root/AlphaSource/Pu239new_EJ200PVT-1X2P_N1_Default_Nofoil_FaceA_FastFrame_20181120.root"),[1.,1.,"G2",0.]]
+    myfile["EJ200PS_1X1P-20181115"]  = [
+        "T1",TFile("root/AlphaSource/Pu239new_EJ200PVT-1X2P_N8_Default_Nofoil_FaceA_FastFrame_20181116.root"),[1.,1.,"G2",0.3112]]
 
     plotSets = {}
 
-    plotSets['1'] = ["EJ200PVT_1X1P-UnIrr","EJ200PVT_1X1P-20181116"]
+    plotSets['1'] = ["EJ200PS_1X1P-UnIrr","EJ200PS_1X1P-20181115"]
 
 
-    DrawDvsTHist(myfile, plotSets, outDir, sampleSet, fTag, doselabel, hxrng, options, "EJ200PVT", "GIF++")
+    DrawDvsTHist(myfile, plotSets, outDir, sampleSet, fTag, doselabel, hxrng, options, "EJ200PS", "GIF++")

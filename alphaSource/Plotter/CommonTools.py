@@ -1274,7 +1274,7 @@ def DrawDvsTHist(myfiles_, plotSets_, outDir_, sampleSet_, fTag_, doselabel_, hx
     ###############################
     ## Setting the dose schemes
     vDose_ = {}
-    vDose_["GIF++"] = [1.2,0.00022]
+    vDose_["GIF++"] = [1.32,0.00022]
     vDose_["NIST"]  = [2.95,0.016]
     vDose_["NIST1"] = [4.00,0.017]
     vDose_["NIST2"] = [5.82,0.016]
