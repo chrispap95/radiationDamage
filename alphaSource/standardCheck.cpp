@@ -3,7 +3,7 @@
   #include <vector>
 
   ifstream fin;
-  fin.open("peak_data.dat");
+  fin.open("peak_data_sorted.dat");
   std::vector<float> data;
   std::vector<float> err;
   std::vector<string> name;
@@ -22,15 +22,28 @@
   TCanvas *c1 = new TCanvas("c1");
   c1->SetLeftMargin(0.20);
   Int_t n = name.size();
-  TH2F *frame = new TH2F("frame","",10,4.78,4.94,n,0,n);
+  TH2F *frame = new TH2F("frame",";Date;Peak",n,0,n,10,4.78,5.1);
   frame->SetStats(0);
-  frame->GetXaxis()->SetTitle("Peak");
-  frame->GetYaxis()->SetLabelSize(0.08);
   for (Int_t i = 1; i <= n; ++i) {
-    string label = name[i-1]+" "+date[i-1];
+    string label = date[i-1];
     char char_arr[label.length()];
     strcpy(char_arr, label.c_str());
-    frame->GetYaxis()->SetBinLabel(i,char_arr);
+    char char_arr2[label.length()-3];
+    Bool_t temp = 1;
+    for (Int_t j = 0; j < 5; ++j) {
+      if (j == 2 && temp) {
+        char_arr2[j] = '/';
+        temp = 0;
+        j = 1;
+        continue;
+      }
+      if(!temp) {
+        char_arr2[j+1] = char_arr[j+4];
+        continue;
+      }
+      char_arr2[j] = char_arr[j+4];
+    }
+    frame->GetXaxis()->SetBinLabel(i,char_arr2);
   }
 
   frame->Draw();
@@ -38,31 +51,15 @@
   graph->SetMarkerStyle(20);
   graph->SetMarkerSize(1.2);
 
-  Double_t temp = 0;
   for (Int_t i = 0; i < n; ++i) {
-    temp += data[i];
-  }
-  Double_t temp2 = 0;
-  for (Int_t i = 0; i < n; ++i) {
-    temp2 += pow(data[i]-temp/n,2);
-  }
-  Double_t stdev = pow(temp2/((n-1)),0.5);
-  TBox *box = new TBox(temp/n-stdev,0,temp/n+stdev,n);
-  box->SetFillColor(16);
-  box->Draw();
-
-  for (Int_t i = 0; i < n; ++i) {
-    graph->SetPoint(i,data[i],i+0.5);
-    graph->SetPointError(i,err[i],0);
+    graph->SetPoint(i,i+0.5,data[i]);
+    graph->SetPointError(i,0,err[i]);
   }
   graph->Draw("p");
-  TLine line;
-  line.SetLineStyle(2);
-  line.DrawLine(temp/n,0,temp/n,n);
 
   //line.DrawLine(4.84,0, 4.84,n);
   c1->RedrawAxis();
-  c1->Print("Results/11092018/comparison.pdf");
-  c1->Print("Results/11092018/comparison.eps");
-  c1->Print("Results/11092018/comparison.png");
+  c1->Print("Results/20181201/stdCheck.pdf");
+  c1->Print("Results/20181201/stdCheck.eps");
+  c1->Print("Results/20181201/stdCheck.png");
 }

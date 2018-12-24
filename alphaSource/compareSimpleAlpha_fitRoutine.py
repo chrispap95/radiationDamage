@@ -47,19 +47,23 @@ if __name__ == '__main__':
     valsyst = {}
     runSyst = False
 
+    c1 = TCanvas("c1","c1",1)
+
     ## Import all measurements
     ## Meas 1
     ### Import the file
-    myfile["meas1"] = TFile("root/AlphaSource/Pu239new_EJ200PVT-1X1P_N8_Default_Nofoil_FaceA_FastFrame_20181116.root")
+    myfile["meas1"] = TFile("root/AlphaSource/DarkCurrent_HV1700_trigger_101mV_amp50p5mVpDiv_20181121.root")
     ## and then get the TTree
     mytree["meas1"] = myfile["meas1"].Get("tree")
 
     ## FastFrame
     ### First create an empty TH1D histogram
-    myhist["meas1"] = TH1D("myhist_meas1","meas1",256,-0.5,7.5)
+    myhist["meas1"] = TH1D("myhist_meas1","meas1",256*2,-1.5,0.5)
     ### Then get the saved histogram into the new one and normalize to ns from s by *1.e9
     mytree["meas1"].Draw("area*1.e9>>myhist_meas1","","")
 
     ## Fit meas1
-    fitopt = [0.4,1.5]
-    vEng_1, sFit_1, myfit_1 = AlphaSourceFitter().GausFitEngPeak(myhist["meas1"],"meas1",fitopt,1)
+    fitopt = [0.08,0.08]
+    vEng_1, sFit_1, myfit_1 = AlphaSourceFitter().TwoGausFitEngPeak(myhist["meas1"],"meas1",fitopt,1)
+
+    c1.SaveAs("Results/GIF++/DarkCurrent_check.pdf")
