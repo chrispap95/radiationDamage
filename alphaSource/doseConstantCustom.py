@@ -11,6 +11,9 @@ from Plotter import parseLYAnaInputArgs
 from Plotter.CommonTools import DrawHistSimple, DrawDvsTHist
 options = parseLYAnaInputArgs()
 
+# Import fitter
+from Plotter.CommonTools import AlphaSourceFitter
+
 gROOT.LoadMacro("Plotter/UMDStyle.C")
 from ROOT import SetUMDStyle
 SetUMDStyle()
@@ -147,13 +150,36 @@ if __name__ == '__main__':
 
     vOffset = [vEng[DCName],sFit[DCName]]
 
-    for nf, fl in sorted(plotSets_.items()):
+    for nf, fl in sorted(plotSets.items()):
+        fNames_ = {}
+        grTemp_ = {}
+        trees_  = {}
+        labels_ = {}
+
+        refPlot_  = []
+        irrPlots_ = []
+
+        ### Loop over the fl items for each nf (Irr over each UnIrr)
+        for ni in range(len(fl)):
+            #### Give a temporary name of the form UnIrr_nameIrr_name)
+            tmpName = "%s_%i"%(nf,ni)
+            if debug_: print tmpName
+            fNames_[tmpName] = fl[ni]
+            trees_[tmpName]  = (myfiles_[fNames_[tmpName]][1]).Get("tree")
+            labels_[tmpName] = fNames_[tmpName].split("-")[1]
+            fitopt_[tmpName] = myfiles_[fNames_[tmpName]][2]
+
+        if debug_:
+            print fNames_
+            print trees_
+            print labels_
+
         ###############################
         ## Step 2: Fit all data histograms
         ###############################
         for ni in range(len(fl)):
             tmpName = "%s_%i"%(nf,ni)
-            sigName = fNames_[tmpName]
+            sigName = fNames[tmpName]
             print ">>>>>>>>>>> Processing:", sigName
             vEng[sigName],sFit[sigName],myfit[sigName]=AlphaSourceFitter().GausFitEngPeak(myhist[sigName],sigName,fitopt[tmpName],1.)
             uncFit_[sigName] = sFit_[sigName]/vEng_[sigName]
@@ -170,16 +196,16 @@ if __name__ == '__main__':
         vInput  = {}
         for ni in range(len(fl)):
             tmpName = "%s_%i"%(nf,ni)
-            sigName = fNames_[tmpName]
-            uncEng_[sigName]  = math.sqrt(math.pow(uncEng_[uncreftag_],2)+math.pow(uncFit_[sigName],2))
-            vInput_[sigName]  = [vEng_[sigName], uncEng_[sigName]*vEng_[sigName]]
+            sigName = fNames[tmpName]
+            uncEng[sigName]  = math.sqrt(math.pow(uncEng[uncreftag_],2)+math.pow(uncFit[sigName],2))
+            vInput[sigName]  = [vEng[sigName], uncEng[sigName]*vEng[sigName]]
 
         for ni in range(len(fl)):
             tmpName = "%s_%i"%(nf,ni)
             sigName = fNames[tmpName]
             if sigName.find("UnIrr") == -1:
                 print "Calculating Dose Constant for :", sigName
-                vDconst[sigName] = CalcD(vDose,vInput[sigName],vInput[fNames_["%s_0"%(nf)]],vOffset)
+                vDconst[sigName] = CalcD(vDose,vInput[sigName],vInput[fNames["%s_0"%(nf)]],vOffset)
                 ### vDose["GIF++"] = [1.32,0.00022]
                 ### vInput_[sigName, fNames_[...]] is vInput_[sigName]  = [vEng_[sigName], uncEng_[sigName]*vEng_[sigName]]
 
