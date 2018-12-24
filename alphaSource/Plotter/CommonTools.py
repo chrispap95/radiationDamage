@@ -1320,11 +1320,11 @@ def DrawDvsTHist(myfiles_, plotSets_, outDir_, sampleSet_, fTag_, doselabel_, hx
     ## Use |amplitude|>mypedcut && time > 3600 to skim the data.
     ## The first hist has limited range and it is only for fitting.
     hDC50 = TH1D("myhist_DC50","DC50",52,-1,0.)
-    tDC50.Draw("area*1.e9>>myhist_DC50","abs(amplitude)>%f && time>%f"%(mypedcut,3600.0))
+    tDC50.Draw("area*1.e9>>myhist_DC50","abs(amplitude)>%f && time>%f"%(mypedcut,500.0))
 
     ## The second is for plotting (wide range).
     hDC50p = TH1D("myhist_DC50p","DC50p",288,-1.,8.)
-    tDC50.Draw("area*1.e9>>myhist_DC50p","abs(amplitude)>%f && time>%f"%(mypedcut,3600.0))
+    tDC50.Draw("area*1.e9>>myhist_DC50p","abs(amplitude)>%f && time>%f"%(mypedcut,500.0))
     #############
 
     ###############################
