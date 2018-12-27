@@ -43,7 +43,7 @@ if __name__ == '__main__':
 
     ## GIF++ set
     sampleSet = "GIF++"
-    doselabel = "300 krad@ 50 rad/hr"
+    doselabel = "1.32 Mrad@ 220 rad/hr"
 
     ## Un-irr samples
     ## myfile["EJ200PS_1X1P-20181115"] = ["T1",TFile("root/AlphaSource/Pu239new_EJ200PVT-1X2P_N1_Default_Nofoil_FaceA_FastFrame_20181120.root")]
@@ -102,18 +102,18 @@ if __name__ == '__main__':
 
     plotSets = {}
 
-    plotSets['1'] = ["EJ200PS_1X1P-UnIrr","EJ200PS_1X1P-20181115"]
+    #plotSets['1'] = ["EJ200PS_1X1P-UnIrr","EJ200PS_1X1P-20181115"]
     #plotSets['2'] = ["EJ200PS_1X2P-UnIrr","EJ200PS_1X2P-20181115"]
-    plotSets['3'] = ["EJ200PS_2X1P-UnIrr","EJ200PS_2X1P-20181115"]
-    plotSets['4'] = ["EJ200PVT_1X1P-UnIrr","EJ200PVT_1X1P-20181116"]
-    plotSets['5'] = ["EJ200PVT_1X2P-UnIrr","EJ200PVT_1X2P-20181116"]
+    #plotSets['3'] = ["EJ200PS_2X1P-UnIrr","EJ200PS_2X1P-20181115"]
+    #plotSets['4'] = ["EJ200PVT_1X1P-UnIrr","EJ200PVT_1X1P-20181116"]
+    #plotSets['5'] = ["EJ200PVT_1X2P-UnIrr","EJ200PVT_1X2P-20181116"]
     #plotSets['6'] = ["EJ200PVT_2X1P-UnIrr","EJ200PVT_2X1P-20181115"]
-    #plotSets['7'] = ["EJ260PS_1X1P-UnIrr","EJ260PS_1X1P-20181115"]
-    #plotSets['8'] = ["EJ260PS_1X2P-UnIrr","EJ260PS_1X2P-20181115"]
-    #plotSets['9'] = ["EJ260PS_2X1P-UnIrr","EJ260PS_2X1P-20181115"]
+    plotSets['1'] = ["EJ260PS_1X1P-UnIrr","EJ260PS_1X1P-20181115"]
+    plotSets['2'] = ["EJ260PS_1X2P-UnIrr","EJ260PS_1X2P-20181115"]
+    plotSets['3'] = ["EJ260PS_2X1P-UnIrr","EJ260PS_2X1P-20181115"]
     #plotSets['10'] = ["EJ260PVT_1X1P-UnIrr","EJ260PVT_1X1P-20181115"]
     #plotSets['11'] = ["EJ260PVT_1X2P-UnIrr","EJ260PVT_1X2P-20181115"]
     #plotSets['12'] = ["EJ260PVT_2X1P-UnIrr","EJ260PVT_2X1P-20181115"]
 
 
-    DrawDvsTHist(myfile, plotSets, outDir, sampleSet, fTag, doselabel, hxrng, options, "EJ200PS", "GIF++")
+    DrawDvsTHist(myfile, plotSets, outDir, sampleSet, fTag, doselabel, hxrng, options, "EJ260", "GIF++")

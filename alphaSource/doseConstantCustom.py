@@ -36,11 +36,11 @@ if __name__ == '__main__':
 
     ## binbase, xmin, xmax : nbins = binbase*(xmax-xmin)
     hxrng = {}
-    hxrng["Ref"]   = [32,-1,8]
-    hxrng["EJ200"] = [32,-1,6]
-    hxrng["EJ260"] = [32,-0.5,4]
+    hxrng["Ref"]   = [256,-1.5,8.5]
+    hxrng["EJ200"] = [256,-1.5,8.5]
+    hxrng["EJ260"] = [256,-1.5,8.5]
 
-    hxrng["T1"] = [32,-1,8.0]
+    hxrng["T1"] = [256,-1.5,8.5]
 
     today = datetime.date.today()
     fTag = today.strftime("%Y%m%d")
@@ -54,7 +54,7 @@ if __name__ == '__main__':
 
     ## GIF++ set
     sampleSet = "GIF++"
-    doselabel = "300 krad@ 50 rad/hr"
+    doselabel = "1.32 Mrad@ 220 rad/hr"
 
     ## Un-irr samples
     ## myfile["EJ200PS_1X1P-20181115"] = ["T1",TFile("root/AlphaSource/Pu239new_EJ200PVT-1X2P_N1_Default_Nofoil_FaceA_FastFrame_20181120.root")]
@@ -63,65 +63,65 @@ if __name__ == '__main__':
     ## [1.3,1.1,"G2",0.3112]
 
     myfile["EJ200PS_1X1P-UnIrr"] = [
-        "T1",TFile("root/AlphaSource/Pu239new_EJ200PS-1X1P_1_Default_Nofoil_FaceA_FastFrame_20181129.root"),[.5,.5,"G2",0.]]
+        "T1",TFile("root/AlphaSource/Pu239new_EJ200PS-1X1P_1_Default_Nofoil_FaceA_FastFrame_20181129.root"),[.5,.5]]
     myfile["EJ200PS_1X1P-20181115"]  = [
-        "T1",TFile("root/AlphaSource/Pu239new_EJ200PS-1X1P_4_Default_Nofoil_FaceA_FastFrame_20181115.root"),[.5,.5,"G2",0.3112]]
+        "T1",TFile("root/AlphaSource/Pu239new_EJ200PS-1X1P_4_Default_Nofoil_FaceA_FastFrame_20181115.root"),[.5,.5]]
     #myfile["EJ200PS_1X2P-UnIrr"] = [
-    #    "T1",TFile("root/AlphaSource/Pu239new_EJ200PS-1X2P_1_Default_Nofoil_FaceA_FastFrame_20181120.root"),[1.,1.,"G1",0.]]
+    #    "T1",TFile("root/AlphaSource/Pu239new_EJ200PS-1X2P_1_Default_Nofoil_FaceA_FastFrame_20181120.root"),[.5,.5,"G1",0.]]
     #myfile["EJ200PS_1X2P-20181115"]  = [
-    #    "T1",TFile("root/AlphaSource/Pu239new_EJ200PS-1X2P_2_Default_Nofoil_FaceA_FastFrame_20181116.root"),[1.,1.,"G1",0.3112]]
-    myfile["EJ200PS_2X1P-UnIrr"] = [
-        "T1",TFile("root/AlphaSource/Pu239new_EJ200PS-2X1P_1_Default_Nofoil_FaceA_FastFrame_20181129.root"),[.5,.5,"G1",0.]]
-    myfile["EJ200PS_2X1P-20181115"]  = [
-        "T1",TFile("root/AlphaSource/Pu239new_EJ200PS-2X1P_2_Default_Nofoil_FaceA_FastFrame_20181115.root"),[.5,.5,"G1",0.3112]]
-    myfile["EJ200PVT_1X1P-UnIrr"] = [
-        "T1",TFile("root/AlphaSource/Pu239new_EJ200PVT-1X1P_N1_Default_Nofoil_FaceA_FastFrame_20181120.root"),[.5,.5,"G1",0.]]
-    myfile["EJ200PVT_1X1P-20181116"]  = [
-        "T1",TFile("root/AlphaSource/Pu239new_EJ200PVT-1X1P_N8_Default_Nofoil_FaceA_FastFrame_20181116.root"),[.5,.5,"G1",0.3112]]
-    myfile["EJ200PVT_1X2P-UnIrr"] = [
-        "T1",TFile("root/AlphaSource/Pu239new_EJ200PVT-1X2P_N1_Default_Nofoil_FaceA_FastFrame_20181120.root"),[.5,.5,"G1",0.]]
-    myfile["EJ200PVT_1X2P-20181116"]  = [
-        "T1",TFile("root/AlphaSource/Pu239new_EJ200PVT-1X2P_N8_Default_Nofoil_FaceA_FastFrame_20181116.root"),[.5,.5,"G1",0.3112]]
+    #    "T1",TFile("root/AlphaSource/Pu239new_EJ200PS-1X2P_2_Default_Nofoil_FaceA_FastFrame_20181116.root"),[.5,.5,"G1",0.3112]]
+    #myfile["EJ200PS_2X1P-UnIrr"] = [
+    #    "T1",TFile("root/AlphaSource/Pu239new_EJ200PS-2X1P_1_Default_Nofoil_FaceA_FastFrame_20181129.root"),[.5,.5,"G1",0.]]
+    #myfile["EJ200PS_2X1P-20181115"]  = [
+    #    "T1",TFile("root/AlphaSource/Pu239new_EJ200PS-2X1P_2_Default_Nofoil_FaceA_FastFrame_20181115.root"),[.5,.5,"G1",0.3112]]
+    #myfile["EJ200PVT_1X1P-UnIrr"] = [
+    #    "T1",TFile("root/AlphaSource/Pu239new_EJ200PVT-1X1P_N1_Default_Nofoil_FaceA_FastFrame_20181120.root"),[.5,.5,"G1",0.]]
+    #myfile["EJ200PVT_1X1P-20181116"]  = [
+    #    "T1",TFile("root/AlphaSource/Pu239new_EJ200PVT-1X1P_N8_Default_Nofoil_FaceA_FastFrame_20181116.root"),[.5,.5,"G1",0.3112]]
+    #myfile["EJ200PVT_1X2P-UnIrr"] = [
+    #    "T1",TFile("root/AlphaSource/Pu239new_EJ200PVT-1X2P_N1_Default_Nofoil_FaceA_FastFrame_20181120.root"),[.5,.5,"G1",0.]]
+    #myfile["EJ200PVT_1X2P-20181116"]  = [
+    #    "T1",TFile("root/AlphaSource/Pu239new_EJ200PVT-1X2P_N8_Default_Nofoil_FaceA_FastFrame_20181116.root"),[.5,.5,"G1",0.3112]]
     #myfile["EJ200PVT_2X1P-UnIrr"] = [
-    #    "T1",TFile("root/AlphaSource/Pu239new_EJ200PVT-2X1P_N1_Default_Nofoil_FaceA_FastFrame_20181120.root"),[1.,1.,"G1",0.]]
+    #    "T1",TFile("root/AlphaSource/Pu239new_EJ200PVT-2X1P_N1_Default_Nofoil_FaceA_FastFrame_20181120.root"),[.5,.5,"G1",0.]]
     #myfile["EJ200PVT_2X1P-20181115"]  = [
-    #    "T1",TFile("root/AlphaSource/Pu239new_EJ200PVT-2X1P_N8_Default_Nofoil_FaceA_FastFrame_20181116.root"),[1.,1.,"G1",0.3112]]
-    myfile["EJ260PS_1X1P-UnIrr"] = [
-        "T1",TFile("root/AlphaSource/Pu239new_EJ260PS-1X1P_1_Default_Nofoil_FaceA_FastFrame_20181126.root"),[.5,.5,"G1",0.]]
-    myfile["EJ260PS_1X1P-20181115"]  = [
-        "T1",TFile("root/AlphaSource/Pu239new_EJ260PS-1X1P_2_Default_Nofoil_FaceA_FastFrame_20181115.root"),[.5,.5,"G1",0.3112]]
-    myfile["EJ260PS_1X2P-UnIrr"] = [
-        "T1",TFile("root/AlphaSource/Pu239new_EJ260PS-1X2P_1_Default_Nofoil_FaceA_FastFrame_20181126.root"),[.5,.5,"G1",0.]]
-    myfile["EJ260PS_1X2P-20181115"]  = [
-        "T1",TFile("root/AlphaSource/Pu239new_EJ260PS-1X2P_2_Default_Nofoil_FaceA_FastFrame_20181115.root"),[.5,.5,"G1",0.3112]]
-    myfile["EJ260PS_2X1P-UnIrr"] = [
-        "T1",TFile("root/AlphaSource/Pu239new_EJ260PS-2X1P_1_Default_Nofoil_FaceA_FastFrame_20181126.root"),[.5,.5,"G1",0.]]
-    myfile["EJ260PS_2X1P-20181115"]  = [
-        "T1",TFile("root/AlphaSource/Pu239new_EJ260PS-2X1P_2_Default_Nofoil_FaceA_FastFrame_20181115.root"),[.5,.5,"G1",0.3112]]
+    #    "T1",TFile("root/AlphaSource/Pu239new_EJ200PVT-2X1P_N8_Default_Nofoil_FaceA_FastFrame_20181116.root"),[.5,.5,"G1",0.3112]]
+    #myfile["EJ260PS_1X1P-UnIrr"] = [
+    #    "T1",TFile("root/AlphaSource/Pu239new_EJ260PS-1X1P_1_Default_Nofoil_FaceA_FastFrame_20181126.root"),[.5,.5,"G1",0.]]
+    #myfile["EJ260PS_1X1P-20181115"]  = [
+    #    "T1",TFile("root/AlphaSource/Pu239new_EJ260PS-1X1P_2_Default_Nofoil_FaceA_FastFrame_20181115.root"),[.5,.5,"G1",0.3112]]
+    #myfile["EJ260PS_1X2P-UnIrr"] = [
+    #    "T1",TFile("root/AlphaSource/Pu239new_EJ260PS-1X2P_1_Default_Nofoil_FaceA_FastFrame_20181126.root"),[.5,.5,"G1",0.]]
+    #myfile["EJ260PS_1X2P-20181115"]  = [
+    #    "T1",TFile("root/AlphaSource/Pu239new_EJ260PS-1X2P_2_Default_Nofoil_FaceA_FastFrame_20181115.root"),[.5,.5,"G1",0.3112]]
+    #myfile["EJ260PS_2X1P-UnIrr"] = [
+    #    "T1",TFile("root/AlphaSource/Pu239new_EJ260PS-2X1P_1_Default_Nofoil_FaceA_FastFrame_20181126.root"),[.5,.5,"G1",0.]]
+    #myfile["EJ260PS_2X1P-20181115"]  = [
+    #    "T1",TFile("root/AlphaSource/Pu239new_EJ260PS-2X1P_2_Default_Nofoil_FaceA_FastFrame_20181115.root"),[.5,.5,"G1",0.3112]]
     #myfile["EJ260PVT_1X1P-UnIrr"] = [
-    #    "T1",TFile("root/AlphaSource/Pu239new_EJ260PVT-1X1P_N1_Default_Nofoil_FaceA_FastFrame_20181120.root"),[1.,1.,"G1",0.]]
+    #    "T1",TFile("root/AlphaSource/Pu239new_EJ260PVT-1X1P_N1_Default_Nofoil_FaceA_FastFrame_20181120.root"),[.5,.5,"G1",0.]]
     #myfile["EJ260PVT_1X1P-20181115"]  = [
-    #    "T1",TFile("root/AlphaSource/Pu239new_EJ260PVT-1X1P_N8_Default_Nofoil_FaceA_FastFrame_20181116.root"),[1.,1.,"G1",0.3112]]
+    #    "T1",TFile("root/AlphaSource/Pu239new_EJ260PVT-1X1P_N8_Default_Nofoil_FaceA_FastFrame_20181116.root"),[.5,.5,"G1",0.3112]]
     #myfile["EJ260PVT_1X2P-UnIrr"] = [
-    #    "T1",TFile("root/AlphaSource/Pu239new_EJ260PVT-1X2P_N1_Default_Nofoil_FaceA_FastFrame_20181120.root"),[1.,1.,"G1",0.]]
+    #    "T1",TFile("root/AlphaSource/Pu239new_EJ260PVT-1X2P_N1_Default_Nofoil_FaceA_FastFrame_20181120.root"),[.5,.5,"G1",0.]]
     #myfile["EJ260PVT_1X2P-20181115"]  = [
-    #    "T1",TFile("root/AlphaSource/Pu239new_EJ260PVT-1X2P_N8_Default_Nofoil_FaceA_FastFrame_20181116.root"),[1.,1.,"G1",0.3112]]
+    #    "T1",TFile("root/AlphaSource/Pu239new_EJ260PVT-1X2P_N8_Default_Nofoil_FaceA_FastFrame_20181116.root"),[.5,.5,"G1",0.3112]]
     #myfile["EJ260PVT_2X1P-UnIrr"] = [
-    #    "T1",TFile("root/AlphaSource/Pu239new_EJ260PVT-2X1P_N1_Default_Nofoil_FaceA_FastFrame_20181120.root"),[1.,1.,"G1",0.]]
+    #    "T1",TFile("root/AlphaSource/Pu239new_EJ260PVT-2X1P_N1_Default_Nofoil_FaceA_FastFrame_20181120.root"),[.5,.5,"G1",0.]]
     #myfile["EJ260PVT_2X1P-20181115"]  = [
-    #    "T1",TFile("root/AlphaSource/Pu239new_EJ260PVT-2X1P_N8_Default_Nofoil_FaceA_FastFrame_20181116.root"),[1.,1.,"G1",0.3112]]
+    #    "T1",TFile("root/AlphaSource/Pu239new_EJ260PVT-2X1P_N8_Default_Nofoil_FaceA_FastFrame_20181116.root"),[.5,.5,"G1",0.3112]]
 
     plotSets = {}
 
-    plotSets['1'] = ["EJ200PS_1X1P-UnIrr","EJ200PS_1X1P-20181115"]
+    plotSets['1'] = ["EJ200PS_1X1P-UnIrr","EJ200PS_1X1P-20181115"] #ok
     #plotSets['2'] = ["EJ200PS_1X2P-UnIrr","EJ200PS_1X2P-20181115"]
-    plotSets['3'] = ["EJ200PS_2X1P-UnIrr","EJ200PS_2X1P-20181115"]
-    plotSets['4'] = ["EJ200PVT_1X1P-UnIrr","EJ200PVT_1X1P-20181116"]
-    plotSets['5'] = ["EJ200PVT_1X2P-UnIrr","EJ200PVT_1X2P-20181116"]
+    #plotSets['3'] = ["EJ200PS_2X1P-UnIrr","EJ200PS_2X1P-20181115"] #ok
+    #plotSets['4'] = ["EJ200PVT_1X1P-UnIrr","EJ200PVT_1X1P-20181116"] #ok
+    #plotSets['5'] = ["EJ200PVT_1X2P-UnIrr","EJ200PVT_1X2P-20181116"] #ok
     #plotSets['6'] = ["EJ200PVT_2X1P-UnIrr","EJ200PVT_2X1P-20181115"]
-    #plotSets['7'] = ["EJ260PS_1X1P-UnIrr","EJ260PS_1X1P-20181115"]
-    #plotSets['8'] = ["EJ260PS_1X2P-UnIrr","EJ260PS_1X2P-20181115"]
-    #plotSets['9'] = ["EJ260PS_2X1P-UnIrr","EJ260PS_2X1P-20181115"]
+    #plotSets['1'] = ["EJ260PS_1X1P-UnIrr","EJ260PS_1X1P-20181115"] #ok
+    #plotSets['2'] = ["EJ260PS_1X2P-UnIrr","EJ260PS_1X2P-20181115"]
+    #plotSets['3'] = ["EJ260PS_2X1P-UnIrr","EJ260PS_2X1P-20181115"]
     #plotSets['10'] = ["EJ260PVT_1X1P-UnIrr","EJ260PVT_1X1P-20181115"]
     #plotSets['11'] = ["EJ260PVT_1X2P-UnIrr","EJ260PVT_1X2P-20181115"]
     #plotSets['12'] = ["EJ260PVT_2X1P-UnIrr","EJ260PVT_2X1P-20181115"]
@@ -140,7 +140,7 @@ if __name__ == '__main__':
     ## The hist has limited range and it is only for fitting.
     mypedcut = 0.0
     hDC50 = TH1D("myhist_DC50","DC50",52,-1,0.)
-    tDC50.Draw("area*1.e9>>myhist_DC50","abs(amplitude)>%f && time>%f"%(mypedcut,500.0))
+    tDC50.Draw("area*1.e9>>myhist_DC50","abs(amplitude)>%f && time>%f"%(mypedcut,0))
     ## Find overall max (this is energy offset)
     ## Fit 1st hist
     ## Range value seemed suspicious. Total range is [-0.2,0] but he fits in +-0.2 from the maxbin (???)
@@ -178,7 +178,7 @@ if __name__ == '__main__':
         ###############################
         # Draw raw plots
         ###############################
-        type = "EJ200"
+        type = "EJ260"
         for ni in range(len(fl)):
             fntmp = "%s_%i"%(nf,ni)
             xmin, xmax = hxrng[type][1],hxrng[type][2]
@@ -203,7 +203,8 @@ if __name__ == '__main__':
         ## Step 3: D calculation
         ## CalcD(dose,v_o,v_i,offset,uncV)
         ###############################
-        uncEng["EJ200"]               = 0.0110424
+        uncEng["EJ200"] = 0.0110424
+        uncEng["EJ260"] = 0.0329865
         vDose = [1.32,0.00022]
         print "\n"
         print "="*150
