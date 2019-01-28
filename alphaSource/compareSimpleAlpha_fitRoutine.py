@@ -52,18 +52,18 @@ if __name__ == '__main__':
     ## Import all measurements
     ## Meas 1
     ### Import the file
-    myfile["meas1"] = TFile("root/AlphaSource/Pu239new_EJ200PS-1X1P_4_Default_Nofoil_FaceA_FastFrame_20181115.root")
+    myfile["meas1"] = TFile("root/AlphaSource/Pu239new_EJ260PVT-1X2P_N4_Default_Nofoil_FaceB_FastFrame_20181216.root")
     ## and then get the TTree
     mytree["meas1"] = myfile["meas1"].Get("tree")
 
     ## FastFrame
     ### First create an empty TH1D histogram
-    myhist["meas1"] = TH1D("myhist_meas1","meas1",256,-1.5,8.5)
+    myhist["meas1"] = TH1D("myhist_meas1","meas1",256,0,6)
     ### Then get the saved histogram into the new one and normalize to ns from s by *1.e9
     mytree["meas1"].Draw("area*1.e9>>myhist_meas1","","")
 
     ## Fit meas1
-    fitopt = [0.5,0.5]
+    fitopt = [0.4,0.4]
     vEng_1, sFit_1, myfit_1 = AlphaSourceFitter().GausFitEngPeak(myhist["meas1"],"meas1",fitopt,1.)
 
-    c1.SaveAs("Results/GIF++/DarkCurrent_check.pdf")
+    c1.SaveAs("Results/GIF++/check.pdf")
