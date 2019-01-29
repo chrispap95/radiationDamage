@@ -52,7 +52,7 @@ if __name__ == '__main__':
     ## Import all measurements
     ## Meas 1
     ### Import the file
-    myfile["meas1"] = TFile("root/AlphaSource/Pu239new_EJ260PVT-1X2P_N4_Default_Nofoil_FaceB_FastFrame_20181216.root")
+    myfile["meas1"] = TFile("%s"%options.input)
     ## and then get the TTree
     mytree["meas1"] = myfile["meas1"].Get("tree")
 
@@ -66,4 +66,14 @@ if __name__ == '__main__':
     fitopt = [0.4,0.4]
     vEng_1, sFit_1, myfit_1 = AlphaSourceFitter().GausFitEngPeak(myhist["meas1"],"meas1",fitopt,1.)
 
-    c1.SaveAs("Results/GIF++/check.pdf")
+    today = datetime.date.today()
+    fTag = today.strftime("%Y%m%d")
+    fName = options.input
+    i = fName.find("/")
+    while i > 0:
+        fName = fName[i+1:]
+        i = fName.find("/")
+    fName = fName[:-5]
+    if (os.path.isdir("Results/%s"%fTag)) == False:
+        os.mkdir("Results/%s"%fTag)
+    c1.SaveAs("Results/%s/%s.pdf"%(fTag,fName))
