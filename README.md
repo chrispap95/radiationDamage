@@ -20,10 +20,15 @@ In order to able to run this code you should have already installed Python 2 and
 
 ## Instructions
 In order to run any of the scripts, you can issue
-
 ```bash
 python scriptName.py
 ```
+
+You can fit a single measurement by issuing
+```bash
+python compareSimpleAlpha_fitRoutine.py -i root/AlphaSource/<Filename>.root
+```
+This is going to output the fit results on the command line and also create a PDF file with a plot under Results/<Date of Execution>/<Filename>.pdf.
 
 Now follows a brief description of the scripts:
 #### compareSimpleAlpha_oldRoutine.py
@@ -45,8 +50,9 @@ Legacy version of the previous routine. Might be reserved for future use.
 #### doseConstant.py
 Script that calculates the Dose constant. You need to just give a list of the files and a lists containing the material types and the irradiation details.
 
-## FREADME file contents
 
+## FREADME file contents
+(This is how to create the ROOT files)
 Save your data txt files in alphaSource/data.
 
 ### ALPHA SOURCE ANALYSIS
