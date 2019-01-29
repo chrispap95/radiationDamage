@@ -28,7 +28,7 @@ You can fit a single measurement by issuing
 ```bash
 python compareSimpleAlpha_fitRoutine.py -i root/AlphaSource/<Filename>.root
 ```
-This is going to output the fit results on the command line and also create a PDF file with a plot under Results/<Date of Execution>/<Filename>.pdf.
+This is going to output the fit results on the command line and also create a PDF file with a plot under ```Results/<Date of Execution>/<Filename>.pdf```.
 
 Now follows a brief description of the scripts:
 #### compareSimpleAlpha_oldRoutine.py
