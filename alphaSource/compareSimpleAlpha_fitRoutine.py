@@ -11,7 +11,7 @@ import os, sys, math, datetime
 
 # Import ROOT
 from ROOT import gROOT, gStyle, TFile, TTree, TH1F, TH1D, TCanvas, TPad, TMath, TF1, TLegend, gPad, gDirectory
-from ROOT import kRed, kBlue, kGreen, kWhite
+from ROOT import kRed, kBlue, kGreen, kWhite, TLatex
 
 # Some more python libraries
 from collections import OrderedDict
@@ -27,10 +27,12 @@ options = parseLYAnaInputArgs()
 # Import fitter
 from Plotter.CommonTools import AlphaSourceFitter
 
-gROOT.LoadMacro("Plotter/UMDStyle.C")
-from ROOT import SetUMDStyle
-SetUMDStyle()
-gROOT.SetBatch()
+gStyle.SetOptStat(0)
+
+#gROOT.LoadMacro("Plotter/UMDStyle.C")
+#from ROOT import SetUMDStyle
+#SetUMDStyle()
+#gROOT.SetBatch()
 
 ####################################################################################################
 ####################################################################################################
@@ -62,10 +64,6 @@ if __name__ == '__main__':
     ### Then get the saved histogram into the new one and normalize to ns from s by *1.e9
     mytree["meas1"].Draw("area*1.e9>>myhist_meas1","","")
 
-    ## Fit meas1
-    fitopt = [0.4,0.4]
-    vEng_1, sFit_1, myfit_1 = AlphaSourceFitter().GausFitEngPeak(myhist["meas1"],"meas1",fitopt,1.)
-
     today = datetime.date.today()
     fTag = today.strftime("%Y%m%d")
     fName = options.input
@@ -74,6 +72,20 @@ if __name__ == '__main__':
         fName = fName[i+1:]
         i = fName.find("/")
     fName = fName[:-5]
+
+    myhist["meas1"].SetTitle("%s"%fName)
+    myhist["meas1"].GetXaxis().SetTitle("area [V#times ns]")
+    myhist["meas1"].GetYaxis().SetTitle("counts")
+
+    c1.Update()
+
+    ## Fit meas1
+    fitopt = [0.4,0.4]
+    vEng_1, sFit_1, myfit_1 = AlphaSourceFitter().GausFitEngPeak(myhist["meas1"],"meas1",fitopt,1.)
+
+    t = TLatex(0.5,1600,"peak = %f#pm%f V#times ns"%(vEng_1,sFit_1));
+    t.Draw()
+
     if (os.path.isdir("Results/%s"%fTag)) == False:
         os.mkdir("Results/%s"%fTag)
     c1.SaveAs("Results/%s/%s.pdf"%(fTag,fName))
