@@ -10,13 +10,33 @@ Most of the code has been written by Geng-Yuan Jeng.
 └── alphaSource                 # Main directory
     ├── Data                    # Here you put your .txt files
     ├── Results                 # Plots and results go here
-    │   └── 20181027            # Various date named folders
+    │   ├── 20181027
+    │   └── ...                 # Various date named folders
     ├── root                    # Here you put your .root files
     └── Plotter                 # Routines for plotting, fitting and style configuration
 ```
 ## Prerequisites
 In order to able to run this code you should have already installed Python 2 and ROOT.
 **Warning: Do not use python 3!**
+You need Python 2 and Root installed in your system. Python is really easy to install on all machines: https://www.python.org/downloads/release/python-2715/
+Then you need ROOT. I suppose most people use macOS so I will give instructions for that:
+1) install xcode tools: ```bash xcode-select --install```
+2) install homebrew: ```bash /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"```
+3) install dependencies: ```bash brew install dpkg cmake binutils```
+4) ```bash export PATH="/Applications/CMake.app/Contents/bin":"$PATH"```
+5) Download root source: https://root.cern/download/root_v6.16.00.source.tar.gz and extract it: ```bash cd Downloads && tar -xf root_v6.16.00.source.tar.gz```
+6) ```bash mkdir buildroot && cd buildroot```
+7) configure: ```bash cmake ../root_v6.16.00 -DCMAKE_INSTALL_PREFIX=/Applications/ROOT.app -DPYTHON_EXECUTABLE=/usr/bin/python2.7 -DPYTHON_LIBRARY=/usr/lib/python2.7 -DPYTHON_INCLUDE_DIR=/usr/include/python2.7```
+8) build ```bash cmake --build . -- -j4```
+9) install ```bash cmake --build . --target install```
+10) set environment ```bash source /Applications/ROOT.app/bin/thisroot.sh```
+11) open root ```bash root```
+12) optionally add root directory to path permanently
+```bash
+cat >> ~/.bashrc << "EOF"
+source /Applications/ROOT.app/bin/thisroot.sh
+EOF
+```
 
 ## Instructions
 In order to run any of the scripts, you can issue
