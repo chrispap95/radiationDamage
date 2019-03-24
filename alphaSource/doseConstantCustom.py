@@ -62,24 +62,24 @@ if __name__ == '__main__':
     ## [fitrng0,fitrng1,fitterType,biasOffset]
     ## [1.3,1.1,"G2",0.3112]
 
-    myfile["EJ200PS_1X1P-UnIrr"] = [
-        "T1",TFile("root/AlphaSource/Pu239new_EJ200PS-1X1P_1_Default_Nofoil_FaceA_FastFrame_20181129.root"),[.5,.5,"G1",0.]]
-    myfile["EJ200PS_1X2P-UnIrr"] = [
-        "T1",TFile("root/AlphaSource/Pu239new_EJ200PS-1X2P_1_Default_Nofoil_FaceA_FastFrame_20181206.root"),[.5,.5,"G1",0.]]
+    myfile["EJ200PVT_1X2P-UnIrr"] = [
+        "T1",TFile("root/AlphaSource/Pu239new_EJ200PVT-1X2P_N1_Default_Nofoil_FaceA_FastFrame_20181120.root"),[.5,.5,"G1",0.]]
+#    myfile["EJ200PS_1X2P-UnIrr"] = [
+#        "T1",TFile("root/AlphaSource/Pu239new_EJ200PS-1X2P_1_Default_Nofoil_FaceA_FastFrame_20181206.root"),[.5,.5,"G1",0.]]
 #    myfile["EJ200PS_2X1P-UnIrr"] = [
 #        "T1",TFile("root/AlphaSource/Pu239new_EJ200PS-2X1P_1_Default_Nofoil_FaceA_FastFrame_20181129.root"),[.5,.5,"G1",0.]]
 
-    myfile["EJ200PS_1X1P-20190117"]  = [
-        "T1",TFile("root/AlphaSource/Pu239new_EJ200PS-1X1P_15_Default_Nofoil_FaceA_FastFrame_20190117.root"),[.5,.5,"G1",0.3112]]
-    myfile["EJ200PS_1X2P-20190117"]  = [
-        "T1",TFile("root/AlphaSource/Pu239new_EJ200PS-1X2P_15_Default_Nofoil_FaceA_FastFrame_20190117.root"),[.5,.5,"G1",0.3112]]
+    myfile["EJ200PVT_1X2P-20190117"]  = [
+        "T1",TFile("root/AlphaSource/Pu239new_EJ200PVT-1X2P_N15_Default_Nofoil_FaceA_FastFrame_20190117.root"),[.5,.5,"G1",0.3112]]
+#    myfile["EJ200PS_1X2P-20190117"]  = [
+#        "T1",TFile("root/AlphaSource/Pu239new_EJ200PS-1X2P_15_Default_Nofoil_FaceA_FastFrame_20190117.root"),[.5,.5,"G1",0.3112]]
 #    myfile["EJ200PS_2X1P-20170125"]  = [
 #        "T1",TFile("root/AlphaSource/Pu239new_EJ200PS-2X1P_11_Default_Nofoil_FaceA_FastFrame_20170125.root"),[.5,.5,"G1",0.3112]]
 
     plotSets = {}
 
-    plotSets['1'] = ["EJ200PS_1X1P-UnIrr","EJ200PS_1X1P-20190117"] #ok
-    plotSets['2'] = ["EJ200PS_1X2P-UnIrr","EJ200PS_1X2P-20190117"] #ok
+    plotSets['1'] = ["EJ200PVT_1X2P-UnIrr","EJ200PVT_1X2P-20190117"] #ok
+#    plotSets['2'] = ["EJ200PS_1X2P-UnIrr","EJ200PS_1X2P-20190117"] #ok
     #plotSets['3'] = ["EJ200PS_2X1P-UnIrr","EJ200PS_2X1P-20190207"] #ok
 
     ###############################
