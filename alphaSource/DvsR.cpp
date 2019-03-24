@@ -63,7 +63,7 @@ void DvsR() {
     c1->SetLogy();
     c1->SetLogx();
 
-    gr->Draw();
+    gr->Draw("AP");
     gr->GetXaxis()->SetTitle("Dose rate (krad/hr)");
     gr->GetYaxis()->SetTitle("Dose Constant (Mrad)");
     // gr->SetMinimum(0.01);
