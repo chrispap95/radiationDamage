@@ -10,14 +10,9 @@
 ./Plotter/MyFunction_C.so: /Applications/root.app/include/RtypesCore.h
 ./Plotter/MyFunction_C.so: /Applications/root.app/include/ROOT/RConfig.h
 ./Plotter/MyFunction_C.so: /Applications/root.app/include/RVersion.h
-./Plotter/MyFunction_C.so: /usr/include/AvailabilityMacros.h
-./Plotter/MyFunction_C.so: /usr/include/TargetConditionals.h
-./Plotter/MyFunction_C.so: /usr/include/stddef.h
 ./Plotter/MyFunction_C.so: /Applications/root.app/include/DllImport.h
 ./Plotter/MyFunction_C.so: /Applications/root.app/include/snprintf.h
-./Plotter/MyFunction_C.so: /usr/include/stdio.h
 ./Plotter/MyFunction_C.so: /Applications/root.app/include/strlcpy.h
-./Plotter/MyFunction_C.so: /usr/include/string.h
 ./Plotter/MyFunction_C.so: /Applications/root.app/include/TGenericClassInfo.h
 ./Plotter/MyFunction_C.so: /Applications/root.app/include/TSchemaHelper.h
 ./Plotter/MyFunction_C.so: /Applications/root.app/include/TIsAProxy.h
@@ -37,7 +32,6 @@
 ./Plotter/MyFunction_C.so: /Applications/root.app/include/TIterator.h
 ./Plotter/MyFunction_C.so: /Applications/root.app/include/TVirtualRWMutex.h
 ./Plotter/MyFunction_C.so: /Applications/root.app/include/TVirtualMutex.h
-./Plotter/MyFunction_C.so: /usr/include/assert.h
 ./Plotter/MyFunction_C.so: /Applications/root.app/include/TDatime.h
 ./Plotter/MyFunction_C.so: /Applications/root.app/include/TUUID.h
 ./Plotter/MyFunction_C.so: /Applications/root.app/include/TGraph.h
