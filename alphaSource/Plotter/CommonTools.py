@@ -995,19 +995,22 @@ class AlphaSourceFitter:
 ####################################################################################################
 # Calculate dose constant and uncertainty
 ####################################################################################################
-def CalcD(dose,v_f,v_i,voffset,type="alpha"):
+def CalcD(dose,v_f,v_i,voffset_i,voffset_f,gain,type="alpha"):
     # v_i : initial light yield non-irr.
     # v_f : final light yield after irr.
+    # voffset_i : dark current for initial measurement
+    # voffset_f : dark current for final measurement
+    # gain : standard rod light yield ratio (final/initial)
     # all uncertaintiey treated as independent variables
-    R = (v_f[0]-voffset[0])/(v_i[0]-voffset[0])
-    sigmaR = R*sqrt(pow(v_f[1]/(v_f[0]-voffset[0]),2)+pow(v_i[1]/(v_i[0]-voffset[0]),2)+pow(voffset[1]*(v_f[0]-v_i[0])/((v_i[0]-voffset[0])*(v_f[0]-voffset[0])),2))
+    R = (v_f[0]-voffset_f[0])/((v_i[0]-voffset_i[0])*g)
+    sigmaR = R*sqrt(pow(v_f[1]/(v_f[0]-voffset_f[0]),2)+pow(v_i[1]/(v_i[0]-voffset_i[0]),2)+pow(voffset_i[1]*(v_f[0]-v_i[0])/((v_i[0]-voffset_i[0])*(v_f[0]-voffset_f[0])),2))
     D = -1.*dose[0]/math.log(R)
     sigmaD = D*sqrt(pow(dose[1]/dose[0],2)+pow(D*sigmaR/(dose[0]*R),2))
     ## sigma measurement
-    sigma0 = pow(D,4)*pow(v_f[1]/dose[0],2)*pow(v_f[0]-voffset[0],-2)
-    sigma1 = pow(D,4)*pow(v_i[1]/dose[0],2)*pow(v_i[0]-voffset[0],-2)
+    sigma0 = pow(D,4)*pow(v_f[1]/dose[0],2)*pow(v_f[0]-voffset_f[0],-2)
+    sigma1 = pow(D,4)*pow(v_i[1]/dose[0],2)*pow(v_i[0]-voffset_i[0],-2)
     ## sigma offset
-    sigma2 = pow(D,4)*pow(voffset[1]/dose[0],2)*pow(v_i[0]-v_f[0],2)*pow((v_i[0]-voffset[0])*(v_f[0]-voffset[0]),-2)
+    sigma2 = pow(D,4)*pow(voffset_i[1]/dose[0],2)*pow(v_i[0]-v_f[0],2)*pow((v_i[0]-voffset_i[0])*(v_f[0]-voffset_f[0]),-2)
     ## sigma dose
     sigma3 = pow(D*dose[1]/dose[0],2)
 
@@ -1018,12 +1021,12 @@ def CalcD(dose,v_f,v_i,voffset,type="alpha"):
     #print "%-30s = %8.5f"%("sigmaD diff",sigmaD-sqrt(sigma0+sigma1+sigma2+sigma3))
     if type=="alpha":
         # SPE: 0.01497
-        NPE = CalcNPE(v_f[0],voffset[0])
+        NPE = CalcNPE(v_f[0],voffset_f[0])
     elif type=="Na22":
         # SPE: 0.908949
-        NPE = CalcNPENa22(v_f[0],voffset[0])
+        NPE = CalcNPENa22(v_f[0],voffset_f[0])
     else:
-        NPE = CalcNPEMIP(v_f[0],voffset[0])
+        NPE = CalcNPEMIP(v_f[0],voffset_f[0])
 
     return D,sigmaD,R,sigmaR,NPE
 
