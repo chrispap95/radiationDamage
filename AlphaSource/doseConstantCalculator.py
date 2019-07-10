@@ -52,7 +52,7 @@ if __name__ == '__main__':
     except:
         pass
 
-    f = open("someConfiguration.txt","r")
+    f = open("%s"%options.input,"r")
     finput = f.readlines();
 
     myfile[finput[0][:-1]+"-UnIrr"] = [
