@@ -99,7 +99,29 @@ if __name__ == '__main__':
     ###############################
     ## Step 2: Find gain
     ###############################
+    ## Load  file and the TTree
+    fSR_i = TFile(finput[5][:-1])
+    tSR_i = fSR_i.Get("tree")
+    fSR_f = TFile(finput[6][:-1])
+    tSR_f = fSR_f.Get("tree")
+    ###############################
+    ## Create a histogram and insert the area histogram from the tree.
+    ## Use |amplitude|>mypedcut && time > 500 to skim the data.
+    ## The hist has limited range and it is only for fitting.
+    hSR_i = TH1D("myhist_SR_i","SR",250,0,6)
+    tSR_i.Draw("area*1.e9>>myhist_SR_i","abs(amplitude)>%f && time>%f"%(mypedcut,0))
+    hSR_f = TH1D("myhist_SR_f","SR",250,0,6)
+    tSR_f.Draw("area*1.e9>>myhist_SR_f","abs(amplitude)>%f && time>%f"%(mypedcut,0))
+    ## Find overall max (this is energy offset)
+    ## Fit 1st hist
+    ## Range value seemed suspicious. Total range is [-0.2,0] but he fits in +-0.2 from the maxbin (???)
+    ## Need to find the right pedestal cut value
+    SRName_i = "SR_i"
+    vEng[SRName_i],sFit[SRName_i],myfit[SRName_i]=AlphaSourceFitter().GausFitEngPeak(hSR_i,SRName_i,[0.5,0.5],1.)
+    SRName_f = "SR_f"
+    vEng[SRName_f],sFit[SRName_f],myfit[SRName_f]=AlphaSourceFitter().GausFitEngPeak(hSR_f,SRName_f,[0.5,0.5],1.)
 
+    gain = [vEng[SRName_f]/vEng[SRName_i], math.sqrt((sFit[SRName_i]/vEng[SRName_i])**2+(sFit[SRName_f]/vEng[SRName_f])**2)*vEng[SRName_f]/vEng[SRName_i]]
 
     for nf, fl in sorted(plotSets.items()):
         fNames = {}
@@ -173,7 +195,7 @@ if __name__ == '__main__':
             sigName = fNames[tmpName]
             if sigName.find("UnIrr") == -1:
                 print "Calculating Dose Constant for :", sigName
-                gain=1
+                #gain=[1,0]
                 vDconst[sigName] = CalcD(vDose,vInput[sigName],vInput[fNames["%s_0"%(nf)]],vOffset_i,vOffset_f,gain)
                 ### vDose["GIF++"] = [1.32,0.00022]
                 ### vInput_[sigName, fNames_[...]] is vInput_[sigName]  = [vEng_[sigName], uncEng_[sigName]*vEng_[sigName]]

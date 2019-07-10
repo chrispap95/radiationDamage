@@ -1002,7 +1002,7 @@ def CalcD(dose,v_f,v_i,voffset_i,voffset_f,gain,type="alpha"):
     # voffset_f : dark current for final measurement
     # gain : standard rod light yield ratio (final/initial)
     # all uncertaintiey treated as independent variables
-    R = (v_f[0]-voffset_f[0])/((v_i[0]-voffset_i[0])*gain)
+    R = (v_f[0]-voffset_f[0])/((v_i[0]-voffset_i[0])*gain[0])
     sigmaR = R*sqrt(pow(v_f[1]/(v_f[0]-voffset_f[0]),2)+pow(v_i[1]/(v_i[0]-voffset_i[0]),2)+pow(voffset_i[1]*(v_f[0]-v_i[0])/((v_i[0]-voffset_i[0])*(v_f[0]-voffset_f[0])),2))
     D = -1.*dose[0]/math.log(R)
     sigmaD = D*sqrt(pow(dose[1]/dose[0],2)+pow(D*sigmaR/(dose[0]*R),2))
