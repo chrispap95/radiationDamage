@@ -171,6 +171,7 @@ if __name__ == '__main__':
             sigName = fNames[tmpName]
             if sigName.find("UnIrr") == -1:
                 print "Calculating Dose Constant for :", sigName
+                gain=1
                 vDconst[sigName] = CalcD(vDose,vInput[sigName],vInput[fNames["%s_0"%(nf)]],vOffset_i,vOffset_f,gain)
                 ### vDose["GIF++"] = [1.32,0.00022]
                 ### vInput_[sigName, fNames_[...]] is vInput_[sigName]  = [vEng_[sigName], uncEng_[sigName]*vEng_[sigName]]
