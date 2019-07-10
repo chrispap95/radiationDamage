@@ -55,13 +55,15 @@ if __name__ == '__main__':
     f = open("someConfiguration.txt","r")
     finput = f.readlines();
 
-    myfile["UnIrr"] = [
-        "T1",TFile(finput[1]),[.5,.5,"G1",0.]]
-    myfile["Irr"]  = [
-        "T1",TFile(finput[2]),[.5,.5,"G1",0.3112]]
+    myfile[finput[0][:-1]+"-UnIrr"] = [
+        "T1",TFile(finput[1][:-1]),[.5,.5,"G1",0.]]
+    myfile[finput[0][:-1]+"-Irr"]  = [
+        "T1",TFile(finput[2][:-1]),[.5,.5,"G1",0.3112]]
 
     plotSets = {}
-    plotSets['1'] = ["UnIrr","Irr"] #ok
+    plotSets['1'] = [finput[0][:-1]+"-UnIrr",finput[0][:-1]+"-Irr"] #ok
+
+    print(float(finput[7][:-1])*float(finput[8][:-1]))
 
     ###############################
     ## Step 1: Find Dark Current and --> offset
@@ -69,9 +71,9 @@ if __name__ == '__main__':
     ## Dark current common
     ###############################
     ## Load dark current file and the TTree
-    fDC50_i = TFile(finput[3])
+    fDC50_i = TFile(finput[3][:-1])
     tDC50_i = fDC50_i.Get("tree")
-    fDC50_f = TFile(finput[4])
+    fDC50_f = TFile(finput[4][:-1])
     tDC50_f = fDC50_f.Get("tree")
     ###############################
     ## Create a histogram and insert the area histogram from the tree.
@@ -155,7 +157,7 @@ if __name__ == '__main__':
         ###############################
         uncEng["EJ200"] = 0.0110424
         uncEng["EJ260"] = 0.0329865
-        vDose = [finput[7],finput[8]]
+        vDose = [float(finput[7][:-1]),float(finput[8][:-1])]
         print "\n"
         print "="*150
         vDconst = {}
@@ -177,7 +179,7 @@ if __name__ == '__main__':
                 ### vInput_[sigName, fNames_[...]] is vInput_[sigName]  = [vEng_[sigName], uncEng_[sigName]*vEng_[sigName]]
 
     ## print uncertainties
-    print "Offset = %-8.5f"%(vOffset[0])
-    print "Uncertainty of [%30s] = %6.3f %%"%("Offset",math.fabs(vOffset[1]/vOffset[0]*100.))
+    print "Offset = %-8.5f"%(vOffset_f[0])
+    print "Uncertainty of [%30s] = %6.3f %%"%("Offset",math.fabs(vOffset_f[1]/vOffset_f[0]*100.))
     for n,v in sorted(uncEng.items()):
         print "Uncertainty of [%30s] = %6.3f %%"%(n,v*100.)
