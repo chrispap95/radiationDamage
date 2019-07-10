@@ -84,23 +84,30 @@ if __name__ == '__main__':
     ## Dark current common
     ###############################
     ## Load dark current file and the TTree
-    fDC50 = TFile("root/AlphaSource/DarkCurrent_HV1700_trigger_101mV_amp50p5mVpDiv_20181121.root")
-    tDC50 = fDC50.Get("tree")
+    fDC50_i = TFile("root/AlphaSource/DarkCurrent_HV1700_trigger_101mV_amp50p5mVpDiv_20181121.root")
+    tDC50_i = fDC50_i.Get("tree")
+    fDC50_f = TFile("root/AlphaSource/DarkCurrent_HV1700_trigger_101mV_amp50p5mVpDiv_20181121.root")
+    tDC50_f = fDC50_f.Get("tree")
     ###############################
     ## Create a histogram and insert the area histogram from the tree.
     ## Use |amplitude|>mypedcut && time > 500 to skim the data.
     ## The hist has limited range and it is only for fitting.
     mypedcut = 0.0
-    hDC50 = TH1D("myhist_DC50","DC50",52,-1,0.)
-    tDC50.Draw("area*1.e9>>myhist_DC50","abs(amplitude)>%f && time>%f"%(mypedcut,0))
+    hDC50_i = TH1D("myhist_DC50","DC50",52,-1,0.)
+    tDC50_i.Draw("area*1.e9>>myhist_DC50","abs(amplitude)>%f && time>%f"%(mypedcut,0))
+    hDC50_f = TH1D("myhist_DC50","DC50",52,-1,0.)
+    tDC50_f.Draw("area*1.e9>>myhist_DC50","abs(amplitude)>%f && time>%f"%(mypedcut,0))
     ## Find overall max (this is energy offset)
     ## Fit 1st hist
     ## Range value seemed suspicious. Total range is [-0.2,0] but he fits in +-0.2 from the maxbin (???)
     ## Need to find the right pedestal cut value
-    DCName = "DC50"
-    vEng[DCName],sFit[DCName],myfit[DCName]=AlphaSourceFitter().GausFitEngPeak(hDC50,DCName,[0.2,0.2],1.)
+    DCName_i = "DC50_i"
+    vEng[DCName_i],sFit[DCName_i],myfit[DCName_i]=AlphaSourceFitter().GausFitEngPeak(hDC50_i,DCName_i,[0.2,0.2],1.)
+    DCName_f = "DC50_f"
+    vEng[DCName_f],sFit[DCName_f],myfit[DCName_f]=AlphaSourceFitter().GausFitEngPeak(hDC50_f,DCName_f,[0.2,0.2],1.)
 
-    vOffset = [vEng[DCName],sFit[DCName]]
+    vOffset_i = [vEng[DCName_i],sFit[DCName_i]]
+    vOffset_f = [vEng[DCName_f],sFit[DCName_f]]
 
     for nf, fl in sorted(plotSets.items()):
         fNames = {}
@@ -174,7 +181,7 @@ if __name__ == '__main__':
             sigName = fNames[tmpName]
             if sigName.find("UnIrr") == -1:
                 print "Calculating Dose Constant for :", sigName
-                vDconst[sigName] = CalcD(vDose,vInput[sigName],vInput[fNames["%s_0"%(nf)]],vOffset)
+                vDconst[sigName] = CalcD(vDose,vInput[sigName],vInput[fNames["%s_0"%(nf)]],vOffset_i,vOffset_f,gain)
                 ### vDose["GIF++"] = [1.32,0.00022]
                 ### vInput_[sigName, fNames_[...]] is vInput_[sigName]  = [vEng_[sigName], uncEng_[sigName]*vEng_[sigName]]
 
