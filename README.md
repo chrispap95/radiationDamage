@@ -38,7 +38,7 @@ source /Applications/ROOT.app/bin/thisroot.sh
 EOF
 ```
 Installation in Linux is not that different. Just install all dependecies using a packet manager i.e.
-```bash 
+```bash
 sudo apt-get install git dpkg-dev cmake g++ gcc binutils libx11-dev libxpm-dev \
 libxft-dev libxext-dev gfortran libssl-dev libpcre3-dev \
 xlibmesa-glu-dev libglew1.5-dev libftgl-dev \
@@ -66,6 +66,39 @@ In order to create .root files for your measurements, just place the .txt files 
 sh txt2root.sh <date>
 ```
 where <date> stands for the measurements' date eg. 20181024
+
+
+You can calculate the dose constant by issuing
+```bash
+python doseConstantCalculator.py -i someConfiguration.txt
+```
+where the someConfiguration.txt file contains all the filenames and info that should be passed to the calculator.
+To create a simple configuration file you can do
+```bash
+cat >> someConfiguration.txt << "EOF"
+EJ200PS-1X1P
+root/AlphaSource/Pu239new_EJ200PS-1X1P_1_Default_Nofoil_FaceA_FastFrame_20181129.root
+root/AlphaSource/Pu239new_EJ200PS-1X1P_4_Default_Nofoil_FaceA_FastFrame_20181115.root
+root/AlphaSource/DarkCurrent_HV1700_trigger_101mV_amp50p5mVpDiv_20181121.root
+root/AlphaSource/DarkCurrent_HV1700_trigger_101mV_amp50p5mVpDiv_20181121.root
+root/AlphaSource/Pu239new_EJ200-2X_3_Default_Nofoil_FaceA_FastFrame_20181129.root
+root/AlphaSource/Pu239new_EJ200-2X_3_Default_Nofoil_FaceA_FastFrame_20181115.root
+1.32
+0.00022
+EOF
+```
+The structure of the file is
+```
+rod name
+pre irr. measurement file
+post irr. measurement file
+dark current for pre irr. file
+dark current for post irr. file
+EJ200-2X_3 rod measurement on pre irr. measurement day
+EJ200-2X_3 rod measurement on post irr. measurement day
+total dose in Mrad
+dose rate in Mrad
+```
 
 Now follows a brief description of the scripts:
 #### compareSimpleAlpha_oldRoutine.py
