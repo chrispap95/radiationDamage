@@ -24,7 +24,6 @@ gROOT.SetBatch()
 
 if __name__ == '__main__':
     print options
-
     myfile = {}
     myhist = {}
     myfit  = {}
@@ -39,8 +38,7 @@ if __name__ == '__main__':
     hxrng["Ref"]   = [256,0,6]
     hxrng["EJ200"] = [256,0,6]
     hxrng["EJ260"] = [256,0,6]
-
-    hxrng["T1"] = [256,0,6]
+    hxrng["DarkCurrrent"] = [100,-1,0]
 
     today = datetime.date.today()
     fTag = today.strftime("%Y%m%d")
@@ -195,10 +193,7 @@ if __name__ == '__main__':
             sigName = fNames[tmpName]
             if sigName.find("UnIrr") == -1:
                 print "Calculating Dose Constant for :", sigName
-                #gain=[1,0]
                 vDconst[sigName] = CalcD(vDose,vInput[sigName],vInput[fNames["%s_0"%(nf)]],vOffset_i,vOffset_f,gain)
-                ### vDose["GIF++"] = [1.32,0.00022]
-                ### vInput_[sigName, fNames_[...]] is vInput_[sigName]  = [vEng_[sigName], uncEng_[sigName]*vEng_[sigName]]
 
     ## print uncertainties
     print "Offset = %-8.5f"%(vOffset_f[0])
