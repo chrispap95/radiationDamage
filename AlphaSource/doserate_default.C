@@ -1,9 +1,9 @@
 void doserate_default()
 {
 //=========Macro generated from canvas: canv/D versus doserate
-//=========  (Thu May  2 13:30:19 2019) by ROOT version 6.14/04
+//=========  (Thu Oct 24 21:50:09 2019) by ROOT version 6.14/04
    TCanvas *canv = new TCanvas("canv", "D versus doserate",200,45,800,600);
-   canv->Range(-2.662629,-2.462371,3.963659,2.161341);
+   canv->Range(-2.662629,-0.1626288,3.963659,1.463659);
    canv->SetFillColor(0);
    canv->SetBorderMode(0);
    canv->SetBorderSize(2);
@@ -16,35 +16,51 @@ void doserate_default()
    multigraph->SetName("");
    multigraph->SetTitle("");
    
-   Double_t Graph_fx1001[3] = {
+   Double_t Graph_fx1001[7] = {
+   0.22,
+   0.31,
+   0.31,
+   0.98,
    8.53,
    74.4,
    390};
-   Double_t Graph_fy1001[3] = {
-   11.8033,
-   10.36126,
-   9.78101};
-   Double_t Graph_fex1001[3] = {
-   0.853,
-   7.44,
-   39};
-   Double_t Graph_fey1001[3] = {
-   0.1329052,
-   0.1157353,
-   0.1105254};
-   TGraphErrors *gre = new TGraphErrors(3,Graph_fx1001,Graph_fy1001,Graph_fex1001,Graph_fey1001);
+   Double_t Graph_fy1001[7] = {
+   3.31789,
+   5.74305,
+   4.87321,
+   6.78443,
+   12.31375,
+   13.46707,
+   15.89024};
+   Double_t Graph_fex1001[7] = {
+   0.022,
+   0.031,
+   0.031,
+   0.098,
+   0.06824,
+   0.5952,
+   3.12};
+   Double_t Graph_fey1001[7] = {
+   0.59431,
+   0.80162,
+   0.74794,
+   0.83448,
+   0.57133,
+   0.62179,
+   0.73247};
+   TGraphErrors *gre = new TGraphErrors(7,Graph_fx1001,Graph_fy1001,Graph_fex1001,Graph_fey1001);
    gre->SetName("Graph");
    gre->SetTitle("");
    gre->SetFillColor(2);
    gre->SetFillStyle(1000);
    gre->SetLineColor(2);
    gre->SetMarkerColor(2);
-   gre->SetMarkerStyle(34);
+   gre->SetMarkerStyle(33);
    gre->SetMarkerSize(1.5);
    
-   TH1F *Graph_Graph1001 = new TH1F("Graph_Graph1001","",100,6.9093,471.1323);
-   Graph_Graph1001->SetMinimum(9.443912);
-   Graph_Graph1001->SetMaximum(12.16278);
+   TH1F *Graph_Graph1001 = new TH1F("Graph_Graph1001","",100,0.1782,432.4122);
+   Graph_Graph1001->SetMinimum(1.333667);
+   Graph_Graph1001->SetMaximum(18.01262);
    Graph_Graph1001->SetDirectory(0);
    Graph_Graph1001->SetStats(0);
 
@@ -69,31 +85,47 @@ void doserate_default()
    
    multigraph->Add(gre,"");
    
-   Double_t Graph_fx1002[2] = {
+   Double_t Graph_fx1002[6] = {
+   0.22,
+   0.31,
+   0.31,
    0.98,
-   0.31};
-   Double_t Graph_fy1002[2] = {
-   7.91476,
-   5.61088};
-   Double_t Graph_fex1002[2] = {
+   8.53,
+   390};
+   Double_t Graph_fy1002[6] = {
+   3.67532,
+   7.02963,
+   5.71187,
+   7.36742,
+   12.77335,
+   15.34901};
+   Double_t Graph_fex1002[6] = {
+   0.022,
+   0.031,
+   0.031,
    0.098,
-   0.031};
-   Double_t Graph_fey1002[2] = {
-   0.08856616,
-   0.06289797};
-   gre = new TGraphErrors(2,Graph_fx1002,Graph_fy1002,Graph_fex1002,Graph_fey1002);
+   0.06824,
+   3.12};
+   Double_t Graph_fey1002[6] = {
+   0.62754,
+   0.9026,
+   0.82169,
+   0.8698,
+   0.57146,
+   0.6859};
+   gre = new TGraphErrors(6,Graph_fx1002,Graph_fy1002,Graph_fex1002,Graph_fey1002);
    gre->SetName("Graph");
    gre->SetTitle("");
-   gre->SetFillColor(3);
+   gre->SetFillColor(4);
    gre->SetFillStyle(1000);
-   gre->SetLineColor(3);
-   gre->SetMarkerColor(3);
+   gre->SetLineColor(4);
+   gre->SetMarkerColor(4);
    gre->SetMarkerStyle(34);
    gre->SetMarkerSize(1.5);
    
-   TH1F *Graph_Graph1002 = new TH1F("Graph_Graph1002","",100,0.1991,1.1579);
-   Graph_Graph1002->SetMinimum(5.302447);
-   Graph_Graph1002->SetMaximum(8.248861);
+   TH1F *Graph_Graph1002 = new TH1F("Graph_Graph1002","",100,0.1782,432.4122);
+   Graph_Graph1002->SetMinimum(1.749067);
+   Graph_Graph1002->SetMaximum(17.33362);
    Graph_Graph1002->SetDirectory(0);
    Graph_Graph1002->SetStats(0);
 
@@ -115,86 +147,36 @@ void doserate_default()
    gre->SetHistogram(Graph_Graph1002);
    
    multigraph->Add(gre,"");
-   
-   Double_t Graph_fx1003[1] = {
-   0.22};
-   Double_t Graph_fy1003[1] = {
-   4.33751};
-   Double_t Graph_fex1003[1] = {
-   0.002};
-   Double_t Graph_fey1003[1] = {
-   0.14129};
-   gre = new TGraphErrors(1,Graph_fx1003,Graph_fy1003,Graph_fex1003,Graph_fey1003);
-   gre->SetName("Graph");
-   gre->SetTitle("");
-   gre->SetFillColor(4);
-   gre->SetFillStyle(1000);
-   gre->SetLineColor(4);
-   gre->SetMarkerColor(4);
-   gre->SetMarkerStyle(34);
-   gre->SetMarkerSize(1.5);
-   
-   TH1F *Graph_Graph1003 = new TH1F("Graph_Graph1003","",100,0.2176,0.2224);
-   Graph_Graph1003->SetMinimum(4.167962);
-   Graph_Graph1003->SetMaximum(4.507058);
-   Graph_Graph1003->SetDirectory(0);
-   Graph_Graph1003->SetStats(0);
-
-   ci = TColor::GetColor("#000099");
-   Graph_Graph1003->SetLineColor(ci);
-   Graph_Graph1003->GetXaxis()->SetLabelFont(42);
-   Graph_Graph1003->GetXaxis()->SetLabelSize(0.035);
-   Graph_Graph1003->GetXaxis()->SetTitleSize(0.035);
-   Graph_Graph1003->GetXaxis()->SetTitleFont(42);
-   Graph_Graph1003->GetYaxis()->SetLabelFont(42);
-   Graph_Graph1003->GetYaxis()->SetLabelSize(0.035);
-   Graph_Graph1003->GetYaxis()->SetTitleSize(0.035);
-   Graph_Graph1003->GetYaxis()->SetTitleOffset(0);
-   Graph_Graph1003->GetYaxis()->SetTitleFont(42);
-   Graph_Graph1003->GetZaxis()->SetLabelFont(42);
-   Graph_Graph1003->GetZaxis()->SetLabelSize(0.035);
-   Graph_Graph1003->GetZaxis()->SetTitleSize(0.035);
-   Graph_Graph1003->GetZaxis()->SetTitleFont(42);
-   gre->SetHistogram(Graph_Graph1003);
-   
-   multigraph->Add(gre,"");
    multigraph->Draw("AP");
    multigraph->GetXaxis()->SetTitle("Dose rate (krad/hr)");
    multigraph->GetXaxis()->SetLabelFont(42);
    multigraph->GetXaxis()->SetLabelSize(0.035);
    multigraph->GetXaxis()->SetTitleSize(0.035);
+   multigraph->GetXaxis()->SetTitleOffset(1.3);
    multigraph->GetXaxis()->SetTitleFont(42);
    multigraph->GetYaxis()->SetTitle("Dose Constant (Mrad)");
    multigraph->GetYaxis()->SetLabelFont(42);
    multigraph->GetYaxis()->SetLabelSize(0.035);
    multigraph->GetYaxis()->SetTitleSize(0.035);
-   multigraph->GetYaxis()->SetTitleOffset(1.52);
+   multigraph->GetYaxis()->SetTitleOffset(1.2);
    multigraph->GetYaxis()->SetTitleFont(42);
    
-   TLegend *leg = new TLegend(0.57,0.22,0.92,0.42,NULL,"brNDC");
+   TLegend *leg = new TLegend(0.57,0.22,0.89,0.42,NULL,"brNDC");
    leg->SetBorderSize(0);
    leg->SetLineColor(1);
    leg->SetLineStyle(1);
    leg->SetLineWidth(1);
    leg->SetFillColor(0);
    leg->SetFillStyle(1001);
-   TLegendEntry *entry=leg->AddEntry("Graph","Co-60 (NIST)","p");
+   TLegendEntry *entry=leg->AddEntry("Graph","EJ200PVT-1X1P","p");
    entry->SetLineColor(1);
    entry->SetLineStyle(1);
    entry->SetLineWidth(1);
    entry->SetMarkerColor(2);
-   entry->SetMarkerStyle(34);
+   entry->SetMarkerStyle(33);
    entry->SetMarkerSize(1.5);
    entry->SetTextFont(42);
-   entry=leg->AddEntry("Graph","Gamma(GSFC REF)","p");
-   entry->SetLineColor(1);
-   entry->SetLineStyle(1);
-   entry->SetLineWidth(1);
-   entry->SetMarkerColor(3);
-   entry->SetMarkerStyle(34);
-   entry->SetMarkerSize(1.5);
-   entry->SetTextFont(42);
-   entry=leg->AddEntry("Graph","GIF++","p");
+   entry=leg->AddEntry("Graph","EJ260PVT-1X1P","p");
    entry->SetLineColor(1);
    entry->SetLineStyle(1);
    entry->SetLineWidth(1);

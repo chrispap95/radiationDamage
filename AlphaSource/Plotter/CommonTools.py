@@ -1003,22 +1003,24 @@ def CalcD(dose,v_f,v_i,voffset_i,voffset_f,gain,type="alpha"):
     # gain : standard rod light yield ratio (final/initial)
     # all uncertaintiey treated as independent variables
     R = (v_f[0]-voffset_f[0])/((v_i[0]-voffset_i[0])*gain[0])
-    sigmaR = R*sqrt(pow(v_f[1]/(v_f[0]-voffset_f[0]),2)+pow(v_i[1]/(v_i[0]-voffset_i[0]),2)+pow(voffset_i[1]*(v_f[0]-v_i[0])/((v_i[0]-voffset_i[0])*(v_f[0]-voffset_f[0])),2))
+    sigmaR = R*sqrt(pow(v_f[1]/(v_f[0]-voffset_f[0]),2)+pow(v_i[1]/(v_i[0]-voffset_i[0]),2)+pow(voffset_i[1]*(v_f[0]-v_i[0])/((v_i[0]-voffset_i[0])*(v_f[0]-voffset_f[0])),2)+pow(gain[1]/gain[0],2))
     D = -1.*dose[0]/math.log(R)
     sigmaD = D*sqrt(pow(dose[1]/dose[0],2)+pow(D*sigmaR/(dose[0]*R),2))
     ## sigma measurement
-    sigma0 = pow(D,4)*pow(v_f[1]/dose[0],2)*pow(v_f[0]-voffset_f[0],-2)
-    sigma1 = pow(D,4)*pow(v_i[1]/dose[0],2)*pow(v_i[0]-voffset_i[0],-2)
+    #sigma0 = pow(D,4)*pow(v_f[1]/dose[0],2)*pow(v_f[0]-voffset_f[0],-2)
+    #sigma1 = pow(D,4)*pow(v_i[1]/dose[0],2)*pow(v_i[0]-voffset_i[0],-2)
     ## sigma offset
-    sigma2 = pow(D,4)*pow(voffset_i[1]/dose[0],2)*pow(v_i[0]-v_f[0],2)*pow((v_i[0]-voffset_i[0])*(v_f[0]-voffset_f[0]),-2)
+    #sigma2 = pow(D,4)*pow(voffset_i[1]/dose[0],2)*pow(v_i[0]-v_f[0],2)*pow((v_i[0]-voffset_i[0])*(v_f[0]-voffset_f[0]),-2)
     ## sigma dose
-    sigma3 = pow(D*dose[1]/dose[0],2)
+    #sigma3 = pow(D*dose[1]/dose[0],2)
 
     print "%-30s = %8.5f"%("[CalcD] Light yield ratio",R)
+    print "%-30s = %8.5f"%("[CalcD] R sigma",sqrt(sigmaR))
     print "%-30s = %8.5f"%("[CalcD] Dose constant [Mrad]",D)
-    print "%-30s = [%8.5f,%8.5f,%8.5f,%8.5f]"%("[CalcD] sigmas",sqrt(sigma0),sqrt(sigma1),sqrt(sigma2),sqrt(sigma3))
-    print "%-30s = [%5.2f, %5.2f, %5.2f]"%("[CalcD] Uncertainties (%)",sqrt(sigma0+sigma1)/D*100.,sqrt(sigma2)/D*100.,sqrt(sigma3)/D*100.)
+    #print "%-30s = [%8.5f,%8.5f,%8.5f,%8.5f]"%("[CalcD] sigmas",sqrt(sigma0),sqrt(sigma1),sqrt(sigma2),sqrt(sigma3))
+    #print "%-30s = [%5.2f, %5.2f, %5.2f]"%("[CalcD] Uncertainties (%)",sqrt(sigma0+sigma1)/D*100.,sqrt(sigma2)/D*100.,sqrt(sigma3)/D*100.)
     #print "%-30s = %8.5f"%("sigmaD diff",sigmaD-sqrt(sigma0+sigma1+sigma2+sigma3))
+    print "%-30s = %8.5f"%("[CalcD] D sigma",sqrt(sigmaD))
     if type=="alpha":
         # SPE: 0.01497
         NPE = CalcNPE(v_f[0],voffset_f[0])
