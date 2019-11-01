@@ -122,7 +122,7 @@ Legacy version of the previous routine. Might be reserved for future use.
 Script that calculates the Dose constant. You need to just give a list of the files and a lists containing the material types and the irradiation details.
 
 
-## FREADME file contents
+## FREADME file content
 **Warning: The Instructions below are outdated. You don't need to use them. Just use the txt2root.sh script!**
 (This is how to create the ROOT files)
 Save your data txt files in alphaSource/data.
