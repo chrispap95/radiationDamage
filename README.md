@@ -84,7 +84,7 @@ root/AlphaSource/DarkCurrent_HV1700_trigger_101mV_amp50p5mVpDiv_20181121.root
 root/AlphaSource/Pu239new_EJ200-2X_3_Default_Nofoil_FaceA_FastFrame_20181129.root
 root/AlphaSource/Pu239new_EJ200-2X_3_Default_Nofoil_FaceA_FastFrame_20181115.root
 1.32
-0.00022
+0.132
 EOF
 ```
 The structure of the file is
@@ -97,7 +97,7 @@ dark current for post irr. file
 EJ200-2X_3 rod measurement on pre irr. measurement day
 EJ200-2X_3 rod measurement on post irr. measurement day
 total dose in Mrad
-dose rate in Mrad
+dose uncertainty in Mrad
 ```
 
 Now follows a brief description of the scripts:
