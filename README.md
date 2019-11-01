@@ -1,4 +1,3 @@
-
 # UMD Radiation Damage Recovery Project
 
 ## Current Status
@@ -7,17 +6,19 @@ Most of the code has been written by Geng-Yuan Jeng.
 
 ```bash
 .
-└── alphaSource                 # Main directory
+└── AlphaSource                 # Main directory
     ├── Data                    # Here you put your .txt files
     ├── Results                 # Plots and results go here
     │   ├── 20181027
     │   └── ...                 # Various date named folders
     ├── root                    # Here you put your .root files
+    ├── RunLists                # You don't need to edit this place with the newer versions
+    ├── DoseConstants
     └── Plotter                 # Routines for plotting, fitting and style configuration
 ```
 ## Prerequisites
 In order to able to run this code you should have already installed Python 2 and ROOT.
-**Warning: Do not use python 3!**
+**Warning: Do not use Python 3!**
 You need Python 2 and Root installed in your system. Python is really easy to install on all machines: https://www.python.org/downloads/release/python-2715/
 Then you need ROOT. I suppose most people use macOS so I will give instructions for that:
 1) install xcode tools: ```xcode-select --install```
