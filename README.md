@@ -27,7 +27,7 @@ Then you need ROOT. I suppose most people use macOS so I will give instructions 
 4) ```export PATH="/Applications/CMake.app/Contents/bin":"$PATH"```
 5) Download root source: https://root.cern/download/root_v6.18.04.source.tar.gz and extract it: ```cd Downloads && tar -xf root_v6.18.04.source.tar.gz```
 6) ```mkdir buildroot && cd buildroot```
-7) configure: ```cmake ../root_v6.16.00 -DCMAKE_INSTALL_PREFIX=/Applications/ROOT.app -DPYTHON_EXECUTABLE=/System/Library/Frameworks/Python.framework/Versions/2.7/bin/python2.7 -DPYTHON_LIBRARY=/Library/Frameworks/Python.framework/Versions/2.7/lib/libpython2.7.dylib -DPYTHON_INCLUDE_DIR=/System/Library/Frameworks/Python.framework/Versions/2.7/include/python2.7```
+7) configure: ```cmake ../root_v6.18.04 -DCMAKE_INSTALL_PREFIX=/Applications/ROOT.app -DPYTHON_EXECUTABLE=/System/Library/Frameworks/Python.framework/Versions/2.7/bin/python2.7 -DPYTHON_LIBRARY=/Library/Frameworks/Python.framework/Versions/2.7/lib/libpython2.7.dylib -DPYTHON_INCLUDE_DIR=/System/Library/Frameworks/Python.framework/Versions/2.7/include/python2.7```
 8) build ```cmake --build . -- -j4```
 9) install ```cmake --build . --target install```
 10) set environment ```source /Applications/ROOT.app/bin/thisroot.sh```
