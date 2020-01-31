@@ -3,7 +3,7 @@ import os, sys, math
 
 sys.path.append(os.path.abspath(os.path.curdir))
 from ROOT import gROOT, TH1, TH1F, TH1D, TCanvas, TTree, TLegend, TPad, TFile, TGraph, TMultiGraph, TLatex, TF1, TLine, gStyle, gPad, TGraphErrors
-from ROOT import kRed, kBlue, kGreen, kWhite
+from ROOT import kRed, kBlue, kGreen, kWhite, kBlack
 from collections import OrderedDict
 import numpy, array
 
@@ -313,8 +313,8 @@ class AlphaSourceFitter:
         tempMax = mHist.GetXaxis().GetBinCenter(binmax1)
 
         myfit = TF1("myfit_%s"%sigName,"gaus",tempMax-fitRng[0],tempMax+fitRng[1])
-
-        tmpstatus = mHist.Fit("myfit_%s"%sigName,"SREMQ","")
+        myfit.SetLineColor(kBlack)
+        tmpstatus = mHist.Fit("myfit_%s"%sigName,"SREMQ",)
         #tmpstatus = mHist.Fit("myfit_%s"%sigName,"SREMQ","same")
         print "[GausFit Base] chi2 = %f; ndf = %i; nChi2 = %8.5f"%(myfit.GetChisquare()/nScale,myfit.GetNDF()+1,
                                                                    myfit.GetChisquare()/nScale/(myfit.GetNDF()+1))
@@ -1005,7 +1005,7 @@ def CalcD(dose,v_f,v_i,voffset_i,voffset_f,gain,type="alpha"):
     R = (v_f[0]-voffset_f[0])/((v_i[0]-voffset_i[0])*gain[0])
     sigmaR = R*sqrt(pow(v_f[1]/(v_f[0]-voffset_f[0]),2)+pow(v_i[1]/(v_i[0]-voffset_i[0]),2)+pow(voffset_i[1]*(v_f[0]-v_i[0])/((v_i[0]-voffset_i[0])*(v_f[0]-voffset_f[0])),2)+pow(gain[1]/gain[0],2))
     D = -1.*dose[0]/math.log(R)
-    sigmaD = D*sqrt(pow(dose[1]/dose[0],2)+pow(D*sigmaR/(dose[0]*R),2))
+    sigmaD = abs(D)*sqrt(pow(dose[1]/dose[0],2)+pow(D*sigmaR/(dose[0]*R),2))
     ## sigma measurement
     #sigma0 = pow(D,4)*pow(v_f[1]/dose[0],2)*pow(v_f[0]-voffset_f[0],-2)
     #sigma1 = pow(D,4)*pow(v_i[1]/dose[0],2)*pow(v_i[0]-voffset_i[0],-2)
@@ -1013,14 +1013,21 @@ def CalcD(dose,v_f,v_i,voffset_i,voffset_f,gain,type="alpha"):
     #sigma2 = pow(D,4)*pow(voffset_i[1]/dose[0],2)*pow(v_i[0]-v_f[0],2)*pow((v_i[0]-voffset_i[0])*(v_f[0]-voffset_f[0]),-2)
     ## sigma dose
     #sigma3 = pow(D*dose[1]/dose[0],2)
-
+    print "%-30s = %8.5f"%("[CalcD] v_f",v_f[0])
+    print "%-30s = %8.5f"%("[CalcD] v_f sigma",v_f[1])
+    print "%-30s = %8.5f"%("[CalcD] v_i",v_i[0])
+    print "%-30s = %8.5f"%("[CalcD] v_i sigma",v_i[1])
+    print "%-30s = %8.5f"%("[CalcD] v_offset",voffset_i[0])
+    print "%-30s = %8.5f"%("[CalcD] v_offset sigma",voffset_i[1])
+    print "%-30s = %8.5f"%("[CalcD] gain",gain[0])
+    print "%-30s = %8.5f"%("[CalcD] gain sigma",gain[1])
     print "%-30s = %8.5f"%("[CalcD] Light yield ratio",R)
-    print "%-30s = %8.5f"%("[CalcD] R sigma",sqrt(sigmaR))
+    print "%-30s = %8.5f"%("[CalcD] R sigma",sigmaR)
     print "%-30s = %8.5f"%("[CalcD] Dose constant [Mrad]",D)
     #print "%-30s = [%8.5f,%8.5f,%8.5f,%8.5f]"%("[CalcD] sigmas",sqrt(sigma0),sqrt(sigma1),sqrt(sigma2),sqrt(sigma3))
     #print "%-30s = [%5.2f, %5.2f, %5.2f]"%("[CalcD] Uncertainties (%)",sqrt(sigma0+sigma1)/D*100.,sqrt(sigma2)/D*100.,sqrt(sigma3)/D*100.)
     #print "%-30s = %8.5f"%("sigmaD diff",sigmaD-sqrt(sigma0+sigma1+sigma2+sigma3))
-    print "%-30s = %8.5f"%("[CalcD] D sigma",sqrt(sigmaD))
+    print "%-30s = %8.5f"%("[CalcD] D sigma",sigmaD)
     if type=="alpha":
         # SPE: 0.01497
         NPE = CalcNPE(v_f[0],voffset_f[0])
