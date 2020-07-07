@@ -5,3 +5,7 @@
 *.pdf
 *.png
 *.eps
+*.d
+*.so
+*.pcm
+*.pyc
