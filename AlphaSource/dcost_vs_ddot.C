@@ -15,6 +15,9 @@ struct measurement {
     vector<float> y;
     vector<float> ex;
     vector<float> ey;
+    vector<TString> irrEndDate;
+    vector<TString> irrFacility;
+    vector<TString> ronNumber;
     short markerColor; // line color and marker fill color (if it applies) will use the same value
     short markerStyle;
     float markerSize;
@@ -23,7 +26,7 @@ struct measurement {
     TGraphErrors* graph; // this pointer gets filled in drawing section; it is initially null
 };
 
-void dcost_vs_ddot(TString tagTime="default") {
+void dcost_vs_ddot(TString tagTime="") {
 
 
     // // Preambles
@@ -51,79 +54,381 @@ void dcost_vs_ddot(TString tagTime="default") {
     measurements.push_back(
         {
             false,
-            {0.22*0.92,0.31*0.92,0.31*0.92,0.98*0.92,8.53*0.92,74.4*0.92,390*0.92},
-            {3.31789,5.74305,4.87321,6.78443,12.31375,13.46707,15.89024},
-            {0.22*0.1,0.31*0.1,0.31*0.1,0.98*0.1,8.53*0.008,74.4*0.008,390*0.008},
-            {0.59431,0.80162,0.74794,0.83448,0.57133,0.62179,0.73247},
-            2,33,1.2,"EJ200PVT-1X1P",1,NULL
+            {0.3,293},
+            {3.56098,12.19651},
+            {0.3*0.1,293*0.008},
+            {0.37297,0.40345},
+            {"Gamma(GSFC REF)","Co-60 (NIST)"},
+            {"20191204","20190222"},
+            {"1","2"},
+            2,33,1.2,"EJ200A0-0-1X1P",1,NULL
         }
-    );
+    ); // EJ200A0-0-1X1P
 
     measurements.push_back(
         {
             false,
-            {0.22*1.0,0.31*1.0,0.31*1.0,0.98*1.0,8.53*1.0,390*1.0},
-            {3.67532,7.02963,5.71187,7.36742,12.77335,15.34901},
-            {0.22*0.1,0.31*0.1,0.31*0.1,0.98*0.1,8.53*0.008,390*0.008},
-            {0.62754,0.9026,0.82169,0.8698,0.57146,0.6859},
-            2,34,1.2,"EJ260PVT-1X1P",1,NULL
+            {0.3,293},
+            {4.88767,12.88419},
+            {0.3*0.1,293*0.008},
+            {0.53116,0.44629},
+            {"Gamma(GSFC REF)","Co-60 (NIST)"},
+            {"20191204","20190222"},
+            {"1","2"},
+            3,33,1.2,"EJ200A0-1-1X1P",1,NULL
         }
-    );
+    ); // EJ200A0-1-1X1P
 
     measurements.push_back(
         {
             false,
-            {0.22*0.96,8.53*0.96,74.4*0.96,390*0.96,0.31*0.96,0.98*0.96,0.31*0.96},
-            {4.40333,12.88039,11.11065,10.61664,7.3069,7.88074,5.56525},
-            {0.22*0.1,8.53*0.008,74.4*0.008,390*0.008,0.31*0.1,0.98*0.1,0.31*0.1},
-            {0.69842,0.59055,0.50843,0.4885,0.92941,0.90251,0.81116},
-            4,33,1.2,"EJ200PS-1X1P",1,NULL
+            {0.3,293},
+            {4.65356,12.7266},
+            {0.3*0.1,293*0.008},
+            {0.50192,0.43516},
+            {"Gamma(GSFC REF)","Co-60 (NIST)"},
+            {"20191204","20190222"},
+            {"1","2"},
+            4,33,1.2,"EJ200A0-2-1X1P",1,NULL
         }
-    );
+    ); // EJ200A0-2-1X1P
 
     measurements.push_back(
         {
             false,
-            {0.22*1.04,8.34*1.04,0.31*1.04,390*1.04,0.98*1.04,0.31*1.04},
-            {4.4927,15.12669,4.68655,13.10698,9.09121,6.43075},
+            {0.22,8.53,74.4,390,0.98,0.31,364,338,0.31},
+            {4.40333,12.88039,11.11065,10.61664,7.88074,5.56525,8.35449,8.97797,4.53911},
+            {0.22*0.1,8.53*0.008,74.4*0.008,390*0.008,0.98*0.1,0.31*0.1,364*0.008,338*0.008,0.31*0.1},
+            {0.48779,0.34875,0.25850,0.23863,0.81452,0.65798,0.15783,0.17647,0.50814},
+            {"GIF++","Co-60 (NIST)","Co-60 (NIST)","Co-60 (NIST)","Gamma(GSFC REF)","Gamma(GSFC REF)","Co-60 (NIST)","Co-60 (NIST)","Gamma(GSFC REF)"},
+            {"20181026","20161109","20161202","20161004","20181206","20181130","20170413","20171107","20181130"},
+            {"4","5","8","9","13","15","T1_3","T1_4","T1_5"},
+            1,33,1.2,"EJ200PS-1X1P single shot",2,NULL
+        }
+    ); // EJ200PS-1X1P
+    measurements.push_back(
+        {
+            false,
+            {0.31},
+            {7.3069},
+            {0.31*0.1},
+            {0.86380},
+            {"Gamma(GSFC REF)"},
+            {"20181130"},
+            {"11"},
+            2,33,1.2,"EJ200PS-1X1P double shot",2,NULL
+        }
+    ); // EJ200PS-1X1P
+    measurements.push_back(
+        {
+            false,
+            {390},
+            {9.24823},
+            {390*0.008},
+            {0.19064},
+            {"Co-60 (NIST)"},
+            {"20161004"},
+            {"9 - alternative meas."},
+            4,33,1.2,"EJ200PS-1X1P single shot",2,NULL
+        }
+    ); // EJ200PS-1X1P
+
+    measurements.push_back(
+        {
+            false,
+            {0.22,8.53,74.4,390,0.98,0.31},
+            {4.3199,12.91542,12.71296,12.58299,7.59314,5.60722},
+            {0.22*0.1,8.53*0.008,74.4*0.008,390*0.008,0.98*0.1,0.31*0.1},
+            {0.47595,0.39174,0.33572,0.33018,0.78269,0.66323},
+            {"GIF++","Co-60 (NIST)","Co-60 (NIST)","Co-60 (NIST)","Gamma(GSFC REF)","Gamma(GSFC REF)"},
+            {"20181026","20161109","20161202","20161004","20181206","20181130"},
+            {"2","5","8","9","13","15"},
+            1,33,1.2,"EJ200PS-1X2P single shot",2,NULL
+        }
+    ); // EJ200PS-1X2P
+    measurements.push_back(
+        {
+            false,
+            {0.31},
+            {7.28576},
+            {0.31*0.1},
+            {0.85811},
+            {"Gamma(GSFC REF)"},
+            {"20181130"},
+            {"11"},
+            2,33,1.2,"EJ200PS-1X2P double shot",2,NULL
+        }
+    ); // EJ200PS-1X2P
+
+    measurements.push_back(
+        {
+            false,
+            {0.22,8.34,257,390},
+            {4.40622,12.07512,9.1705,8.40505},
+            {0.22*0.1,8.34*0.008,257*0.008,390*0.008},
+            {0.48829,0.30896,0.17603,0.15587},
+            {"GIF++","Co-60 (NIST)","Co-60 (NIST)","Co-60 (NIST)"},
+            {"20181026","20170111","20200214","20161005"},
+            {"2","5","8","9","11"},
+            1,22,1.2,"EJ200PS-2X1P single shot",2,NULL
+        }
+    ); // EJ200PS-2X1P
+    measurements.push_back(
+        {
+            false,
+            {0.31},
+            {6.39462},
+            {0.31*0.1},
+            {0.73044},
+            {"Gamma(GSFC REF)"},
+            {"20181130"},
+            {"11"},
+            2,33,1.2,"EJ200PS-2X1P double shot",2,NULL
+        }
+    ); // EJ200PS-2X1P
+
+    measurements.push_back(
+        {
+            false,
+            {74.4,8.53,0.22,390,0.31,0.98,0.31,0.3,293},
+            {13.46707,12.31375,3.31789,15.89024,4.87321,6.78443,4.64466,4.88767,12.88419},
+            {74.4*0.008,8.53*0.008,0.22*0.1,390*0.008,0.31*0.1,0.98*0.1,0.31*0.1,0.3*0.1,293*0.008},
+            {0.3866,0.3264,0.3532,0.5365,0.5594,0.6964,0.5249,0.53116,0.44629},
+            {"Co-60 (NIST)","Co-60 (NIST)","GIF++","Co-60 (NIST)","Gamma(GSFC REF)","Gamma(GSFC REF)","Gamma(GSFC REF)","Gamma(GSFC REF)","Co-60 (NIST)"},
+            {"20161202","20161109","20181026","20161004","20181130","20181206","20181130","20191204","20190222"},
+            {"N4","N5","N8","N9","N15","N16","T1_5","A0-1","A0-2"},
+            1,33,1.2,"EJ200PVT-1X1P single shot",1,NULL
+        }
+    ); // EJ200PVT-1X1P
+    measurements.push_back(
+        {
+            false,
+            {0.31},
+            {5.74305},
+            {0.31*0.1},
+            {0.6426},
+            {"Gamma(GSFC REF)"},
+            {"20181130"},
+            {"N11"},
+            2,33,1.2,"EJ200PVT-1X1P double shot",1,NULL
+        }
+    ); // EJ200PVT-1X1P
+
+    measurements.push_back(
+        {
+            false,
+            {74.4,8.53,0.22,390,0.31,0.98},
+            {14.02444,13.11734,3.72787,17.20746,5.16963,6.99842},
+            {74.4*0.008,8.53*0.008,0.22*0.1,390*0.008,0.31*0.1,0.98*0.1},
+            {0.4589,0.3678,0.4025,0.6251,0.6023,0.7190},
+            {"Co-60 (NIST)","Co-60 (NIST)","GIF++","Co-60 (NIST)","Gamma(GSFC REF)","Gamma(GSFC REF)"},
+            {"20161202","20161109","20181026","20181004","20181130","20181206"},
+            {"N4","N5","N8","N9","N15","N13"},
+            1,33,1.2,"EJ200PVT-1X2P single shot",1,NULL
+        }
+    ); // EJ200PVT-1X2P
+    measurements.push_back(
+        {
+            false,
+            {0.31},
+            {6.50593},
+            {0.31*0.1},
+            {0.7477},
+            {"Gamma(GSFC REF)"},
+            {"20181130"},
+            {"N11"},
+            2,33,1.2,"EJ200PVT-1X2P double shot",1,NULL
+        }
+    ); // EJ200PVT-1X2P
+
+    measurements.push_back(
+        {
+            false,
+            {0.22,8.34,390},
+            {3.53379,13.18657,17.29626},
+            {0.22*0.1,8.34*0.056,390*0.056},
+            {0.3797,0.3692,0.6313},
+            {"GIF++","Co-60 (NIST)","Co-60 (NIST)"},
+            {"20170111","20181130","20161005"},
+            {"N8","N5","N9"},
+            1,22,1.2,"EJ200PVT-2X1P single shot",1,NULL
+        }
+    ); // EJ200PVT-2X1P
+    measurements.push_back(
+        {
+            false,
+            {0.31},
+            {6.42334},
+            {0.31*0.1},
+            {0.7368},
+            {"Gamma(GSFC REF)"},
+            {"20181130"},
+            {"N11"},
+            2,33,1.2,"EJ200PVT-2X1P double shot",1,NULL
+        }
+    ); // EJ200PVT-2X1P
+
+    measurements.push_back(
+        {
+            false,
+            {0.22,8.34,0.31,390,0.98,0.31},
+            {4.4927,15.12669,3.64606,13.10698,9.09121,6.43075},
             {0.22*0.1,8.34*0.008,0.31*0.1,390*0.008,0.98*0.1,0.31*0.1},
-            {0.70351,0.66963,0.71287,0.57875,0.97303,0.88434},
-            4,34,1.2,"EJ260PS-1X1P",1,NULL
+            {0.49493,0.44840,0.38520,0.33495,0.94679,0.78206},
+            {"GIF++","Co-60 (NIST)","Gamma(GSFC REF)","Co-60 (NIST)","Gamma(GSFC REF)","Gamma(GSFC REF)"},
+            {"20181026","20170111","20181130","20161005","20181206","20181130"},
+            {"2","4","8","9","13","15"},
+            1,34,1.2,"EJ260PS-1X1P single shot",2,NULL
         }
-    );
+    ); // EJ260PS-1X1P
+    measurements.push_back(
+        {
+            false,
+            {0.31},
+            {4.0709},
+            {0.31*0.1},
+            {0.43864},
+            {"Gamma(GSFC REF)"},
+            {"20181130"},
+            {"8"},
+            2,33,1.2,"EJ260PS-1X1P double shot",2,NULL
+        }
+    ); // EJ260PS-1X1P
+
+    measurements.push_back(
+        {
+            false,
+            {0.22,0.31,0.98},
+            {4.49457,8.49707,5.90285},
+            {0.22*0.1,0.31*0.1,0.98*0.1},
+            {0.49303,0.87823,0.69744},
+            {"GIF++","Gamma(GSFC REF)","Gamma(GSFC REF)"},
+            {"20181026""20181206","20181130"},
+            {"2","13","15"},
+            1,34,1.2,"EJ260PS-1X2P single shot",2,NULL
+        }
+    ); // EJ260PS-1X2P
+    measurements.push_back(
+        {
+            false,
+            {0.31},
+            {7.74553},
+            {0.31*0.1},
+            {0.95676},
+            {"Gamma(GSFC REF)"},
+            {"20181130"},
+            {"8"},
+            2,33,1.2,"EJ260PS-1X2P double shot",2,NULL
+        }
+    ); // EJ260PS-1X2P
+
+    measurements.push_back(
+        {
+            false,
+            {0.22},
+            {6.30911,},
+            {0.22*0.1},
+            {0.75009,},
+            {"GIF++"},
+            {"20181026"},
+            {"2"},
+            1,23,1.2,"EJ260PS-2X1P single shot",2,NULL
+        }
+    ); // EJ260PS-2X1P
+    measurements.push_back(
+        {
+            false,
+            {0.31},
+            {11.73975},
+            {0.31*0.1},
+            {1.62915},
+            {"Gamma(GSFC REF)"},
+            {"20181130"},
+            {"8"},
+            2,33,1.2,"EJ260PS-2X1P double shot",2,NULL
+        }
+    ); // EJ260PS-2X1P
+
+    measurements.push_back(
+        {
+            false,
+            {8.34,0.22,390,0.98,0.31},
+            {12.77335,3.67532,15.34901,7.36742,5.71187},
+            {8.34*0.008,0.22*0.1,390*0.008,0.98*0.1,0.31*0.1},
+            {0.32657,0.39381,0.47046,0.75655,0.67517},
+            {"Co-60 (NIST)","GIF++","Co-60 (NIST)","Gamma(GSFC REF)","Gamma(GSFC REF)"},
+            {"20170111","20181026","20161005","20181206","20181130"},
+            {"N4","N8","N9","N13","N15"},
+            1,34,1.2,"EJ260PVT-1X1P single shot",1,NULL
+        }
+    ); // EJ260PVT-1X1P
+    measurements.push_back(
+        {
+            false,
+            {0.31},
+            {6.20954},
+            {0.31*0.1},
+            {0.70026},
+            {"Gamma(GSFC REF)"},
+            {"20181130"},
+            {"N3"},
+            2,33,1.2,"EJ260PVT-1X1P double shot",1,NULL
+        }
+    ); // EJ260PVT-1X1P
+
+    measurements.push_back(
+        {
+            false,
+            {0.22,0.98,0.31},
+            {3.40791,7.07664,4.73209},
+            {0.22*0.1,0.98*0.1,0.31*0.1},
+            {0.36172,0.72510,0.53236},
+            {"GIF++","Gamma(GSFC REF)","Gamma(GSFC REF)"},
+            {"20181026","20181206","20181130"},
+            {"N8","N4","N5","N3"},
+            1,34,1.2,"EJ260PVT-1X2P single shot",1,NULL
+        }
+    ); // EJ260PVT-1X2P
+    measurements.push_back(
+        {
+            false,
+            {0.31},
+            {6.20954},
+            {0.31*0.1},
+            {0.70026},
+            {"Gamma(GSFC REF)"},
+            {"20181130"},
+            {"N3"},
+            2,33,1.2,"EJ260PVT-1X2P double shot",1,NULL
+        }
+    ); // EJ260PVT-1X2P
 
     measurements.push_back(
         {
             true,
-            {0.22*0.95,8.34*0.97,390*0.97,0.31*0.95},
-            {4.40622,12.07512,8.40505,6.39462},
-            {0.22*0.1,8.34*0.056,390*0.056,0.31*0.1},
-            {0.69878,0.55584,0.3948,0.85466},
-            4,22,1.2,"EJ200PS-2X1P",1,NULL
+            {0.22},
+            {4.3876},
+            {0.22*0.1},
+            {0.48500},
+            {"GIF++"},
+            {"20181026"},
+            {"N8"},
+            1,23,1.2,"EJ260PVT-2X1P single shot",1,NULL
         }
-    );
-
+    ); // EJ260PVT-2X1P
     measurements.push_back(
         {
             true,
-            {0.22,0.31},
-            {4.3876,8.18087},
-            {0.22*0.1,0.31*0.1},
-            {0.69642,0.99314},
-            2,23,1.2,"EJ260PVT-2X1P",1,NULL
+            {0.31},
+            {8.18087},
+            {0.31*0.1},
+            {0.98633},
+            {"Gamma(GSFC REF)"},
+            {"20181130"},
+            {"N3"},
+            2,33,1.2,"EJ260PVT-2X1P double shot",1,NULL
         }
-    );
-
-    measurements.push_back(
-        {
-            true,
-            {0.22*1.05,8.34*1.03,390*1.03,0.31*1.05},
-            {3.53379,13.18657,17.29626,6.42334},
-            {0.22*0.1,8.34*0.056,390*0.056,0.31*0.1},
-            {0.61619,0.6076,0.79456,0.85839},
-            2,22,1.2,"EJ200PVT-2X1P",1,NULL
-        }
-    );
+    ); // EJ260PVT-2X1P
 
     // ======================================================================================================
     // End of results section
@@ -171,8 +476,8 @@ void dcost_vs_ddot(TString tagTime="default") {
     // Canvas
     TCanvas *canv = new TCanvas("canv","D versus doserate",200,10,800,600);
     canv->SetFillColor(0);
-    canv->SetLogy();
     canv->SetLogx();
+    //canv->SetLogx();
 
     // MultiGraph with all data points
     TMultiGraph *allgraphs = new TMultiGraph();
@@ -188,13 +493,13 @@ void dcost_vs_ddot(TString tagTime="default") {
 
     // NEED TO TUNE THESE:
     allgraphs->SetMinimum(2.0);
-    allgraphs->SetMaximum(20.0);
+    allgraphs->SetMaximum(16.0);
     double xmin = 5.e-2;
     double xmax = 2.e3;
     allgraphs->GetXaxis()->SetLimits(xmin,xmax);
 
     // Prepare the legend
-    TLegend *legendA = new TLegend(0.57,0.22,0.89,0.42);
+    TLegend *legendA = new TLegend(0.59,0.12,0.89,0.32);
     legendA->SetBorderSize(0);
     legendA->SetFillColor(0);
     for (vector<measurement>::iterator i = measurements.begin();i!=measurements.end();++i)
@@ -202,13 +507,13 @@ void dcost_vs_ddot(TString tagTime="default") {
     legendA->AddEntry(i->graph,i->legendLabel.c_str(),"p");
     legendA->Draw();
 
-    TLegend *legendB = new TLegend(0.20,0.7,0.63,0.92);
+    TLegend *legendB = new TLegend(0.32,0.12,0.62,0.32);
     legendB->SetBorderSize(0);
     legendB->SetFillColor(0);
     for (vector<measurement>::iterator i = measurements.begin();i!=measurements.end();++i)
     if (i->include && i->legendId==2)
     legendB->AddEntry(i->graph,i->legendLabel.c_str(),"p");
-    //legendB->Draw();
+    legendB->Draw();
 
     // use TPad to get border and fill color, TLatex does not have them
     // TLatex *material = new TLatex(0.8,0.94);
@@ -219,12 +524,8 @@ void dcost_vs_ddot(TString tagTime="default") {
 
     canv->Update();
 
-    TString filename = TString("doserate_");
+    TString filename = TString("EJ260PVT-2X1P");
     filename+=tagTime;
 
-    //canv->SaveAs(filename+".png");
-    canv->SaveAs(filename+".eps");
-    //canv->SaveAs(filename+".root");
-    //canv->SaveAs(filename+".C");
-
+    canv->SaveAs("paperPlots/ver4/"+filename+".pdf");
 }
