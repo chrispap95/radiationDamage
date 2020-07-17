@@ -38,9 +38,11 @@ void csv2root() {
   gr2->SetLineColor(kGreen);
   gr2->SetLineStyle(4);
   gr2->SetLineWidth(5);
-  gr->SetTitle(";Wavelength (nm);Amplitude");
+  gr->SetTitle(";Wavelength (nm);arbitrary units");
+  gr->GetXaxis()->SetLimits(280,620);
   gr->SetMaximum(1.1);
   gr->SetMinimum(0.0);
+
   gr->Draw("AC");
 
   TLegend* lg = new TLegend(0.65,0.65,0.89,0.85);
@@ -48,6 +50,18 @@ void csv2root() {
   lg->AddEntry(gr2,"EJ-260","l");
   lg->SetBorderSize(0);
   lg->Draw();
+
+  TArrow* ar1 = new TArrow(330,0.0,330,0.2,0.02,"<|");
+  ar1->SetLineWidth(2);
+  ar1->SetLineColor(kBlue);
+  ar1->SetFillColor(kBlue);
+  ar1->Draw();
+
+  TArrow* ar2 = new TArrow(372,0.0,372,0.2,0.02,"<|");
+  ar2->SetLineWidth(2);
+  ar2->SetLineColor(kGreen);
+  ar2->SetFillColor(kGreen);
+  ar2->Draw();
 
   return;
 }

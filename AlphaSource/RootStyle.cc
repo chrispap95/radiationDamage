@@ -9,7 +9,7 @@
 
 #include <TROOT.h>
 #include <TStyle.h>
- 
+
 
 //______________________________________________________________________________
 void set_root_style()
@@ -30,7 +30,7 @@ void set_root_style()
   gStyle->SetPadBorderSize  (10);
   gStyle->SetPadBorderMode  (0);
   gStyle->SetPadBottomMargin(0.15);
-  gStyle->SetPadTopMargin   (0.05);
+  gStyle->SetPadTopMargin   (0.07);
   gStyle->SetPadLeftMargin  (0.15);
   gStyle->SetPadRightMargin (0.07);
   gStyle->SetPadGridX       (0);
