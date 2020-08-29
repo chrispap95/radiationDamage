@@ -62,7 +62,7 @@ python compareSimpleAlpha_fitRoutine.py -i root/AlphaSource/<Filename>.root
 ```
 This is going to output the fit results on the command line and also create a PDF file with a plot under ```Results/<Date of Execution>/<Filename>.pdf```.
 
-In order to create .root files for your measurements, just place the .txt files under ```alphaSource/root/AlphaSource``` and then run the txt2root.sh script from the alphaSource directory:
+In order to create .root files for your measurements, just place the .txt files under ```AlphaSource/Data/AlphaSource``` and then run the txt2root.sh script from the alphaSource directory:
 ```bash
 sh txt2root.sh <date>
 ```
