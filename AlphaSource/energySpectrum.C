@@ -11,6 +11,7 @@ void energySpectrum(bool logY = 1) {
   Int_t nb = 9;
   TColor::CreateGradientColorTable(Number,Length,Red,Green,Blue,nb);
 
+  /*
   TFile* fDark = TFile::Open("root/AlphaSource.nosync/DarkCurrent_HV1700_AutoTrigger_50.5mV_amp101mVpDiv_20161203.root");
   TFile* fPre = TFile::Open("root/AlphaSource.nosync/Pu239new_EJ200PVT-1X1P_N1_Default_Nofoil_FaceA_FastFrame_20161011.root");
   TFile* f0 = TFile::Open("root/AlphaSource.nosync/Pu239new_EJ200PVT-1X1P_N5_Default_Nofoil_FaceA_FastFrame_20161109.root");
@@ -20,77 +21,88 @@ void energySpectrum(bool logY = 1) {
   TFile* f21 = TFile::Open("root/AlphaSource.nosync/Pu239new_EJ200PVT-1X1P_N5_Default_Nofoil_FaceA_FastFrame_20161130.root");
   TFile* f28 = TFile::Open("root/AlphaSource.nosync/Pu239new_EJ200PVT-1X1P_N5_Default_Nofoil_FaceA_FastFrame_20161207.root");
   TFile* f99 = TFile::Open("root/AlphaSource.nosync/Pu239new_EJ200PVT-1X1P_N5_Default_Nofoil_FaceA_FastFrame_20170216.root");
+  */
+
+  TFile* fDark = TFile::Open("root/AlphaSource.nosync/DarkCurrent_HV1700_AutoTrigger_50.5mV_amp101mVpDiv_20161203.root");
+  TFile* fPre = TFile::Open("root/AlphaSource.nosync/Pu239new_EJ200PS-T1_3_Default_Nofoil_FaceA_FastFrame_20170109.root");
+  TFile* f0 = TFile::Open("root/AlphaSource.nosync/Pu239new_EJ200PS-T1_3_Default_Nofoil_FaceA_FastFrame_20170413.root");
+  //TFile* f1 = TFile::Open("root/AlphaSource.nosync/Pu239new_EJ200PS-T1_3_Default_Nofoil_FaceA_FastFrame_201.root");
+  //TFile* f8 = TFile::Open("root/AlphaSource.nosync/Pu239new_EJ200PS-T1_3_Default_Nofoil_FaceA_FastFrame_201.root");
+  TFile* f14 = TFile::Open("root/AlphaSource.nosync/Pu239new_EJ200PS-T1_3_Default_Nofoil_FaceA_FastFrame_20170427.root");
+  //TFile* f21 = TFile::Open("root/AlphaSource.nosync/Pu239new_EJ200PS-T1_3_Default_Nofoil_FaceA_FastFrame_201.root");
+  TFile* f28 = TFile::Open("root/AlphaSource.nosync/Pu239new_EJ200PS-T1_3_Default_Nofoil_FaceA_FastFrame_20170511.root");
+  TFile* f99 = TFile::Open("root/AlphaSource.nosync/Pu239new_EJ200PS-T1_3_Default_Nofoil_FaceA_FastFrame_20170608.root");
 
   TTree* tDark = (TTree*)fDark->Get("tree");
   TTree* tPre = (TTree*)fPre->Get("tree");
   TTree* t0 = (TTree*)f0->Get("tree");
-  TTree* t1 = (TTree*)f1->Get("tree");
-  TTree* t8 = (TTree*)f8->Get("tree");
+  //TTree* t1 = (TTree*)f1->Get("tree");
+  //TTree* t8 = (TTree*)f8->Get("tree");
   TTree* t14 = (TTree*)f14->Get("tree");
-  TTree* t21 = (TTree*)f21->Get("tree");
+  //TTree* t21 = (TTree*)f21->Get("tree");
   TTree* t28 = (TTree*)f28->Get("tree");
   TTree* t99 = (TTree*)f99->Get("tree");
 
   TH1F* hDark = new TH1F("hDark","hDark",256,-1,8);
   TH1F* hPre = new TH1F("hPre","hPre",256,-1,8);
   TH1F* h0 = new TH1F("h0","h0",256,-1,8);
-  TH1F* h1 = new TH1F("h1","h1",256,-1,8);
-  TH1F* h8 = new TH1F("h8","h8",256,-1,8);
+  //TH1F* h1 = new TH1F("h1","h1",256,-1,8);
+  //TH1F* h8 = new TH1F("h8","h8",256,-1,8);
   TH1F* h14 = new TH1F("h14","h14",256,-1,8);
-  TH1F* h21 = new TH1F("h21","h21",256,-1,8);
+  //TH1F* h21 = new TH1F("h21","h21",256,-1,8);
   TH1F* h28 = new TH1F("h28","h28",256,-1,8);
   TH1F* h99 = new TH1F("h99","h99",256,-1,8);
 
   tDark->Draw("area*1.e9>>hDark","","");
   tPre->Draw("area*1.e9>>hPre","","");
   t0->Draw("area*1.e9>>h0","","");
-  t1->Draw("area*1.e9>>h1","","");
-  t8->Draw("area*1.e9>>h8","","");
+  //t1->Draw("area*1.e9>>h1","","");
+  //t8->Draw("area*1.e9>>h8","","");
   t14->Draw("area*1.e9>>h14","","");
-  t21->Draw("area*1.e9>>h21","","");
+  //t21->Draw("area*1.e9>>h21","","");
   t28->Draw("area*1.e9>>h28","","");
   t99->Draw("area*1.e9>>h99","","");
 
   if (logY) hDark->Scale(hPre->Integral()/hDark->Integral());
   else {
     hDark->Scale(2.8/hDark->Integral());
-    hPre->Scale(18./hPre->Integral());
-    h0->Scale(18./h0->Integral());
-    h1->Scale(18./h1->Integral());
-    h8->Scale(18./h8->Integral());
-    h14->Scale(18./h14->Integral());
-    h21->Scale(18./h21->Integral());
-    h28->Scale(18./h28->Integral());
-    h99->Scale(18./h99->Integral());
+    hPre->Scale(20./hPre->Integral());
+    h0->Scale(8./h0->Integral());
+    //h1->Scale(18./h1->Integral());
+    //h8->Scale(18./h8->Integral());
+    h14->Scale(12./h14->Integral());
+    //h21->Scale(18./h21->Integral());
+    h28->Scale(12./h28->Integral());
+    h99->Scale(12./h99->Integral());
   }
 
   cout << "hDark area: " << hDark->Integral() << "\n";
   cout << "hPre area: " << hPre->Integral() << "\n";
   cout << "h0 area: " << h0->Integral() << "\n";
-  cout << "h1 area: " << h1->Integral() << "\n";
-  cout << "h8 area: " << h8->Integral() << "\n";
+  //cout << "h1 area: " << h1->Integral() << "\n";
+  //cout << "h8 area: " << h8->Integral() << "\n";
   cout << "h14 area: " << h14->Integral() << "\n";
-  cout << "h21 area: " << h21->Integral() << "\n";
+  //cout << "h21 area: " << h21->Integral() << "\n";
   cout << "h28 area: " << h28->Integral() << "\n";
   cout << "h99 area: " << h99->Integral() << "\n";
 
   hPre->SetLineStyle(1);
   hDark->SetLineStyle(2);
   h0->SetLineStyle(3);
-  h1->SetLineStyle(4);
-  h8->SetLineStyle(5);
+  //h1->SetLineStyle(4);
+  //h8->SetLineStyle(5);
   h14->SetLineStyle(6);
-  h21->SetLineStyle(7);
+  //h21->SetLineStyle(7);
   h28->SetLineStyle(8);
   h99->SetLineStyle(9);
 
   hDark->SetLineWidth(2);
   hPre->SetLineWidth(2);
   h0->SetLineWidth(2);
-  h1->SetLineWidth(2);
-  h8->SetLineWidth(2);
+  //h1->SetLineWidth(2);
+  //h8->SetLineWidth(2);
   h14->SetLineWidth(2);
-  h21->SetLineWidth(2);
+  //h21->SetLineWidth(2);
   h28->SetLineWidth(2);
   h99->SetLineWidth(2);
 
@@ -108,8 +120,8 @@ void energySpectrum(bool logY = 1) {
   hs->Add(hDark);
   hs1->Add(h0);
   //hs1->Add(h1);
-  hs1->Add(h8);
-  //hs1->Add(h14);
+  //hs1->Add(h8);
+  hs1->Add(h14);
   // hs1->Add(h21);
   hs1->Add(h28);
   hs1->Add(h99);
@@ -133,10 +145,10 @@ void energySpectrum(bool logY = 1) {
   lg2->SetBorderSize(0);
   lg2->AddEntry(h0,"0 days after irr.","l");
   //lg2->AddEntry(h1,"1 day after irr.","l");
-  lg2->AddEntry(h8,"8 days after irr.","l");
-  //lg2->AddEntry(h14,"14 days after irr.","l");
+  //lg2->AddEntry(h8,"8 days after irr.","l");
+  lg2->AddEntry(h14,"14 days after irr.","l");
   //lg2->AddEntry(h21,"21 days after irr.","l");
   lg2->AddEntry(h28,"28 days after irr.","l");
-  lg2->AddEntry(h99,"99 days after irr.","l");
+  lg2->AddEntry(h99,"56 days after irr.","l");
   lg2->Draw();
 }

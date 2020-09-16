@@ -33,11 +33,11 @@ void csv2root() {
   gr->Add(gr1);
   gr->Add(gr2);
   gr1->SetLineColor(kBlue);
-  gr1->SetLineStyle(2);
-  gr1->SetLineWidth(5);
+  gr1->SetLineStyle(1);
+  gr1->SetLineWidth(3);
   gr2->SetLineColor(kGreen);
-  gr2->SetLineStyle(4);
-  gr2->SetLineWidth(5);
+  gr2->SetLineStyle(2);
+  gr2->SetLineWidth(3);
   gr->SetTitle(";Wavelength (nm);arbitrary units");
   gr->GetXaxis()->SetLimits(280,620);
   gr->SetMaximum(1.1);
@@ -52,13 +52,15 @@ void csv2root() {
   lg->Draw();
 
   TArrow* ar1 = new TArrow(330,0.0,330,0.2,0.02,"<|");
-  ar1->SetLineWidth(2);
+  ar1->SetLineWidth(3);
+  ar1->SetLineStyle(1);
   ar1->SetLineColor(kBlue);
   ar1->SetFillColor(kBlue);
   ar1->Draw();
 
   TArrow* ar2 = new TArrow(372,0.0,372,0.2,0.02,"<|");
-  ar2->SetLineWidth(2);
+  ar2->SetLineWidth(3);
+  ar2->SetLineStyle(2);
   ar2->SetLineColor(kGreen);
   ar2->SetFillColor(kGreen);
   ar2->Draw();
