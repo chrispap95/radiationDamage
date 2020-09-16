@@ -6,6 +6,7 @@
 #include <TString.h>
 #include <iostream>
 #include <vector>
+#include "RootStyle.cc"
 
 using namespace std;
 
@@ -15,6 +16,9 @@ struct measurement {
     vector<float> y;
     vector<float> ex;
     vector<float> ey;
+    vector<TString> irrEndDate;
+    vector<TString> irrFacility;
+    vector<TString> ronNumber;
     short markerColor; // line color and marker fill color (if it applies) will use the same value
     short markerStyle;
     float markerSize;
@@ -23,20 +27,9 @@ struct measurement {
     TGraphErrors* graph; // this pointer gets filled in drawing section; it is initially null
 };
 
-void dcost_vs_ddot(TString tagTime="default") {
-
-
-    // // Preambles
-    // gROOT->SetStyle("UMD");
-
-    // // overwrite style para
-    // gStyle->SetEndErrorSize(2.5);
-    // gStyle->SetPadTickX(0);
-    // gStyle->SetPadRightMargin(0.02);
-    // gStyle->SetPadLeftMargin(0.12);
-    // gStyle->SetTitleYOffset(1.2);
-
-    cout << "File date tag = " << tagTime << endl;
+void dcost_vs_ddot(TString tagTime="") {
+    set_root_style();
+    Bool_t useGray = true;
 
     // ======================================================================================================
     // Begin of results section
@@ -51,79 +44,212 @@ void dcost_vs_ddot(TString tagTime="default") {
     measurements.push_back(
         {
             false,
-            {0.22*0.92,0.31*0.92,0.31*0.92,0.98*0.92,8.53*0.92,74.4*0.92,390*0.92},
-            {3.31789,5.74305,4.87321,6.78443,12.31375,13.46707,15.89024},
-            {0.22*0.1,0.31*0.1,0.31*0.1,0.98*0.1,8.53*0.008,74.4*0.008,390*0.008},
-            {0.59431,0.80162,0.74794,0.83448,0.57133,0.62179,0.73247},
-            2,33,1.2,"EJ200PVT-1X1P",1,NULL
+            {0.3,293},
+            {3.56098,12.19651},
+            {0.3*0.1,293*0.008},
+            {0.37297,0.40345},
+            {"Gamma(GSFC REF)","Co-60 (NIST)"},
+            {"20191204","20190222"},
+            {"1","2"},
+            41,43,1.4,"EJ200AO-0",1,NULL
         }
-    );
+    ); // EJ200A0-0-1X1P
 
     measurements.push_back(
         {
             false,
-            {0.22*1.0,0.31*1.0,0.31*1.0,0.98*1.0,8.53*1.0,390*1.0},
-            {3.67532,7.02963,5.71187,7.36742,12.77335,15.34901},
-            {0.22*0.1,0.31*0.1,0.31*0.1,0.98*0.1,8.53*0.008,390*0.008},
-            {0.62754,0.9026,0.82169,0.8698,0.57146,0.6859},
-            2,34,1.2,"EJ260PVT-1X1P",1,NULL
+            {0.3,293},
+            {4.88767,12.88419},
+            {0.3*0.1,293*0.008},
+            {0.53116,0.44629},
+            {"Gamma(GSFC REF)","Co-60 (NIST)"},
+            {"20191204","20190222"},
+            {"1","2"},
+            30,45,1.4,"EJ200AO-1",1,NULL
         }
-    );
+    ); // EJ200A0-1-1X1P
 
     measurements.push_back(
         {
             false,
-            {0.22*0.96,8.53*0.96,74.4*0.96,390*0.96,0.31*0.96,0.98*0.96,0.31*0.96},
-            {4.40333,12.88039,11.11065,10.61664,7.3069,7.88074,5.56525},
-            {0.22*0.1,8.53*0.008,74.4*0.008,390*0.008,0.31*0.1,0.98*0.1,0.31*0.1},
-            {0.69842,0.59055,0.50843,0.4885,0.92941,0.90251,0.81116},
-            4,33,1.2,"EJ200PS-1X1P",1,NULL
+            {0.3,293},
+            {4.65356,12.7266},
+            {0.3*0.1,293*0.008},
+            {0.50192,0.43516},
+            {"Gamma(GSFC REF)","Co-60 (NIST)"},
+            {"20191204","20190222"},
+            {"1","2"},
+            40,47,1.4,"EJ200AO-2",1,NULL
         }
-    );
+    ); // EJ200A0-2-1X1P
 
     measurements.push_back(
         {
             false,
-            {0.22*1.04,8.34*1.04,0.31*1.04,390*1.04,0.98*1.04,0.31*1.04},
-            {4.4927,15.12669,4.68655,13.10698,9.09121,6.43075},
-            {0.22*0.1,8.34*0.008,0.31*0.1,390*0.008,0.98*0.1,0.31*0.1},
-            {0.70351,0.66963,0.71287,0.57875,0.97303,0.88434},
-            4,34,1.2,"EJ260PS-1X1P",1,NULL
+            {0.22,8.53,74.4,390,0.98,0.31,8.06,364,338,0.31},
+            {4.40333,12.88039,11.11065,9.24823,7.88074,5.45017,10.19846,9.68870,8.80205,4.58283},
+            {0.22*0.1,8.53*0.008,74.4*0.008,390*0.008,0.98*0.1,0.31*0.1,8.06*0.008,364*0.008,338*0.008,0.31*0.1},
+            {0.48779,0.34875,0.25850,0.19064,0.81452,0.64176,0.22203,0.20022,0.16662,0.51391},
+            {"GIF++","Co-60 (NIST)","Co-60 (NIST)","Co-60 (NIST)","Gamma(GSFC REF)","Gamma(GSFC REF)","Co-60 (NIST)","Co-60 (NIST)","Co-60 (NIST)","Gamma(GSFC REF)"},
+            {"20181026","20161109","20161202","20161004","20181206","20181130","20170412","20170413","20171107","20181130"},
+            {"4","5","8","9","13","15","T1_2","T1_3","T1_4","T1_5"},
+            1,34,1.3,"EJ200PS-1X1P",1,NULL
         }
-    );
+    ); // EJ200PS-1X1P
+
+    measurements.push_back(
+        {
+            false,
+            {0.22,8.53,74.4,390,0.98,0.31},
+            {4.3199,12.91542,12.71296,12.58299,7.59314,5.60722},
+            {0.22*0.1,8.53*0.008,74.4*0.008,390*0.008,0.98*0.1,0.31*0.1},
+            {0.47595,0.39174,0.33572,0.33018,0.78269,0.66323},
+            {"GIF++","Co-60 (NIST)","Co-60 (NIST)","Co-60 (NIST)","Gamma(GSFC REF)","Gamma(GSFC REF)"},
+            {"20181026","20161109","20161202","20161004","20181206","20181130"},
+            {"2","5","8","9","13","15"},
+            2,33,1.2,"EJ200PS-1X2P",1,NULL
+        }
+    ); // EJ200PS-1X2P
+
+    measurements.push_back(
+        {
+            false,
+            {0.22,8.34,257,390},
+            {4.40622,12.07512,9.1705,8.40505},
+            {0.22*0.1,8.34*0.008,257*0.008,390*0.008},
+            {0.48829,0.30896,0.17603,0.15587},
+            {"GIF++","Co-60 (NIST)","Co-60 (NIST)","Co-60 (NIST)"},
+            {"20181026","20170111","20200214","20161005"},
+            {"2","5","8","9"},
+            3,22,1.2,"EJ200PS-2X1P",1,NULL
+        }
+    ); // EJ200PS-2X1P
+
+    measurements.push_back(
+        {
+            false,
+            {74.4,8.53,0.22,390,0.31,0.98,0.31,0.3,293},
+            {13.46707,12.31375,3.31789,15.89024,4.87321,6.78443,4.64466,4.88767,12.88419},
+            {74.4*0.008,8.53*0.008,0.22*0.1,390*0.008,0.31*0.1,0.98*0.1,0.31*0.1,0.3*0.1,293*0.008},
+            {0.3866,0.3264,0.3532,0.5365,0.5594,0.6964,0.5249,0.53116,0.44629},
+            {"Co-60 (NIST)","Co-60 (NIST)","GIF++","Co-60 (NIST)","Gamma(GSFC REF)","Gamma(GSFC REF)","Gamma(GSFC REF)","Gamma(GSFC REF)","Co-60 (NIST)"},
+            {"20161202","20161109","20181026","20161004","20181130","20181206","20181130","20191204","20190222"},
+            {"N4","N5","N8","N9","N15","N16","T1_5","AO-1","AO-2"},
+            4,33,1.3,"EJ200PVT-1X1P",1,NULL
+        }
+    ); // EJ200PVT-1X1P
+
+    measurements.push_back(
+        {
+            false,
+            {74.4,8.53,0.22,390,0.98,0.31},
+            {14.02444,13.11734,3.72787,17.20746,6.99842,5.16963},
+            {74.4*0.008,8.53*0.008,0.22*0.1,390*0.008,0.98*0.1,0.31*0.1},
+            {0.4589,0.3678,0.4025,0.6251,0.7190,0.6023},
+            {"Co-60 (NIST)","Co-60 (NIST)","GIF++","Co-60 (NIST)","Gamma(GSFC REF)","Gamma(GSFC REF)"},
+            {"20161202","20161109","20181026","20181004","20181206","20181130"},
+            {"N4","N5","N8","N9","N13","N15"},
+            8,22,1.2,"EJ200PVT-1X2P",1,NULL
+        }
+    ); // EJ200PVT-1X2P
+
+    measurements.push_back(
+        {
+            false,
+            {8.34,0.22,390},
+            {13.18657,3.53379,17.29626},
+            {8.34*0.056,0.22*0.1,390*0.056},
+            {0.3692,0.3797,0.6313},
+            {"Co-60 (NIST)","GIF++","Co-60 (NIST)"},
+            {"20181130","20170111","20161005"},
+            {"N5","N8","N9"},
+            46,23,1.2,"EJ200PVT-2X1P",1,NULL
+        }
+    ); // EJ200PVT-2X1P
+
+    measurements.push_back(
+        {
+            false,
+            {0.22,8.34,390,0.98,0.31},
+            {4.4927,15.12669,13.10698,9.09121,6.43075},
+            {0.22*0.1,8.34*0.008,390*0.008,0.98*0.1,0.31*0.1},
+            {0.49493,0.44840,0.33495,0.94679,0.78206},
+            {"GIF++","Co-60 (NIST)","Co-60 (NIST)","Gamma(GSFC REF)","Gamma(GSFC REF)"},
+            {"20181026","20170111","20161005","20181206","20181130"},
+            {"2","4","9","13","15"},
+            28,20,1.2,"EJ260PS-1X1P",1,NULL
+        }
+    ); // EJ260PS-1X1P
 
     measurements.push_back(
         {
             true,
-            {0.22*0.95,8.34*0.97,390*0.97,0.31*0.95},
-            {4.40622,12.07512,8.40505,6.39462},
-            {0.22*0.1,8.34*0.056,390*0.056,0.31*0.1},
-            {0.69878,0.55584,0.3948,0.85466},
-            4,22,1.2,"EJ200PS-2X1P",1,NULL
+            {0.22,0.31,0.98},
+            {4.49457,5.90285,8.49707},
+            {0.22*0.1,0.31*0.1,0.98*0.1},
+            {0.49303,0.69744,0.87823},
+            {"GIF++","Gamma(GSFC REF)","Gamma(GSFC REF)"},
+            {"20181026""20181206","20181130"},
+            {"2","13","15"},
+            2,34,1.2,"EJ260PS-1X2P",1,NULL
         }
-    );
+    ); // EJ260PS-1X2P
 
     measurements.push_back(
         {
-            true,
-            {0.22,0.31},
-            {4.3876,8.18087},
-            {0.22*0.1,0.31*0.1},
-            {0.69642,0.99314},
-            2,23,1.2,"EJ260PVT-2X1P",1,NULL
+            false,
+            {0.22},
+            {6.30911},
+            {0.22*0.1},
+            {0.75009},
+            {"GIF++"},
+            {"20181026"},
+            {"2"},
+            3,23,1.2,"EJ260PS-2X1P",1,NULL
         }
-    );
+    ); // EJ260PS-2X1P
 
     measurements.push_back(
         {
-            true,
-            {0.22*1.05,8.34*1.03,390*1.03,0.31*1.05},
-            {3.53379,13.18657,17.29626,6.42334},
-            {0.22*0.1,8.34*0.056,390*0.056,0.31*0.1},
-            {0.61619,0.6076,0.79456,0.85839},
-            2,22,1.2,"EJ200PVT-2X1P",1,NULL
+            false,
+            {8.34,0.22,390,0.98,0.31},
+            {12.77335,3.67532,15.34901,7.36742,5.71187},
+            {8.34*0.008,0.22*0.1,390*0.008,0.98*0.1,0.31*0.1},
+            {0.32657,0.39381,0.47046,0.75655,0.67517},
+            {"Co-60 (NIST)","GIF++","Co-60 (NIST)","Gamma(GSFC REF)","Gamma(GSFC REF)"},
+            {"20170111","20181026","20161005","20181206","20181130"},
+            {"N4","N8","N9","N13","N15"},
+            38,21,1.2,"EJ260PVT-1X1P",1,NULL
         }
-    );
+    ); // EJ260PVT-1X1P
+
+    measurements.push_back(
+        {
+            false,
+            {0.98,0.31,0.22},
+            {7.07664,4.73209,3.40791},
+            {0.98*0.1,0.31*0.1,0.22*0.1},
+            {0.72510,0.53236,0.36172},
+            {"Gamma(GSFC REF)","Gamma(GSFC REF)","GIF++"},
+            {"20181206","20181130","20181026"},
+            {"N4","N5","N8"},
+            2,34,1.2,"EJ260PVT-1X2P",1,NULL
+        }
+    ); // EJ260PVT-1X2P
+
+    measurements.push_back(
+        {
+            false,
+            {0.22},
+            {4.3876},
+            {0.22*0.1},
+            {0.48500},
+            {"GIF++"},
+            {"20181026"},
+            {"N8"},
+            3,23,1.2,"EJ260PVT-2X1P",1,NULL
+        }
+    ); // EJ260PVT-2X1P
 
     // ======================================================================================================
     // End of results section
@@ -146,7 +272,20 @@ void dcost_vs_ddot(TString tagTime="default") {
             continue;
         }
 
-        TGraphErrors *graph = new TGraphErrors(n,i->x.data(),i->y.data(),i->ex.data(),i->ey.data());
+        vector<float> x_temp = i->x;
+        vector<float> y_temp = i->y;
+        vector<float> ex_temp = i->ex;
+        vector<float> ey_temp = i->ey;
+        if (useGray) {
+          for(int i = 0; i<n; ++i) {
+            x_temp[i]*=0.01*1000; // krad/hr to Gy/hr
+            y_temp[i]*=0.01*1000*1000; // Mrad to Gy
+            ex_temp[i]*=0.01*1000; // krad/hr to Gy/hr
+            ey_temp[i]*=0.01*1000*1000; // Mrad to Gy
+          }
+        }
+
+        TGraphErrors *graph = new TGraphErrors(n,x_temp.data(),y_temp.data(),ex_temp.data(),ey_temp.data());
         graph->SetTitle();
         graph->GetXaxis()->SetTitle();
         graph->SetMarkerColor(i->markerColor);
@@ -171,8 +310,8 @@ void dcost_vs_ddot(TString tagTime="default") {
     // Canvas
     TCanvas *canv = new TCanvas("canv","D versus doserate",200,10,800,600);
     canv->SetFillColor(0);
-    canv->SetLogy();
     canv->SetLogx();
+    //canv->SetLogx();
 
     // MultiGraph with all data points
     TMultiGraph *allgraphs = new TMultiGraph();
@@ -181,28 +320,39 @@ void dcost_vs_ddot(TString tagTime="default") {
     allgraphs->Add(i->graph);
 
     allgraphs->Draw("AP");
-    allgraphs->GetXaxis()->SetTitle("Dose rate (krad/hr)");
+    allgraphs->GetXaxis()->SetTitle("Dose rate (krad/h)");
     allgraphs->GetYaxis()->SetTitle("Dose Constant (Mrad)");
+    if (useGray) {
+      allgraphs->GetXaxis()->SetTitle("Dose rate (Gy/h)");
+      allgraphs->GetYaxis()->SetTitle("Dose Constant (Gy)");
+    }
     allgraphs->GetYaxis()->SetTitleOffset(1.2);
     allgraphs->GetXaxis()->SetTitleOffset(1.3);
 
     // NEED TO TUNE THESE:
-    allgraphs->SetMinimum(2.0);
-    allgraphs->SetMaximum(20.0);
+    allgraphs->SetMinimum(0.0);
+    allgraphs->SetMaximum(16.0);
     double xmin = 5.e-2;
     double xmax = 2.e3;
+    if (useGray) {
+      allgraphs->SetMinimum(1.0*0.01*1000*1000);
+      allgraphs->SetMaximum(18.0*0.01*1000*1000);
+      xmin = 5.e-1;
+      xmax = 2.e4;
+    }
     allgraphs->GetXaxis()->SetLimits(xmin,xmax);
 
     // Prepare the legend
-    TLegend *legendA = new TLegend(0.57,0.22,0.89,0.42);
+    TLegend *legendA = new TLegend(0.4,0.2,0.75,0.32);
     legendA->SetBorderSize(0);
     legendA->SetFillColor(0);
+    legendA->SetTextSize(0.04);
     for (vector<measurement>::iterator i = measurements.begin();i!=measurements.end();++i)
     if (i->include && i->legendId==1)
     legendA->AddEntry(i->graph,i->legendLabel.c_str(),"p");
     legendA->Draw();
 
-    TLegend *legendB = new TLegend(0.20,0.7,0.63,0.92);
+    TLegend *legendB = new TLegend(0.32,0.12,0.62,0.32);
     legendB->SetBorderSize(0);
     legendB->SetFillColor(0);
     for (vector<measurement>::iterator i = measurements.begin();i!=measurements.end();++i)
@@ -219,12 +369,8 @@ void dcost_vs_ddot(TString tagTime="default") {
 
     canv->Update();
 
-    TString filename = TString("doserate_");
+    TString filename = TString("EJ260PS-1X2P");
     filename+=tagTime;
 
-    //canv->SaveAs(filename+".png");
-    canv->SaveAs(filename+".eps");
-    //canv->SaveAs(filename+".root");
-    //canv->SaveAs(filename+".C");
-
+    canv->SaveAs("paperPlots/ver8/"+filename+".pdf");
 }

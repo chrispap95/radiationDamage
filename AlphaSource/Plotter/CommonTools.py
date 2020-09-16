@@ -995,32 +995,55 @@ class AlphaSourceFitter:
 ####################################################################################################
 # Calculate dose constant and uncertainty
 ####################################################################################################
-def CalcD(dose,v_f,v_i,voffset_i,voffset_f,gain,type="alpha"):
-    # v_i : initial light yield non-irr.
+def CalcD(dose,v_f,v_i,vOff_i,vOff_f,vRef_i,vRef_f,type="alpha"):
+    # v_i : initial light yield before irr.
     # v_f : final light yield after irr.
-    # voffset_i : dark current for initial measurement
-    # voffset_f : dark current for final measurement
+    # vOff_i : dark current for initial measurement
+    # vOff_f : dark current for final measurement
+    # vRef_i : reference rod LY at before irr. date
+    # verf_f : reference rod LY at after irr. date
     # gain : standard rod light yield ratio (final/initial)
     # all uncertaintiey treated as independent variables
-    R = (v_f[0]-voffset_f[0])/((v_i[0]-voffset_i[0])*gain[0])
-    sigmaR = R*sqrt(pow(v_f[1]/(v_f[0]-voffset_f[0]),2)+pow(v_i[1]/(v_i[0]-voffset_i[0]),2)+pow(voffset_i[1]*(v_f[0]-v_i[0])/((v_i[0]-voffset_i[0])*(v_f[0]-voffset_f[0])),2)+pow(gain[1]/gain[0],2))
+    R = (v_f[0]-vOff_f[0])*(vRef_i[0]-vOff_i[0])/((v_i[0]-vOff_i[0])*(vRef_f[0]-vOff_f[0]))
+    gain = (vRef_f[0]-vOff_f[0])/(vRef_i[0]-vOff_i[0])
+
+    partialR_v_f = (vRef_i[0]-vOff_i[0])/((v_i[0]-vOff_i[0])*(vRef_f[0]-vOff_f[0]))
+    partialR_v_i = (v_f[0]-vOff_f[0])*(vRef_i[0]-vOff_i[0])/(pow(v_i[0]-vOff_i[0],2)*(vRef_f[0]-vOff_f[0]))
+    partialR_vRef_i = (v_f[0]-vOff_f[0])/((v_i[0]-vOff_i[0])*(vRef_f[0]-vOff_f[0]))
+    partialR_vRef_f = (v_f[0]-vOff_f[0])*(vRef_i[0]-vOff_i[0])/((v_i[0]-vOff_i[0])*pow(vRef_f[0]-vOff_f[0],2))
+    partialR_vOff_i = (v_f[0]-vOff_f[0])*(vRef_i[0]-v_i[0])/((vRef_f[0]-vOff_f[0])*pow(v_i[0]-vOff_i[0],2))
+    partialR_vOff_f = (v_f[0]-vRef_f[0])*(vRef_i[0]-vOff_i[0])/((v_i[0]-vOff_i[0])*pow(vRef_f[0]-vOff_f[0],2))
+
+    sigmaR = sqrt( pow(partialR_v_f*v_f[1],2)       + pow(partialR_v_i*v_i[1],2)       +
+                   pow(partialR_vRef_f*vRef_f[1],2) + pow(partialR_vRef_i*vRef_i[1],2) +
+                   pow(partialR_vOff_f*vOff_f[1],2) + pow(partialR_vOff_i*vOff_i[1],2) )
+
+    print "\n\n"
+    print "%-30s = %8.5f"%("[CalcD] partialR_v_f",partialR_v_f)
+    print "%-30s = %8.5f"%("[CalcD] partialR_v_i",partialR_v_i)
+    print "%-30s = %8.5f"%("[CalcD] partialR_vRef_f",partialR_vRef_f)
+    print "%-30s = %8.5f"%("[CalcD] partialR_vRef_i",partialR_vRef_i)
+    print "%-30s = %8.5f"%("[CalcD] partialR_vOff_f",partialR_vOff_f)
+    print "%-30s = %8.5f"%("[CalcD] partialR_vOff_i",partialR_vOff_i)
+    print "\n\n"
+
     D = -1.*dose[0]/math.log(R)
-    sigmaD = abs(D)*sqrt(pow(dose[1]/dose[0],2)+pow(D*sigmaR/(dose[0]*R),2))
+    sigmaD = sqrt(pow(dose[1]/math.log(R),2)+pow(dose[0]*sigmaR/(pow(math.log(R),2)*R),2))
     ## sigma measurement
-    #sigma0 = pow(D,4)*pow(v_f[1]/dose[0],2)*pow(v_f[0]-voffset_f[0],-2)
-    #sigma1 = pow(D,4)*pow(v_i[1]/dose[0],2)*pow(v_i[0]-voffset_i[0],-2)
+    #sigma0 = pow(D,4)*pow(v_f[1]/dose[0],2)*pow(v_f[0]-vOff_f[0],-2)
+    #sigma1 = pow(D,4)*pow(v_i[1]/dose[0],2)*pow(v_i[0]-vOff_i[0],-2)
     ## sigma offset
-    #sigma2 = pow(D,4)*pow(voffset_i[1]/dose[0],2)*pow(v_i[0]-v_f[0],2)*pow((v_i[0]-voffset_i[0])*(v_f[0]-voffset_f[0]),-2)
+    #sigma2 = pow(D,4)*pow(vOff_i[1]/dose[0],2)*pow(v_i[0]-v_f[0],2)*pow((v_i[0]-vOff_i[0])*(v_f[0]-vOff_f[0]),-2)
     ## sigma dose
     #sigma3 = pow(D*dose[1]/dose[0],2)
     print "%-30s = %8.5f"%("[CalcD] v_f",v_f[0])
     print "%-30s = %8.5f"%("[CalcD] v_f sigma",v_f[1])
     print "%-30s = %8.5f"%("[CalcD] v_i",v_i[0])
     print "%-30s = %8.5f"%("[CalcD] v_i sigma",v_i[1])
-    print "%-30s = %8.5f"%("[CalcD] v_offset",voffset_i[0])
-    print "%-30s = %8.5f"%("[CalcD] v_offset sigma",voffset_i[1])
-    print "%-30s = %8.5f"%("[CalcD] gain",gain[0])
-    print "%-30s = %8.5f"%("[CalcD] gain sigma",gain[1])
+    print "%-30s = %8.5f"%("[CalcD] vOff",vOff_i[0])
+    print "%-30s = %8.5f"%("[CalcD] vOff sigma",vOff_i[1])
+    print "%-30s = %8.5f"%("[CalcD] gain",gain)
+    #print "%-30s = %8.5f"%("[CalcD] gain sigma",gain[1])
     print "%-30s = %8.5f"%("[CalcD] Light yield ratio",R)
     print "%-30s = %8.5f"%("[CalcD] R sigma",sigmaR)
     print "%-30s = %8.5f"%("[CalcD] Dose constant [Mrad]",D)
@@ -1030,28 +1053,28 @@ def CalcD(dose,v_f,v_i,voffset_i,voffset_f,gain,type="alpha"):
     print "%-30s = %8.5f"%("[CalcD] D sigma",sigmaD)
     if type=="alpha":
         # SPE: 0.01497
-        NPE = CalcNPE(v_f[0],voffset_f[0])
+        NPE = CalcNPE(v_f[0],vOff_f[0])
     elif type=="Na22":
         # SPE: 0.908949
-        NPE = CalcNPENa22(v_f[0],voffset_f[0])
+        NPE = CalcNPENa22(v_f[0],vOff_f[0])
     else:
-        NPE = CalcNPEMIP(v_f[0],voffset_f[0])
+        NPE = CalcNPEMIP(v_f[0],vOff_f[0])
 
     return D,sigmaD,R,sigmaR,NPE
 
-##def CalcD(dose,v_f,v_i,voffset,type="alpha"):
+##def CalcD(dose,v_f,v_i,vOff,type="alpha"):
 ##    # v_i : initial light yield non-irr.
 ##    # v_f : final light yield after irr.
 ##    # all uncertaintiey treated as independent variables
-##    R = (v_f[0]-voffset[0])/(v_i[0]-voffset[0])
-##    sigmaR = R*sqrt(pow(v_f[1]/(v_f[0]-voffset[0]),2)+pow(v_i[1]/(v_i[0]-voffset[0]),2))
-##    #D = dose[0]/(math.log(v_i[0]-voffset[0])-math.log(v_f[0]-voffset[0]))
+##    R = (v_f[0]-vOff[0])/(v_i[0]-vOff[0])
+##    sigmaR = R*sqrt(pow(v_f[1]/(v_f[0]-vOff[0]),2)+pow(v_i[1]/(v_i[0]-vOff[0]),2))
+##    #D = dose[0]/(math.log(v_i[0]-vOff[0])-math.log(v_f[0]-vOff[0]))
 ##    D = -1.*dose[0]/math.log(R)
 ##    ## sigma measurement
-##    sigma0 = pow(D,4)*pow(v_f[1]/dose[0],2)*pow(v_f[0]-voffset[0],-2)
-##    sigma1 = pow(D,4)*pow(v_i[1]/dose[0],2)*pow(v_i[0]-voffset[0],-2)
+##    sigma0 = pow(D,4)*pow(v_f[1]/dose[0],2)*pow(v_f[0]-vOff[0],-2)
+##    sigma1 = pow(D,4)*pow(v_i[1]/dose[0],2)*pow(v_i[0]-vOff[0],-2)
 ##    ## sigma offset
-##    sigma2 = pow(D,4)*pow(voffset[1]/dose[0],2)*pow(v_i[0]-v_f[0],2)*pow((v_i[0]-voffset[0])*(v_f[0]-voffset[0]),-2)
+##    sigma2 = pow(D,4)*pow(vOff[1]/dose[0],2)*pow(v_i[0]-v_f[0],2)*pow((v_i[0]-vOff[0])*(v_f[0]-vOff[0]),-2)
 ##    ## sigma dose
 ##    sigma3 = pow(D*dose[1],2)
 ##    print "%-30s = %8.5f"%("[CalcD] Light yield ratio",R)
@@ -1060,12 +1083,12 @@ def CalcD(dose,v_f,v_i,voffset_i,voffset_f,gain,type="alpha"):
 ##    print "%-30s = [%5.2f, %5.2f, %5.2f]"%("[CalcD] Uncertainties (%)",sqrt(sigma0+sigma1)/D*100.,sqrt(sigma2)/D*100.,sqrt(sigma3)/D*100.)
 ##    if type=="alpha":
 ##        # SPE: 0.01497
-##        NPE = CalcNPE(v_f[0],voffset[0])
+##        NPE = CalcNPE(v_f[0],vOff[0])
 ##    elif type=="Na22":
 ##        # SPE: 0.908949
-##        NPE = CalcNPENa22(v_f[0],voffset[0])
+##        NPE = CalcNPENa22(v_f[0],vOff[0])
 ##    else:
-##        NPE = CalcNPEMIP(v_f[0],voffset[0])
+##        NPE = CalcNPEMIP(v_f[0],vOff[0])
 
 ##    return D,sqrt(sigma0+sigma1+sigma2+sigma3),R,sigmaR,NPE
 
@@ -1073,24 +1096,24 @@ def CalcD(dose,v_f,v_i,voffset_i,voffset_f,gain,type="alpha"):
 ####################################################################################################
 # Calculate Npe/MeV (Pu-239 source; HPK R6091 1700V)
 ####################################################################################################
-def CalcNPE(E,voffset,vSPE=0.01497,ePar=5.2): #5.2MeV
-    NPE = float((E-voffset)/vSPE/ePar)
+def CalcNPE(E,vOff,vSPE=0.01497,ePar=5.2): #5.2MeV
+    NPE = float((E-vOff)/vSPE/ePar)
     return NPE
 
 
 ####################################################################################################
 # Calculate Npe/MeV (Na-22 source; CAEN-10C 71V)
 ####################################################################################################
-def CalcNPENa22(E,voffset,vSPE=0.908949,ePar=1.27): # 1.27MeV
-    NPE = float((E-voffset)/vSPE/ePar)
+def CalcNPENa22(E,vOff,vSPE=0.908949,ePar=1.27): # 1.27MeV
+    NPE = float((E-vOff)/vSPE/ePar)
     return NPE
 
 
 ####################################################################################################
 # Calculate Npe/MeV (Cosmic): FIXME
 ####################################################################################################
-def CalcNPEMIP(E,voffset,vSPE=1.0,ePar=1.0): # 1 MeV
-    NPE = float((E-voffset)/vSPE/ePar)
+def CalcNPEMIP(E,vOff,vSPE=1.0,ePar=1.0): # 1 MeV
+    NPE = float((E-vOff)/vSPE/ePar)
     return NPE
 
 ####################################################################################################
@@ -1364,7 +1387,7 @@ def DrawDvsTHist(myfiles_, plotSets_, outDir_, sampleSet_, fTag_, doselabel_, hx
     ## offset
     ###############################
     ## Set fit output for peak as the offset value
-    vOffset = [vEng_[DCName],sFit_[DCName]]
+    vOff = [vEng_[DCName],sFit_[DCName]]
 
     ###############################
     ## Main files section        ##
@@ -1513,8 +1536,8 @@ def DrawDvsTHist(myfiles_, plotSets_, outDir_, sampleSet_, fTag_, doselabel_, hx
             vInput_[sigName]  = [vEng_[sigName], uncEng_[sigName]*vEng_[sigName]]
 
         ## print uncertainties
-        print "Offset = %-8.5f"%(vOffset[0])
-        print "Uncertainty of [%30s] = %6.3f %%"%("Offset",math.fabs(vOffset[1]/vOffset[0]*100.))
+        print "Offset = %-8.5f"%(vOff[0])
+        print "Uncertainty of [%30s] = %6.3f %%"%("Offset",math.fabs(vOff[1]/vOff[0]*100.))
         for n,v in sorted(uncEng_.items()):
             print "Uncertainty of [%30s] = %6.3f %%"%(n,v*100.)
 
@@ -1527,7 +1550,7 @@ def DrawDvsTHist(myfiles_, plotSets_, outDir_, sampleSet_, fTag_, doselabel_, hx
             sigName = fNames_[tmpName]
             if sigName.find("UnIrr") == -1:
                 print "Calculating Dose Constant for :", sigName
-                vDconst_[sigName] = CalcD(vDose_[dosescheme_],vInput_[sigName],vInput_[fNames_["%s_0"%(nf)]],vOffset)
+                vDconst_[sigName] = CalcD(vDose_[dosescheme_],vInput_[sigName],vInput_[fNames_["%s_0"%(nf)]],vOff)
 
         ###############################
         ## Draw uncertainty band
@@ -1590,7 +1613,7 @@ def DrawDvsTHist(myfiles_, plotSets_, outDir_, sampleSet_, fTag_, doselabel_, hx
 
         del hDC50pp
 
-        PrintResults(vDconst_, vInput_, vOffset, sampleSet_, header_, doselabel_, refPlot_, irrPlots_, fTag_, options_)
+        PrintResults(vDconst_, vInput_, vOff, sampleSet_, header_, doselabel_, refPlot_, irrPlots_, fTag_, options_)
         print "\n\n"
         print "="*150
         print "="*150
@@ -1600,7 +1623,7 @@ def DrawDvsTHist(myfiles_, plotSets_, outDir_, sampleSet_, fTag_, doselabel_, hx
 ###############################
 ## print results on screen
 ###############################
-def PrintResults(vDconst, vInput, vOffset, sampleset, header, doselabel, refPlot, IrrPlots, fTag, poptions):
+def PrintResults(vDconst, vInput, vOff, sampleset, header, doselabel, refPlot, IrrPlots, fTag, poptions):
     print "\n\n"
     print "*"*150
     for n,v in sorted(vDconst.items()):
@@ -1690,7 +1713,7 @@ def PrintResults(vDconst, vInput, vOffset, sampleset, header, doselabel, refPlot
     print "    Sample name & $n_{P.E.}/MeV$ \\\ "
     print "    \hline"
 
-    print "    %-40s & %5.2f  \\\ "%(header,CalcNPE(vInput[refPlot[0]][0],vOffset[0]))
+    print "    %-40s & %5.2f  \\\ "%(header,CalcNPE(vInput[refPlot[0]][0],vOff[0]))
     for k,n in sorted(tblName.items(), key=lambda x: x[1]):
         print "    %-40s & %5.2f  \\\ "%(n[1],vDconst[k][4])
 
