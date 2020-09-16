@@ -35,9 +35,9 @@ if __name__ == '__main__':
 
     ## binbase, xmin, xmax : nbins = binbase*(xmax-xmin)
     hxrng = {}
-    hxrng["Ref"]   = [256,0,6]
-    hxrng["EJ200"] = [256,0,6]
-    hxrng["EJ260"] = [256,0,6]
+    hxrng["Ref"]   = [256,0,8]
+    hxrng["EJ200"] = [256,0,8]
+    hxrng["EJ260"] = [256,0,8]
     hxrng["DarkCurrrent"] = [100,-1,0]
 
     today = datetime.date.today()
@@ -106,9 +106,9 @@ if __name__ == '__main__':
     ## Create a histogram and insert the area histogram from the tree.
     ## Use |amplitude|>mypedcut && time > 500 to skim the data.
     ## The hist has limited range and it is only for fitting.
-    hSR_i = TH1D("myhist_SR_i","SR",250,0,6)
+    hSR_i = TH1D("myhist_SR_i","SR",250,0,8)
     tSR_i.Draw("area*1.e9>>myhist_SR_i","abs(amplitude)>%f && time>%f"%(mypedcut,0))
-    hSR_f = TH1D("myhist_SR_f","SR",250,0,6)
+    hSR_f = TH1D("myhist_SR_f","SR",250,0,8)
     tSR_f.Draw("area*1.e9>>myhist_SR_f","abs(amplitude)>%f && time>%f"%(mypedcut,0))
     ## Find overall max (this is energy offset)
     ## Fit 1st hist
@@ -119,7 +119,8 @@ if __name__ == '__main__':
     SRName_f = "SR_f"
     vEng[SRName_f],sFit[SRName_f],myfit[SRName_f]=AlphaSourceFitter().GausFitEngPeak(hSR_f,SRName_f,[0.5,0.5],1.)
 
-    gain = [vEng[SRName_f]/vEng[SRName_i], math.sqrt((sFit[SRName_i]/vEng[SRName_i])**2+(sFit[SRName_f]/vEng[SRName_f])**2)*vEng[SRName_f]/vEng[SRName_i]]
+    vRef_i = [vEng[SRName_i],sFit[SRName_i]]
+    vRef_f = [vEng[SRName_f],sFit[SRName_f]]
 
     for nf, fl in sorted(plotSets.items()):
         fNames = {}
@@ -193,7 +194,7 @@ if __name__ == '__main__':
             sigName = fNames[tmpName]
             if sigName.find("UnIrr") == -1:
                 print "Calculating Dose Constant for :", sigName
-                vDconst[sigName] = CalcD(vDose,vInput[sigName],vInput[fNames["%s_0"%(nf)]],vOffset_i,vOffset_f,gain)
+                vDconst[sigName] = CalcD(vDose,vInput[sigName],vInput[fNames["%s_0"%(nf)]],vOffset_i,vOffset_f,vRef_i,vRef_f)
 
     ## print uncertainties
     print "Offset = %-8.5f"%(vOffset_f[0])
