@@ -7,20 +7,8 @@ from ROOT import kRed, kBlue, kGreen, kWhite, kBlack
 from collections import OrderedDict
 import numpy, array
 
-
-##gROOT.Reset()
-##gROOT.LoadMacro("Plotter/UMDStyle.C")
-##from ROOT import SetUMDStyle
-##SetUMDStyle()
-##gROOT.SetBatch()
-
 from Plotter import parseLYAnaInputArgs
 options = parseLYAnaInputArgs()
-
-gROOT.ProcessLine(".L Plotter/MyFunction.C+")
-from ROOT import MyFunction, MyStruct, AddressOf
-#from ROOT import Math
-#Math.MinimizerOptions.SetDefaultMinimizer("Minuit2")
 
 from math import pow,sqrt
 
@@ -1007,6 +995,11 @@ def CalcD(dose,v_f,v_i,vOff_i,vOff_f,vRef_i,vRef_f,type="alpha"):
     R = (v_f[0]-vOff_f[0])*(vRef_i[0]-vOff_i[0])/((v_i[0]-vOff_i[0])*(vRef_f[0]-vOff_f[0]))
     gain = (vRef_f[0]-vOff_f[0])/(vRef_i[0]-vOff_i[0])
 
+    sigmaGain = sqrt( pow(vRef_f[1]/(vRef_i[0]-vOff_i[0]),2) +
+                      pow(vOff_f[1]/(vRef_i[0]-vOff_i[0]),2) +
+                      pow(vRef_i[1]*(vRef_f[0]-vOff_f[0])/pow(vRef_i[0]-vOff_i[0],2),2) +
+                      pow(vOff_i[1]*(vRef_f[0]-vOff_f[0])/pow(vRef_i[0]-vOff_i[0],2),2) )
+
     partialR_v_f = (vRef_i[0]-vOff_i[0])/((v_i[0]-vOff_i[0])*(vRef_f[0]-vOff_f[0]))
     partialR_v_i = (v_f[0]-vOff_f[0])*(vRef_i[0]-vOff_i[0])/(pow(v_i[0]-vOff_i[0],2)*(vRef_f[0]-vOff_f[0]))
     partialR_vRef_i = (v_f[0]-vOff_f[0])/((v_i[0]-vOff_i[0])*(vRef_f[0]-vOff_f[0]))
@@ -1018,39 +1011,17 @@ def CalcD(dose,v_f,v_i,vOff_i,vOff_f,vRef_i,vRef_f,type="alpha"):
                    pow(partialR_vRef_f*vRef_f[1],2) + pow(partialR_vRef_i*vRef_i[1],2) +
                    pow(partialR_vOff_f*vOff_f[1],2) + pow(partialR_vOff_i*vOff_i[1],2) )
 
-    print "\n\n"
-    print "%-30s = %8.5f"%("[CalcD] partialR_v_f",partialR_v_f)
-    print "%-30s = %8.5f"%("[CalcD] partialR_v_i",partialR_v_i)
-    print "%-30s = %8.5f"%("[CalcD] partialR_vRef_f",partialR_vRef_f)
-    print "%-30s = %8.5f"%("[CalcD] partialR_vRef_i",partialR_vRef_i)
-    print "%-30s = %8.5f"%("[CalcD] partialR_vOff_f",partialR_vOff_f)
-    print "%-30s = %8.5f"%("[CalcD] partialR_vOff_i",partialR_vOff_i)
-    print "\n\n"
-
     D = -1.*dose[0]/math.log(R)
     sigmaD = sqrt(pow(dose[1]/math.log(R),2)+pow(dose[0]*sigmaR/(pow(math.log(R),2)*R),2))
-    ## sigma measurement
-    #sigma0 = pow(D,4)*pow(v_f[1]/dose[0],2)*pow(v_f[0]-vOff_f[0],-2)
-    #sigma1 = pow(D,4)*pow(v_i[1]/dose[0],2)*pow(v_i[0]-vOff_i[0],-2)
-    ## sigma offset
-    #sigma2 = pow(D,4)*pow(vOff_i[1]/dose[0],2)*pow(v_i[0]-v_f[0],2)*pow((v_i[0]-vOff_i[0])*(v_f[0]-vOff_f[0]),-2)
-    ## sigma dose
-    #sigma3 = pow(D*dose[1]/dose[0],2)
-    print "%-30s = %8.5f"%("[CalcD] v_f",v_f[0])
-    print "%-30s = %8.5f"%("[CalcD] v_f sigma",v_f[1])
-    print "%-30s = %8.5f"%("[CalcD] v_i",v_i[0])
-    print "%-30s = %8.5f"%("[CalcD] v_i sigma",v_i[1])
-    print "%-30s = %8.5f"%("[CalcD] vOff",vOff_i[0])
-    print "%-30s = %8.5f"%("[CalcD] vOff sigma",vOff_i[1])
-    print "%-30s = %8.5f"%("[CalcD] gain",gain)
-    #print "%-30s = %8.5f"%("[CalcD] gain sigma",gain[1])
-    print "%-30s = %8.5f"%("[CalcD] Light yield ratio",R)
-    print "%-30s = %8.5f"%("[CalcD] R sigma",sigmaR)
-    print "%-30s = %8.5f"%("[CalcD] Dose constant [Mrad]",D)
-    #print "%-30s = [%8.5f,%8.5f,%8.5f,%8.5f]"%("[CalcD] sigmas",sqrt(sigma0),sqrt(sigma1),sqrt(sigma2),sqrt(sigma3))
-    #print "%-30s = [%5.2f, %5.2f, %5.2f]"%("[CalcD] Uncertainties (%)",sqrt(sigma0+sigma1)/D*100.,sqrt(sigma2)/D*100.,sqrt(sigma3)/D*100.)
-    #print "%-30s = %8.5f"%("sigmaD diff",sigmaD-sqrt(sigma0+sigma1+sigma2+sigma3))
-    print "%-30s = %8.5f"%("[CalcD] D sigma",sigmaD)
+    print "\n"
+    print "%-30s = %8.5f  +/- %8.5f  Vxns"%("[CalcD] vSample_irr",v_f[0],v_f[1])
+    print "%-30s = %8.5f  +/- %8.5f  Vxns"%("[CalcD] vSample_unirr",v_i[0],v_i[1])
+    print "%-30s = %8.5f  +/- %8.5f  Vxns"%("[CalcD] vOff_f",vOff_f[0],vOff_f[1])
+    print "%-30s = %8.5f  +/- %8.5f  Vxns"%("[CalcD] vOff_i",vOff_i[0],vOff_i[1])
+    print "%-30s = %8.5f  +/- %8.5f"%("[CalcD] gain",gain,sigmaGain)
+    print "%-30s = %8.5f  +/- %8.5f"%("[CalcD] Light yield ratio",R,sigmaR)
+    print "%-30s = %8.5f  +/- %8.5f  Mrad"%("[CalcD] Dose constant",D,sigmaD)
+    print "\n"
     if type=="alpha":
         # SPE: 0.01497
         NPE = CalcNPE(v_f[0],vOff_f[0])
