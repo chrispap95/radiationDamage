@@ -60,7 +60,7 @@ if __name__ == '__main__':
 
     ## FastFrame
     ### First create an empty TH1D histogram
-    myhist["meas1"] = TH1D("myhist_meas1","meas1",256,0,8)
+    myhist["meas1"] = TH1D("myhist_meas1","meas1",256,0,8.5)
     ### Then get the saved histogram into the new one and normalize to ns from s by *1.e9
     mytree["meas1"].Draw("area*1.e9>>myhist_meas1","","")
 

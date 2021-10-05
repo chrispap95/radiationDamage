@@ -86,7 +86,7 @@ if __name__ == '__main__':
     t = TLatex(0.5,1600,"peak = %f#pm%f V#times ns"%(vEng_1,sFit_1));
     t.Draw()
 
-    fileout = open("result_plain.csv", "a")
+    fileout = open("result.csv", "a")
     date = options.input[75:83]
     date = date[0:4]+"/"+date[4:6]+"/"+date[6:8]
     fileout.write("%s, %f, %f\n"%(date,vEng_1,sFit_1))

@@ -12,14 +12,14 @@
 using namespace std;
 
 struct measurement {
-    TString name;
+    TString include;
     vector<float> x;
     vector<float> y;
     vector<float> ex;
     vector<float> ey;
     vector<TString> irrEndDate;
     vector<TString> irrFacility;
-    vector<TString> rodNumber;
+    vector<TString> ronNumber;
     short markerColor; // line color and marker fill color (if it applies) will use the same value
     short markerStyle;
     float markerSize;
@@ -28,7 +28,7 @@ struct measurement {
     TGraphErrors* graph; // this pointer gets filled in drawing section; it is initially null
 };
 
-void dcost_vs_ddot(TString tagTime="") {
+void dcost_vs_ddot_test(TString tagTime="") {
     set_root_style();
     Bool_t useGray = true;
 
@@ -45,16 +45,16 @@ void dcost_vs_ddot(TString tagTime="") {
     //incMeas.push_back("EJ200AO-0");
     //incMeas.push_back("EJ200AO-1");
     //incMeas.push_back("EJ200AO-2");
-    incMeas.push_back("EJ200PS-1X1P");
+    //incMeas.push_back("EJ200PS-1X1P");
     //incMeas.push_back("EJ200PS-1X2P");
-    //incMeas.push_back("EJ200PS-2X1P");
-    incMeas.push_back("EJ200PVT-1X1P");
+    incMeas.push_back("EJ200PS-2X1P");
+    //incMeas.push_back("EJ200PVT-1X1P");
     //incMeas.push_back("EJ200PVT-1X2P");
     //incMeas.push_back("EJ200PVT-2X1P");
-    incMeas.push_back("EJ260PS-1X1P");
+    //incMeas.push_back("EJ260PS-1X1P");
     //incMeas.push_back("EJ260PS-1X2P");
     //incMeas.push_back("EJ260PS-2X1P");
-    incMeas.push_back("EJ260PVT-1X1P");
+    //incMeas.push_back("EJ260PVT-1X1P");
     //incMeas.push_back("EJ260PVT-1X2P");
     //incMeas.push_back("EJ260PVT-2X1P");
 
@@ -132,10 +132,10 @@ void dcost_vs_ddot(TString tagTime="") {
     measurements.push_back(
         {
             "EJ200PS-2X1P",
-            {0.22,8.34,47,257,390},
-            {4.21795,11.75156,7.65359,8.81149,8.08626},
-            {0.22*0.1,8.34*0.012,47*0.012,257*0.012,390*0.012},
-            {0.5901,0.61944,0.39272,0.35523,0.30444},
+            {0.22,8.34,47,47*1.115,257,390},
+            {4.21795,11.75156,7.65359,8.53376,8.81149,8.08626},
+            {0.22*0.1,8.34*0.012,47*0.012,47*1.115*0.012,257*0.012,390*0.012},
+            {0.5901,0.61944,0.39272,0.43788,0.35523,0.30444},
             {"GIF++","Co-60 (NIST)","Co-60 (NIST 2020)","Co-60 (NIST)","Co-60 (NIST)"},
             {"20181026","20170111","20200915","20200214","20161005"},
             {"2","5","4","8","9"},
@@ -282,13 +282,13 @@ void dcost_vs_ddot(TString tagTime="") {
         // skip measurements not to be included
         bool includeMeasurement = 0;
         for (vector<TString>::iterator it = incMeas.begin(); it!=incMeas.end();++it){
-            if ((*it).CompareTo(i->name) == 0) {
+            if ((*it).CompareTo(i->include) == 0) {
                 includeMeasurement = 1;
             }
         }
         if (!includeMeasurement) continue;
         if (filename != "") filename += "_";
-        filename += i->name;
+        filename += i->include;
 
         // check sanity of input
         unsigned int n = i->x.size();
@@ -344,7 +344,7 @@ void dcost_vs_ddot(TString tagTime="") {
     TMultiGraph *allgraphs = new TMultiGraph();
     for (vector<measurement>::iterator i = measurements.begin(); i!=measurements.end();++i){
         for (vector<TString>::iterator it = incMeas.begin(); it!=incMeas.end();++it){
-            if ((*it).CompareTo(i->name) == 0) {
+            if ((*it).CompareTo(i->include) == 0) {
                 allgraphs->Add(i->graph);
             }
         }
@@ -380,7 +380,7 @@ void dcost_vs_ddot(TString tagTime="") {
     legendA->SetTextSize(0.04);
     for (vector<measurement>::iterator i = measurements.begin(); i!=measurements.end();++i){
         for (vector<TString>::iterator it = incMeas.begin(); it!=incMeas.end();++it){
-            if ((*it).CompareTo(i->name) == 0 && i->legendId == 1) {
+            if ((*it).CompareTo(i->include) == 0 && i->legendId == 1) {
                 legendA->AddEntry(i->graph,i->legendLabel.c_str(),"p");
             }
         }
@@ -392,7 +392,7 @@ void dcost_vs_ddot(TString tagTime="") {
     legendB->SetFillColor(0);
     for (vector<measurement>::iterator i = measurements.begin(); i!=measurements.end();++i){
         for (vector<TString>::iterator it = incMeas.begin(); it!=incMeas.end();++it){
-            if ((*it).CompareTo(i->name) == 0 && i->legendId == 2) {
+            if ((*it).CompareTo(i->include) == 0 && i->legendId == 2) {
                 legendB->AddEntry(i->graph,i->legendLabel.c_str(),"p");
             }
         }
@@ -410,5 +410,5 @@ void dcost_vs_ddot(TString tagTime="") {
 
     filename+=tagTime;
 
-    canv->SaveAs("paperPlots/ver8/"+filename+".pdf");
+    canv->SaveAs("paperPlots/ver10/test_"+filename+".pdf");
 }

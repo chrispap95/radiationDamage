@@ -1,8 +1,8 @@
 #include "RootStyle.cc"
 
 /*
-** Rods included in this number are all EJ200PS-T?_3
-** which have been irradiated at 3640 Gy/hr to a total
+** Rods included in this number are all EJ200PS-T?_2
+** which have been irradiated at 81 Gy/hr to a total
 ** dose of 70 kGy.
 */
 void annealing(){

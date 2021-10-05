@@ -1,6 +1,6 @@
 #include "RootStyle.cc"
 
-void energySpectrum(bool logY = 1) {
+void energySpectrum(bool logY = 0) {
   set_root_style();
 
   const Int_t Number = 3;
@@ -23,7 +23,7 @@ void energySpectrum(bool logY = 1) {
   TFile* f99 = TFile::Open("root/AlphaSource.nosync/Pu239new_EJ200PVT-1X1P_N5_Default_Nofoil_FaceA_FastFrame_20170216.root");
   */
 
-  TFile* fDark = TFile::Open("root/AlphaSource.nosync/DarkCurrent_HV1700_AutoTrigger_50.5mV_amp101mVpDiv_20161203.root");
+  TFile* fDark = TFile::Open("root/AlphaSource.nosync/DarkCurrent_HV1700_trigger_101mV_amp50p5mVpDiv_20181121.root");
   TFile* fPre = TFile::Open("root/AlphaSource.nosync/Pu239new_EJ200PS-T1_3_Default_Nofoil_FaceA_FastFrame_20170109.root");
   TFile* f0 = TFile::Open("root/AlphaSource.nosync/Pu239new_EJ200PS-T1_3_Default_Nofoil_FaceA_FastFrame_20170413.root");
   //TFile* f1 = TFile::Open("root/AlphaSource.nosync/Pu239new_EJ200PS-T1_3_Default_Nofoil_FaceA_FastFrame_201.root");
@@ -105,6 +105,8 @@ void energySpectrum(bool logY = 1) {
   //h21->SetLineWidth(2);
   h28->SetLineWidth(2);
   h99->SetLineWidth(2);
+  TF1* f1 = new TF1("f1","gaus");
+  h99->Fit("f1");
 
   TCanvas* c = new TCanvas("c","c",1);
   if (logY) c->SetLogy();
@@ -151,4 +153,7 @@ void energySpectrum(bool logY = 1) {
   lg2->AddEntry(h28,"28 days after irr.","l");
   lg2->AddEntry(h99,"56 days after irr.","l");
   lg2->Draw();
+
+  f1->Draw("same");
+
 }

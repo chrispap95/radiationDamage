@@ -6,19 +6,20 @@
 #include <TString.h>
 #include <iostream>
 #include <vector>
+#include <string>
 #include "RootStyle.cc"
 
 using namespace std;
 
 struct measurement {
-    bool include;
+    TString name;
     vector<float> x;
     vector<float> y;
     vector<float> ex;
     vector<float> ey;
     vector<TString> irrEndDate;
     vector<TString> irrFacility;
-    vector<TString> ronNumber;
+    vector<TString> rodNumber;
     float thickness;
     short markerColor; // line color and marker fill color (if it applies) will use the same value
     short markerStyle;
@@ -42,189 +43,160 @@ void dcost_vs_ddot_varTickness(TString tagTime="") {
     // Please make sure that there is a sensible comment identifying each new result.
     // Ideally, this is the ONLY section that needs to be updated whenever a new measurement is available.
 
+    vector<TString> incMeas;
+    //incMeas.push_back("EJ200PVT-T1");
+    //incMeas.push_back("EJ200PVT-T2");
+    //incMeas.push_back("EJ200PVT-T3");
+    //incMeas.push_back("EJ200PVT-T4");
+    //incMeas.push_back("EJ200PVT-T5");
+    incMeas.push_back("EJ200PS-T1");
+    incMeas.push_back("EJ200PS-T2");
+    incMeas.push_back("EJ200PS-T3");
+    incMeas.push_back("EJ200PS-T4");
+    incMeas.push_back("EJ200PS-T5");
+
     vector<measurement> measurements;
     measurements.push_back(
         {
-            false,
-            {8.19,370,0.31},
-            {11.58929,14.84599,4.57954},
-            {8.19*0.008,370*0.008,0.1*0.31},
-            {0.29148,0.46821,0.51974},
-            {"Co-60 (NIST)","Co-60 (NIST)","Gamma(GSFC REF)"},
-            {"20170301","20170302","20181130"},
-            {"2","3","5"},
-            1.0,1,43,1.4,"EJ200PVT 10 mm",1,NULL
+            "EJ200PVT-T1",
+            {8.19,370,0.31,0.31},
+            {11.25147,13.08882,4.09073,3.99646},
+            {8.19*0.012,370*0.012,0.1*0.31,0.1*0.31},
+            {0.57177,0.76828,0.5779,0.5586},
+            {"Co-60 (NIST)","Co-60 (NIST)","Gamma(GSFC REF)","Gamma(GSFC REF)"},
+            {"20170301","20170302","20181130","20181130"},
+            {"2","3","5","N1"},
+            1.0,1,20,1.4,"EJ200PVT 10 mm",1,NULL
         }
     );
 
     measurements.push_back(
         {
-            false,
-            {8.19,370,0.31},
-            {12.52827,15.48633,5.11092},
-            {8.19*0.008,370*0.008,0.1*0.31},
-            {0.33730,0.51168,0.59743},
-            {"Co-60 (NIST)","Co-60 (NIST)","Gamma(GSFC REF)"},
-            {"20170301","20170302","20181130"},
-            {"2","3","5"},
-            0.8,2,43,1.4,"EJ200PVT 8 mm",1,NULL
+            "EJ200PVT-T2",
+            {8.19,370,0.31,0.31},
+            {11.9689,14.40618,4.497,4.05059},
+            {8.19*0.012,370*0.012,0.1*0.31,0.1*0.31},
+            {0.64748,0.93056,0.66906,0.57046},
+            {"Co-60 (NIST)","Co-60 (NIST)","Gamma(GSFC REF)","Gamma(GSFC REF)"},
+            {"20170301","20170302","20181130","20181130"},
+            {"2","3","5","N1"},
+            0.8,2,21,1.4,"EJ200PVT 8 mm",1,NULL
         }
     );
 
     measurements.push_back(
         {
-            false,
-            {8.19,370,0.31},
-            {12.76847,15.65691,5.08014},
-            {8.19*0.008,370*0.008,0.1*0.31},
-            {0.35405,0.52558,0.59322},
-            {"Co-60 (NIST)","Co-60 (NIST)","Gamma(GSFC REF)"},
-            {"20170301","20170302","20181130"},
-            {"2","3","5"},
-            0.6,3,43,1.4,"EJ200PVT 6 mm",1,NULL
+            "EJ200PVT-T3",
+            {8.19,370,0.31,0.31},
+            {11.71462,13.92498,4.26997,4.57569},
+            {8.19*0.012,370*0.012,0.1*0.31,0.1*0.31},
+            {0.62215,0.87238,0.61838,0.68771},
+            {"Co-60 (NIST)","Co-60 (NIST)","Gamma(GSFC REF)","Gamma(GSFC REF)"},
+            {"20170301","20170302","20181130","20181130"},
+            {"2","3","5","N1"},
+            0.6,3,22,1.4,"EJ200PVT 6 mm",1,NULL
         }
     );
 
     measurements.push_back(
         {
-            false,
-            {8.19,370,0.31},
-            {13.22884,16.28974,7.43019},
-            {8.19*0.008,370*0.008,0.1*0.31},
-            {0.37940,0.57490,1.01341},
-            {"Co-60 (NIST)","Co-60 (NIST)","Gamma(GSFC REF)"},
-            {"20170301","20170302","20181130"},
-            {"2","3","5"},
-            0.4,4,43,1.4,"EJ200PVT 4 mm",1,NULL
-        }
-    );
-/*
-    measurements.push_back(
-        {
-            true,
-            {8.06,364,338,0.31,0.31},
-            {10.19846,9.68870,8.80205,4.58283,4.85625},
-            {8.06*0.008,364*0.008,338*0.008,0.31*0.1,0.31*0.1},
-            {0.22203,0.20022,0.16662,0.51391,0.55709},
-            {"Co-60 (NIST)","Co-60 (NIST)","Co-60 (NIST)","Gamma(GSFC REF)","Gamma(GSFC REF)"},
-            {"20170412","20170413","20171107","20181130","20181130"},
-            {"2","3","4","5","N1"},
-            1.0,1,43,1.4,"EJ200PS 10 mm",1,NULL
+            "EJ200PVT-T4",
+            {8.19,370,0.31,0.31},
+            {11.69649,13.79548,5.55214,6.62223},
+            {8.19*0.012,370*0.012,0.1*0.31,0.1*0.31},
+            {0.62153,0.85773,0.93927,1.26471},
+            {"Co-60 (NIST)","Co-60 (NIST)","Gamma(GSFC REF)","Gamma(GSFC REF)"},
+            {"20170301","20170302","20181130","20181130"},
+            {"2","3","5","N1"},
+            0.4,4,23,1.4,"EJ200PVT 4 mm",1,NULL
         }
     );
 
     measurements.push_back(
         {
-            true,
-            {8.06,364,338,0.31,0.31},
-            {10.78533,10.16701,9.53615,3.70255,4.85511},
-            {8.06*0.008,364*0.008,338*0.008,0.31*0.1,0.31*0.1},
-            {0.24765,0.22145,0.19591,0.40586,0.55728},
-            {"Co-60 (NIST)","Co-60 (NIST)","Co-60 (NIST)","Gamma(GSFC REF)","Gamma(GSFC REF)"},
-            {"20170412","20170413","20171107","20181130","20181130"},
-            {"2","3","4","5","N1"},
-            0.8,2,43,1.4,"EJ200PS 8 mm",1,NULL
-        }
-    );
-
-    measurements.push_back(
-        {
-            true,
-            {8.06,364,338,0.31,0.31},
-            {11.79627,10.62995,9.94405,3.98311,5.57522},
-            {8.06*0.008,364*0.008,338*0.008,0.31*0.1,0.31*0.1},
-            {0.29671,0.24231,0.21315,0.44072,0.66330},
-            {"Co-60 (NIST)","Co-60 (NIST)","Co-60 (NIST)","Gamma(GSFC REF)","Gamma(GSFC REF)"},
-            {"20170412","20170413","20171107","20181130","20181130"},
-            {"2","3","4","5","N1"},
-            0.6,3,43,1.4,"EJ200PS 6 mm",1,NULL
-        }
-    );
-
-    measurements.push_back(
-        {
-            true,
-            {8.06,364,338,0.31,0.31},
-            {11.60022,11.23576,10.61189,4.18924,6.13323},
-            {8.06*0.008,364*0.008,338*0.008,0.31*0.1,0.31*0.1},
-            {0.29005,0.27167,0.24270,0.46872,0.75419},
-            {"Co-60 (NIST)","Co-60 (NIST)","Co-60 (NIST)","Gamma(GSFC REF)","Gamma(GSFC REF)"},
-            {"20170412","20170413","20171107","20181130","20181130"},
-            {"2","3","4","5","N1"},
-            0.4,4,43,1.4,"EJ200PS 4 mm",1,NULL
-        }
-    );
-*/
-
-measurements.push_back(
-    {
-        true,
-        {8.06,364,338,0.31},
-        {10.19846,9.68870,8.80205,4.85625},
-        {8.06*0.008,364*0.008,338*0.008,0.31*0.1},
-        {0.22203,0.20022,0.16662,0.55709},
-        {"Co-60 (NIST)","Co-60 (NIST)","Co-60 (NIST)","Gamma(GSFC REF)"},
-        {"20170412","20170413","20171107","20181130"},
-        {"2","3","4","N1"},
-        1.0,1,43,1.4,"EJ200PS 10 mm",1,NULL
-    }
-);
-
-measurements.push_back(
-    {
-        true,
-        {8.06,364,338,0.31},
-        {10.78533,10.16701,9.53615,4.85511},
-        {8.06*0.008,364*0.008,338*0.008,0.31*0.1},
-        {0.24765,0.22145,0.19591,0.55728},
-        {"Co-60 (NIST)","Co-60 (NIST)","Co-60 (NIST)","Gamma(GSFC REF)"},
-        {"20170412","20170413","20171107","20181130"},
-        {"2","3","4","N1"},
-        0.8,2,43,1.4,"EJ200PS 8 mm",1,NULL
-    }
-);
-
-measurements.push_back(
-    {
-        true,
-        {8.06,364,338,0.31},
-        {11.79627,10.62995,9.94405,5.57522},
-        {8.06*0.008,364*0.008,338*0.008,0.31*0.1},
-        {0.29671,0.24231,0.21315,0.66330},
-        {"Co-60 (NIST)","Co-60 (NIST)","Co-60 (NIST)","Gamma(GSFC REF)"},
-        {"20170412","20170413","20171107","20181130"},
-        {"2","3","4","N1"},
-        0.6,3,43,1.4,"EJ200PS 6 mm",1,NULL
-    }
-);
-
-measurements.push_back(
-    {
-        true,
-        {8.06,364,338,0.31},
-        {11.60022,11.23576,10.61189,6.13323},
-        {8.06*0.008,364*0.008,338*0.008,0.31*0.1},
-        {0.29005,0.27167,0.24270,0.75419},
-        {"Co-60 (NIST)","Co-60 (NIST)","Co-60 (NIST)","Gamma(GSFC REF)"},
-        {"20170412","20170413","20171107","20181130"},
-        {"2","3","4","N1"},
-        0.4,4,43,1.4,"EJ200PS 4 mm",1,NULL
-    }
-);
-
-   measurements.push_back(
-        {
-            true,
+            "EJ200PVT-T5",
             {0.31},
-            {4.66396},
-            {0.31*0.1},
-            {0.53442},
+            {5.84174},
+            {0.1*0.31},
+            {1.02361},
             {"Gamma(GSFC REF)"},
             {"20181130"},
             {"N1"},
-            0.2,5,43,1.4,"EJ200PS 2 mm",1,NULL
+            0.2,6,34,1.4,"EJ200PVT 2 mm",1,NULL
         }
     );
+
+    measurements.push_back(
+        {
+            "EJ200PS-T1",
+            {8.06,364,338,0.31,0.31},
+            {12.65279,9.08617,8.92548,4.28092,4.60692},
+            {8.06*0.012,364*0.012,338*0.012,0.31*0.1,0.31*0.1},
+            {0.71625,0.37693,0.36422,0.61784,0.69133},
+            {"Co-60 (NIST)","Co-60 (NIST)","Co-60 (NIST)","Gamma(GSFC REF)","Gamma(GSFC REF)"},
+            {"20170412","20170413","20171107","20181130","20181130"},
+            {"2","3","4","5","N1"},
+            1.0,1,20,1.4,"EJ200PS 10 mm",1,NULL
+        }
+    );
+
+    measurements.push_back(
+        {
+            "EJ200PS-T2",
+            {8.06,364,338,0.31,0.31},
+            {10.85626,9.73245,9.34377,4.77711,4.80643},
+            {8.06*0.012,364*0.012,338*0.012,0.31*0.1,0.31*0.1},
+            {0.53378,0.43188,0.39811,0.73249,0.73966},
+            {"Co-60 (NIST)","Co-60 (NIST)","Co-60 (NIST)","Gamma(GSFC REF)","Gamma(GSFC REF)"},
+            {"20170412","20170413","20171107","20181130","20181130"},
+            {"2","3","4","5","N1"},
+            0.8,2,21,1.4,"EJ200PS 8 mm",1,NULL
+        }
+    );
+
+    measurements.push_back(
+        {
+            "EJ200PS-T3",
+            {8.06,364,338,0.31,0.31},
+            {11.73816,10.25757,9.69536,4.94397,5.45539},
+            {8.06*0.012,364*0.012,338*0.012,0.31*0.1,0.31*0.1},
+            {0.6233,0.47768,0.4286,0.77433,0.90848},
+            {"Co-60 (NIST)","Co-60 (NIST)","Co-60 (NIST)","Gamma(GSFC REF)","Gamma(GSFC REF)"},
+            {"20170412","20170413","20171107","20181130","20181130"},
+            {"2","3","4","5","N1"},
+            0.6,3,22,1.4,"EJ200PS 6 mm",1,NULL
+        }
+    );
+
+    measurements.push_back(
+        {
+            "EJ200PS-T4",
+            {8.06,364,338,0.31,0.31},
+            {12.17034,10.48889,10.0132,4.9973,6.59146},
+            {8.06*0.012,364*0.012,338*0.012,0.31*0.1,0.31*0.1},
+            {0.6696,0.50005,0.45692,0.78879,1.25067},
+            {"Co-60 (NIST)","Co-60 (NIST)","Co-60 (NIST)","Gamma(GSFC REF)","Gamma(GSFC REF)"},
+            {"20170412","20170413","20171107","20181130","20181130"},
+            {"2","3","4","5","N1"},
+            0.4,4,23,1.4,"EJ200PS 4 mm",1,NULL
+        }
+    );
+
+
+    measurements.push_back(
+        {
+            "EJ200PS-T5",
+            {0.31},
+            {6.44575},
+            {0.31*0.1},
+            {1.21081},
+            {"Gamma(GSFC REF)"},
+            {"20181130"},
+            {"N1"},
+            0.2,6,34,1.4,"EJ200PS 2 mm",1,NULL
+        }
+    );
+
 
     // ======================================================================================================
     // End of results section
@@ -234,9 +206,18 @@ measurements.push_back(
     // Begin of graph preparation section
     // ======================================================================================================
 
+    TString filename = "";
     for (vector<measurement>::iterator i = measurements.begin(); i!=measurements.end();++i) {
         // skip measurements not to be included
-        if (!i->include) continue;
+        bool includeMeasurement = 0;
+        for (vector<TString>::iterator it = incMeas.begin(); it!=incMeas.end();++it){
+            if ((*it).CompareTo(i->include) == 0) {
+                includeMeasurement = 1;
+            }
+        }
+        if (!includeMeasurement) continue;
+        if (filename != "") filename += "_";
+        filename += i->include;
 
         // check sanity of input
         unsigned int n = i->x.size();
@@ -296,9 +277,13 @@ measurements.push_back(
 
     // MultiGraph with all data points
     TMultiGraph *allgraphs = new TMultiGraph();
-    for (vector<measurement>::iterator i = measurements.begin(); i!=measurements.end();++i)
-    if (i->include)
-    allgraphs->Add(i->graph);
+    for (vector<measurement>::iterator i = measurements.begin(); i!=measurements.end();++i){
+        for (vector<TString>::iterator it = incMeas.begin(); it!=incMeas.end();++it){
+            if ((*it).CompareTo(i->include) == 0) {
+                allgraphs->Add(i->graph);
+            }
+        }
+    }
 
     allgraphs->Draw("AP");
     allgraphs->GetXaxis()->SetTitle("Dose rate (krad/h)");
@@ -325,29 +310,37 @@ measurements.push_back(
     double xmin = 5.e-2;
     double xmax = 2.e3;
     if (useGray) {
-      allgraphs->SetMinimum(1.0*0.01*1000*1000);
-      allgraphs->SetMaximum(18.0*0.01*1000*1000);
+      allgraphs->SetMinimum(0.0*0.01*1000*1000);
+      allgraphs->SetMaximum(16.0*0.01*1000*1000);
       xmin = 5.e-1;
       xmax = 2.e4;
     }
     allgraphs->GetXaxis()->SetLimits(xmin,xmax);
 
     // Prepare the legend
-    TLegend *legendA = new TLegend(0.4,0.2,0.75,0.32);
+    TLegend *legendA = new TLegend(0.4,0.2,0.75,0.4);
     legendA->SetBorderSize(0);
     legendA->SetFillColor(0);
     legendA->SetTextSize(0.04);
-    for (vector<measurement>::iterator i = measurements.begin();i!=measurements.end();++i)
-    if (i->include && i->legendId==1)
-    legendA->AddEntry(i->graph,i->legendLabel.c_str(),"p");
+    for (vector<measurement>::iterator i = measurements.begin(); i!=measurements.end();++i){
+        for (vector<TString>::iterator it = incMeas.begin(); it!=incMeas.end();++it){
+            if ((*it).CompareTo(i->include) == 0 && i->legendId == 1) {
+                legendA->AddEntry(i->graph,i->legendLabel.c_str(),"p");
+            }
+        }
+    }
     legendA->Draw();
 
     TLegend *legendB = new TLegend(0.32,0.12,0.62,0.32);
     legendB->SetBorderSize(0);
     legendB->SetFillColor(0);
-    for (vector<measurement>::iterator i = measurements.begin();i!=measurements.end();++i)
-    if (i->include && i->legendId==2)
-    legendB->AddEntry(i->graph,i->legendLabel.c_str(),"p");
+    for (vector<measurement>::iterator i = measurements.begin(); i!=measurements.end();++i){
+        for (vector<TString>::iterator it = incMeas.begin(); it!=incMeas.end();++it){
+            if ((*it).CompareTo(i->include) == 0 && i->legendId == 2) {
+                legendB->AddEntry(i->graph,i->legendLabel.c_str(),"p");
+            }
+        }
+    }
     //legendB->Draw();
 
     // use TPad to get border and fill color, TLatex does not have them
@@ -359,8 +352,7 @@ measurements.push_back(
 
     canv->Update();
 
-    TString filename = TString("EJ200PS");
     filename+=tagTime;
 
-    //canv->SaveAs("paperPlots/ver5/"+filename+".pdf");
+    canv->SaveAs("paperPlots/ver9/"+filename+".pdf");
 }
