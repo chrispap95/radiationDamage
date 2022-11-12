@@ -39,7 +39,7 @@ if __name__ == '__main__':
     #gROOT.SetStyle("Plain")
     #gStyle.SetOptFit()
     #gStyle.SetOptStat(0)
-    print options
+    print(options)
     myfile = {}
     mytree = {}
     myhist = {}

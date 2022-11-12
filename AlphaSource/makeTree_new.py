@@ -9,7 +9,7 @@ options = parseLYAnaInputArgs()
 
 #makes a tree from a tab-delimited text file with columns of data
 def makeEMSTree(dirname,fname):
-    print dirname
+    print(dirname)
     ifname = dirname.rstrip("/")+ "/" + fname + ".txt"
 
     loutdir = (dirname.rstrip("/")).split('/')
@@ -25,7 +25,7 @@ def makeEMSTree(dirname,fname):
         pass
 
     ofname = outdir.rstrip("/") + "/" + fname + ".root"
-    print ofname
+    print(ofname)
     #output file and tree
     outfile = TFile(ofname,"RECREATE")
     tree = TTree("tree","tree of "+fname)
@@ -44,17 +44,17 @@ def makeEMSTree(dirname,fname):
     outfile.Close()
 
     #print message
-    print "Created tree in root file: %s"%ofname
+    print("Created tree in root file: %s"%ofname)
 
 if __name__ == '__main__':
-    print options
+    print(options)
     DataDir = options.inputdir
     list_input = open("%s"%options.input)
 
     for line in list_input:
-        print line
+        print(line)
         if line.find("#") != -1:
-            print 'Ignore file: '+line.strip('#')
+            print('Ignore file: '+line.strip('#'))
             continue
 
         #check for file suffix to be removed

@@ -18,7 +18,7 @@ options = parseLYAnaInputArgs()
 gStyle.SetOptStat(0)
 
 def fitFile(dirname,fname):
-    print dirname
+    print(dirname)
     ifname = dirname.rstrip("/")+ "/" + fname + ".txt"
 
     if len(dirname.split("/"))>1:
@@ -31,7 +31,7 @@ def fitFile(dirname,fname):
         pass
 
     ofname = outdir + "/" + fname + ".root"
-    print ofname
+    print(ofname)
     #output file and tree
     outfile = TFile(ofname,"RECREATE")
     tree = TTree("tree","tree of "+fname)
@@ -50,17 +50,17 @@ def fitFile(dirname,fname):
     outfile.Close()
 
     #print message
-    print "Created tree in root file: %s"%ofname
+    print("Created tree in root file: %s"%ofname)
 
 if __name__ == '__main__':
-    print options
+    print(options)
     DataDir = options.inputdir
     list_input = open("%s"%options.input)
 
     for line in list_input:
-        print line
+        print(line)
         if line.find("#") != -1:
-            print 'Ignore file: '+line.strip('#')
+            print('Ignore file: '+line.strip('#'))
             continue
 
         #check for file suffix to be removed

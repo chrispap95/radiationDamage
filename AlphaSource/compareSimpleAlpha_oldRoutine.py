@@ -32,7 +32,7 @@ if __name__ == '__main__':
     #gROOT.SetStyle("Plain")
     #gStyle.SetOptFit()
     #gStyle.SetOptStat(0)
-    print options
+    print(options)
     myfile = {}
     mytree = {}
     myhist = {}
@@ -155,10 +155,10 @@ if __name__ == '__main__':
     RMS3 = myhist["meas3"].GetRMS()
     RMS4 = myhist["meas4"].GetRMS()
 
-    print "(Mean, RMS) Meas1 = (%5.2f,%5.2f)"%(mean1,RMS1)
-    print "(Mean, RMS) Meas2 = (%5.2f,%5.2f)"%(mean2,RMS2)
-    print "(Mean, RMS) Meas3 = (%5.2f,%5.2f)"%(mean3,RMS3)
-    print "(Mean, RMS) Meas4 = (%5.2f,%5.2f)"%(mean4,RMS4)
+    print("(Mean, RMS) Meas1 = (%5.2f,%5.2f)"%(mean1,RMS1))
+    print("(Mean, RMS) Meas2 = (%5.2f,%5.2f)"%(mean2,RMS2))
+    print("(Mean, RMS) Meas3 = (%5.2f,%5.2f)"%(mean3,RMS3))
+    print("(Mean, RMS) Meas4 = (%5.2f,%5.2f)"%(mean4,RMS4))
 
 ##    print "\nRudimentary statistical checks for the two measurements:"
 ##    ks = myhist["meas1"].KolmogorovTest(myhist["meas2"],"D")

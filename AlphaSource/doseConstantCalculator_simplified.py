@@ -109,4 +109,4 @@ if __name__ == '__main__':
     # CalcD(dose,v_o,v_i,offset,uncV)
     vDconst = CalcD(vDose,vSample_irr,vSample_unirr,vOffset_i,vOffset_f,vRef_i,vRef_f)
 
-    print "Uncertainty of %s's dose constant = %6.3f %%\n"%(finput[0][:-1],math.fabs(vDconst[1]/vDconst[0]*100.))
+    print("Uncertainty of %s's dose constant = %6.3f %%\n"%(finput[0][:-1],math.fabs(vDconst[1]/vDconst[0]*100.)))

@@ -23,7 +23,7 @@ from ROOT import PyLandGaus
 class LYCosmicAna():
 
     def __init__(self, inputname, procname, myoptions, mypedcut, ftag, verbose = True):
-        if verbose: print "My class for scintillator light yield analysis"
+        if verbose: print("My class for scintillator light yield analysis")
         self.verbose    = verbose
         self.myopts     = myoptions
         self.input_name = inputname
@@ -71,27 +71,27 @@ class LYCosmicAna():
     ## Initial parameters
     ########################################
     def run_init(self,fitrange={}):
-        print "="*150
+        print("="*150)
         if self.mypedcut != None:
             self.mypedcut = float(self.mypedcut)
-            print "[Run Init] Pedestal cut: %f"%self.mypedcut
+            print("[Run Init] Pedestal cut: %f"%self.mypedcut)
 
         if self.hardreset:
             if (self.input_name==None):
-                self.input_name=raw_input("Enter the input file name: ")
-                print self.input_name
-                print self.input_name[len(self.input_name)-4:]
+                self.input_name=input("Enter the input file name: ")
+                print(self.input_name)
+                print(self.input_name[len(self.input_name)-4:])
                 if(len(self.input_name)>=4 and (
                     self.input_name[len(self.input_name)-4:]==".out" or
                     self.input_name[len(self.input_name)-4:]==".txt")
                    ):
                     self.input_name=self.input_name[0:len(self.input_name)-4]
 
-            print "Input file: %s"%(self.input_name)
+            print("Input file: %s"%(self.input_name))
             tmpTxt = (self.input_name.split("/")[1]).replace("-","_").replace(" ","_")
             #self.procname = "%s-%s-%s"%(tmpTxt.split("_")[0],tmpTxt.split("_")[1],tmpTxt.split("_")[2])
             #self.procname = "-".join(tmpTxt.split("_")[0:3])
-            print "Sample Name: %20s"%(self.procname)
+            print("Sample Name: %20s"%(self.procname))
             self.myfile["%s_%s"%(self.procname,self.ftag)] = TFile("root/%s.root"%self.input_name)
             self.mytree["%s_%s"%(self.procname,self.ftag)] = self.myfile["%s_%s"%(self.procname,self.ftag)].Get("tree")
 
@@ -115,11 +115,11 @@ class LYCosmicAna():
                 pass
 
         if (not self.def_pol):
-            self.polarity=float(raw_input("Enter the polarity (SiPM:1, PMT:-1) : "))
+            self.polarity=float(input("Enter the polarity (SiPM:1, PMT:-1) : "))
             self.def_pol = True
 
         if len(fitrange) > 2:
-            print "Update fit range"
+            print("Update fit range")
             self.amp_rng[0]  = fitrange["amp"][0]
             self.amp_rng[1]  = fitrange["amp"][1]
             self.amp_rng[2]  = fitrange["amp"][2]
@@ -167,19 +167,19 @@ class LYCosmicAna():
 
         self.get_init = True
         if self.verbose:
-            print self.amp_rng
-            print self.eng_rng
-            print self.ped_rng
-            print self.sig_rng
-            print self.plot_rng
-            print self.nbin_amp,self.nbin_eng,self.nbin_ped,self.nbin_sig,self.nbin_plot
-        print "="*150
+            print(self.amp_rng)
+            print(self.eng_rng)
+            print(self.ped_rng)
+            print(self.sig_rng)
+            print(self.plot_rng)
+            print(self.nbin_amp,self.nbin_eng,self.nbin_ped,self.nbin_sig,self.nbin_plot)
+        print("="*150)
 
     ###############################################
     ## amplitude plot to determine the pedestal cut
     ###############################################
     def run_amplitude(self,syst=None,fitrange={}): ## root file without surfix ".root"
-        print "="*150
+        print("="*150)
         #gROOT.SetStyle("Plain")
         gStyle.SetOptFit()
         #gStyle.SetOptStat(0)
@@ -194,7 +194,7 @@ class LYCosmicAna():
             # determine a pedetstal cut from the plot
             self.canvas.Update()
             if (self.mypedcut == None):
-                self.mypedcut = float(raw_input("Enter a desired pedestal cut: "))
+                self.mypedcut = float(input("Enter a desired pedestal cut: "))
         else:
             if (self.mypedcut == None): self.mypedcut = 0.005000
 
@@ -214,8 +214,8 @@ class LYCosmicAna():
         hist_sig.Fit("fit_sig_%s"%sysName,"Q")
         par_amp[3],par_amp[4],par_amp[5] = fit_sig.GetParameter(0),fit_sig.GetParameter(1),fit_sig.GetParameter(2)
 
-        print "[Run Amplitude] par_amp_%s: "%sysName
-        print par_amp
+        print("[Run Amplitude] par_amp_%s: "%sysName)
+        print(par_amp)
 
         self.myhist[ampName] = TH1F("myhist_%s"%ampName,self.hist_title[0],self.nbin_amp,self.amp_rng[1]-par_amp[1],self.amp_rng[2]-par_amp[1])
         self.mytree["%s_%s"%(self.procname,self.ftag)].Draw("amplitude-%f>>myhist_%s"%(par_amp[1],ampName))
@@ -227,7 +227,7 @@ class LYCosmicAna():
         self.myfit[ampName] = TF1("myfit_%s"%ampName,"landau(0)+landau(3)",self.amp_rng[1],self.amp_rng[2])
         self.myfit[ampName].SetLineColor(kRed)
 
-        for i in xrange(len(par_amp)):
+        for i in range(len(par_amp)):
             self.myfit[ampName].SetParameter(i,par_amp[i])
 
         self.myfit[ampName].SetParLimits(4,self.mypedcut,self.amp_rng[2]-par_amp[1])
@@ -246,19 +246,19 @@ class LYCosmicAna():
         self.myfit["%s_2nd"%ampName].SetParameters(par_amp_post[3],par_amp_post[4],par_amp_post[5])
         self.myfit["%s_2nd"%ampName].Draw("same")
 
-        print "[Run Amplitude] par_amp_post: "
-        print par_amp_post
+        print("[Run Amplitude] par_amp_post: ")
+        print(par_amp_post)
 
         ##nped = all_par[0]*sqrt(2*TMath.Pi())*par_amp_pos[2]/myhist[0].GetXaxis().GetBinWidth(0)
         nped = par_amp_post[0]*par_amp_post[2]/self.myhist[ampName].GetXaxis().GetBinWidth(0)
         nsig = par_amp_post[3]*par_amp_post[5]/self.myhist[ampName].GetXaxis().GetBinWidth(0)
-        print "[Run Amplitude] %f %f %f"%(nped,nsig,nsig/nped)
+        print("[Run Amplitude] %f %f %f"%(nped,nsig,nsig/nped))
 
         self.get_amp = True
 
         self.canvas.Update()
         if (not self.myopts.batch):
-            save = raw_input("Do you want to save this plot? (y/n): ")
+            save = input("Do you want to save this plot? (y/n): ")
         else:
             save = "y" if self.myopts.savefiles else "n"
 
@@ -268,13 +268,13 @@ class LYCosmicAna():
             self.canvas.SaveAs("Results/amp/%s_pedCut%s_%s_%s.pdf"%(self.procname,str(self.mypedcut).replace(".","p"),tempName,self.ftag))
             self.canvas.SaveAs("Results/amp/%s_pedCut%s_%s_%s.root"%(self.procname,str(self.mypedcut).replace(".","p"),tempName,self.ftag))
         ## end of run_amplitude
-        print "="*150
+        print("="*150)
 
     ########################################
     ## energy plot for pedestal
     ########################################
     def run_energy_ped(self,syst=None,fitrange={}):
-        print "="*150
+        print("="*150)
         #gROOT.SetStyle("Plain")
         gStyle.SetOptFit()
         ##gStyle.SetOptStat(0)
@@ -298,7 +298,7 @@ class LYCosmicAna():
         ped_fit_rng = [float("%.4f"%(self.myhist[pedName].GetMean()-2.0*self.myhist[pedName].GetRMS())),
                        float("%.4f"%(self.myhist[pedName].GetMean()+2.0*self.myhist[pedName].GetRMS()))]
 
-        print "[Run Energy Ped] Fitting range: [%8.4f,%8.4f]"%(ped_fit_rng[0],ped_fit_rng[1])
+        print("[Run Energy Ped] Fitting range: [%8.4f,%8.4f]"%(ped_fit_rng[0],ped_fit_rng[1]))
         self.myhist[pedName].GetXaxis().SetRangeUser(ped_fit_rng[0],ped_fit_rng[1])
         self.canvas.Update()
         self.myfit[pedName] = TF1("myfit_%s"%pedName,"gaus",ped_fit_rng[0],ped_fit_rng[1])
@@ -310,9 +310,9 @@ class LYCosmicAna():
         nChi2_CS = self.myfit[pedName].GetChisquare()/self.myfit[pedName].GetNDF()
 
         if nChi2_BL < nChi2_CS:
-            print "[Run Energy Ped] Fit with Binned-likelihood method."
+            print("[Run Energy Ped] Fit with Binned-likelihood method.")
             self.myhist[pedName].Fit("myfit_%s"%pedName,"RQL")
-        else: print "[Run Energy Ped] Fit with Chi2-square method."
+        else: print("[Run Energy Ped] Fit with Chi2-square method.")
 
         #print "[Run Energy Ped] %f %f %f"%(self.myhist[pedName].GetMean(),self.myhist[pedName].GetRMS(),self.myhist[pedName].GetMean()+self.myhist[pedName].GetRMS())
         ##if (self.isPlastic) self.myhist[pedName].Fit(myfit[pedName],"Q","same")
@@ -320,19 +320,19 @@ class LYCosmicAna():
         self.par_eng[1]=float("%.6f"%self.myfit[pedName].GetParameter(1))
         self.par_eng[2]=float("%.6f"%self.myfit[pedName].GetParameter(2))
 
-        print "[Run Energy Ped] Pedestal mean : %f"%self.par_eng[1]
+        print("[Run Energy Ped] Pedestal mean : %f"%self.par_eng[1])
         nped = self.par_eng[0]*TMath.Sqrt(2*TMath.Pi())*self.par_eng[2]/self.myhist[pedName].GetXaxis().GetBinWidth(0)
         ##cout<<"# of pedestal events: "<<nped<<endl
 
         self.get_ped = True
         self.canvas.Update()
-        print "="*150
+        print("="*150)
 
     ########################################
     ## area plot for signal
     ########################################
     def run_energy_sig(self,syst=None,fitrange={},type="EJ200"):
-        print "="*150
+        print("="*150)
         #gROOT.SetStyle("Plain")
         gStyle.SetOptFit()
         ##gStyle.SetOptStat(0)
@@ -372,7 +372,7 @@ class LYCosmicAna():
         self.par_eng[5]=float("%.6f"%self.myfit[sigName].GetParameter(2))
         self.par_eng[6]=float("%.6f"%self.myfit[sigName].GetParameter(3))
 
-        print "[Run Energy Sig] Signal MP : %f"%self.par_eng[4] ## already corrected in langaus.C
+        print("[Run Energy Sig] Signal MP : %f"%self.par_eng[4]) ## already corrected in langaus.C
         ##print "[Run Energy Sig] Signal MPV : %f"%self.par_eng[4]
         ## https://en.wikipedia.org/wiki/Talk%3ALandau_distribution
         ## https://root.cern.ch/root/html/tutorials/fit/langaus.C.html
@@ -380,13 +380,13 @@ class LYCosmicAna():
 
         self.get_sig = True
         self.canvas.Update()
-        print "="*150
+        print("="*150)
 
     ##/********************************************/
     ## Final fit for EJ260; scaled by self.SPE
     ##/********************************************/
     def run_energy_all(self,syst=None,fitrange={}):
-        print "="*150
+        print("="*150)
         #### energy plot for both pedetal and signal
         par_eng_post=[0.,0.,0.,0.,0.,0.,0.]
         err_eng_post=[0.,0.,0.,0.,0.,0.,0.]
@@ -418,7 +418,7 @@ class LYCosmicAna():
         # Setting fit range and start values
         self.fobj.fr[0]= self.eng_rng[1]
         self.fobj.fr[1]= self.eng_rng[2]
-        print "[Gaus+LanGaus] fit range: [%f to %f]"%(self.fobj.fr[0],self.fobj.fr[1])
+        print("[Gaus+LanGaus] fit range: [%f to %f]"%(self.fobj.fr[0],self.fobj.fr[1]))
 
         fobjtmp = PyLandGaus()
         #fgauslandgaus = TF1("fgauslandgaus",fobjtmp.gauslangaufun,self.eng_rng[1],self.eng_rng[2],7)
@@ -440,8 +440,8 @@ class LYCosmicAna():
             self.fobj.fp[3]/self.SPE
             )
         self.myfit[engName].SetNpx(1000)
-        for i in xrange(self.myfit[engName].GetNumberFreeParameters()):
-            print "[Gaus+LandGaus init pars] %-15s = %12.5f"%(self.myfit[engName].GetParName(i), self.myfit[engName].GetParameter(i))
+        for i in range(self.myfit[engName].GetNumberFreeParameters()):
+            print("[Gaus+LandGaus init pars] %-15s = %12.5f"%(self.myfit[engName].GetParName(i), self.myfit[engName].GetParameter(i)))
 
         #self.myfit[engName].SetParNames("Width","MP","Area","GSigma")
         ## ped
@@ -466,12 +466,12 @@ class LYCosmicAna():
         self.myhist[engName].Fit("myfit_%s"%engName,"RL")
 ##        self.myhist[engName].Fit("myfit_%s"%engName,"RQWW")
 
-        for i in xrange(self.myfit[engName].GetNumberFreeParameters()):
+        for i in range(self.myfit[engName].GetNumberFreeParameters()):
             par_eng_post[i] = self.myfit[engName].GetParameter(i)
             err_eng_post[i] = self.myfit[engName].GetParError(i)
-            print "%-15s = %20.5f"%(self.myfit[engName].GetParName(i), self.myfit[engName].GetParameter(i))
+            print("%-15s = %20.5f"%(self.myfit[engName].GetParName(i), self.myfit[engName].GetParameter(i)))
 
-        print "[Run Energy All] Signal MP : %f"%par_eng_post[4]  ## already corrected in langaus.C
+        print("[Run Energy All] Signal MP : %f"%par_eng_post[4])  ## already corrected in langaus.C
         ##print "[Run Energy All] Signal MPV : %f"%par_eng_post[4]
         ## https://en.wikipedia.org/wiki/Talk%3ALandau_distribution
         ## https://root.cern.ch/root/html/tutorials/fit/langaus.C.html
@@ -546,7 +546,7 @@ class LYCosmicAna():
         self.canvas.Update()
 
         if (not self.myopts.batch):
-            save = raw_input("Do you want to save this plot? (y/n): ")
+            save = input("Do you want to save this plot? (y/n): ")
         else:
             save = "y" if self.myopts.savefiles else "n"
 
@@ -569,8 +569,8 @@ class LYCosmicAna():
             self.canvas.SaveAs("Results/energy/%s_pedCut%s_%s_%s.png"%(self.procname,str(self.mypedcut).replace(".","p"),tempName,self.ftag))
             self.canvas.SaveAs("Results/energy/%s_pedCut%s_%s_%s.pdf"%(self.procname,str(self.mypedcut).replace(".","p"),tempName,self.ftag))
             self.canvas.SaveAs("Results/energy/%s_pedCut%s_%s_%s.root"%(self.procname,str(self.mypedcut).replace(".","p"),tempName,self.ftag))
-        print "="*150
-        return OrderedDict(sorted(valPhys.items(), key=lambda x: x[0])),OrderedDict(sorted(self.myhist.items(), key=lambda x: x[0]))
+        print("="*150)
+        return OrderedDict(sorted(list(valPhys.items()), key=lambda x: x[0])),OrderedDict(sorted(list(self.myhist.items()), key=lambda x: x[0]))
 
 
 
@@ -579,7 +579,7 @@ class LYCosmicAna():
     ## Final fit for EJ200; scaled by self.SPE
     ##/********************************************/
     def run_energy_all2(self,syst=None,fitrange={}):
-        print "="*150
+        print("="*150)
         #### energy plot for both pedetal and signal
         par_eng_post=[0.,0.,0.,0.,0.,0.,0.]
         err_eng_post=[0.,0.,0.,0.,0.,0.,0.]
@@ -625,10 +625,10 @@ class LYCosmicAna():
         self.myfit[engName+"_sig"].SetLineColor(kBlue)
 
         self.myhist[engName].Fit(self.myfit[engName+"_ped"],"R+")
-        for i in xrange(self.myfit[engName+"_ped"].GetNumberFreeParameters()):
+        for i in range(self.myfit[engName+"_ped"].GetNumberFreeParameters()):
             par_eng_post[i] = self.myfit[engName+"_ped"].GetParameter(i)
             err_eng_post[i] = self.myfit[engName+"_ped"].GetParError(i)
-        for i in xrange(self.myfit[engName+"_sig"].GetNumberFreeParameters()):
+        for i in range(self.myfit[engName+"_sig"].GetNumberFreeParameters()):
             par_eng_post[3+i] = self.myfit[engName+"_sig"].GetParameter(i)
             err_eng_post[3+i] = self.myfit[engName+"_sig"].GetParError(i)
 
@@ -638,8 +638,8 @@ class LYCosmicAna():
                    self.eng_rng[2] if self.eng_rng[2] < par_eng_post[4]+10*par_eng_post[3] else par_eng_post[4]+10*par_eng_post[3]]
         self.fobj.fr[0]= fRngFit[0]
         self.fobj.fr[1]= fRngFit[1]
-        print "[Gaus+LanGaus] default fit range: [%f to %f]"%(self.eng_rng[1],self.eng_rng[2])
-        print "[Gaus+LanGaus] updated fit range: [%f to %f]"%(self.fobj.fr[0],self.fobj.fr[1])
+        print("[Gaus+LanGaus] default fit range: [%f to %f]"%(self.eng_rng[1],self.eng_rng[2]))
+        print("[Gaus+LanGaus] updated fit range: [%f to %f]"%(self.fobj.fr[0],self.fobj.fr[1]))
 
         self.myfit[engName] = TF1("myfit_%s"%engName,self.fobj.gauslangaufun,
                                   self.fobj.fr[0],#self.eng_rng[1],
@@ -658,8 +658,8 @@ class LYCosmicAna():
 
         self.myfit[engName].SetParNames("N_{Ped}","#mu_{Ped}","#sigma_{Ped}","Width","MP","Area","GSigma");
         self.myfit[engName].SetNpx(1000)
-        for i in xrange(self.myfit[engName].GetNumberFreeParameters()):
-            print "[Gaus+LandGaus init pars] %-15s = %12.5f"%(self.myfit[engName].GetParName(i), self.myfit[engName].GetParameter(i))
+        for i in range(self.myfit[engName].GetNumberFreeParameters()):
+            print("[Gaus+LandGaus init pars] %-15s = %12.5f"%(self.myfit[engName].GetParName(i), self.myfit[engName].GetParameter(i)))
 
         ## ped
         self.myfit[engName].SetParLimits(1,
@@ -682,19 +682,19 @@ class LYCosmicAna():
         self.myhist[engName].Fit("myfit_%s"%engName,"RL")
 ##        self.myhist[engName].Fit("myfit_%s"%engName,"RWW")
 
-        for i in xrange(self.myfit[engName].GetNumberFreeParameters()):
+        for i in range(self.myfit[engName].GetNumberFreeParameters()):
             par_eng_post[i] = self.myfit[engName].GetParameter(i)
             err_eng_post[i] = self.myfit[engName].GetParError(i)
-            print "%-15s = %20.5f"%(self.myfit[engName].GetParName(i), self.myfit[engName].GetParameter(i))
+            print("%-15s = %20.5f"%(self.myfit[engName].GetParName(i), self.myfit[engName].GetParameter(i)))
 
-        print "[Run Energy All] Signal MP : %f"%par_eng_post[4]  ## already corrected in langaus.C
+        print("[Run Energy All] Signal MP : %f"%par_eng_post[4])  ## already corrected in langaus.C
 
         ## Set plot range
         self.myhist[engName].Draw()
-        print "[Gaus+LanGaus] default plot range: [%f to %f]"%(self.plot_rng[1],self.plot_rng[2])
+        print("[Gaus+LanGaus] default plot range: [%f to %f]"%(self.plot_rng[1],self.plot_rng[2]))
         if self.plot_rng[2]>4.*par_eng_post[4]:
             self.plot_rng[2] = 4.*par_eng_post[4]
-            print "[Gaus+LanGaus] updated plot range: [%f to %f]"%(self.plot_rng[1],self.plot_rng[2])
+            print("[Gaus+LanGaus] updated plot range: [%f to %f]"%(self.plot_rng[1],self.plot_rng[2]))
 
         self.myhist[engName].GetXaxis().SetRangeUser(self.plot_rng[1],self.plot_rng[2])
         gPad.Update()
@@ -723,7 +723,7 @@ class LYCosmicAna():
         self.canvas.Update()
 
         if (not self.myopts.batch):
-            save = raw_input("Do you want to save this plot? (y/n): ")
+            save = input("Do you want to save this plot? (y/n): ")
         else:
             save = "y" if self.myopts.savefiles else "n"
 
@@ -748,8 +748,8 @@ class LYCosmicAna():
             self.canvas.SaveAs("Results/energy/%s_pedCut%s_%s_%s.png"%(self.procname,str(self.mypedcut).replace(".","p"),tempName,self.ftag))
             self.canvas.SaveAs("Results/energy/%s_pedCut%s_%s_%s.pdf"%(self.procname,str(self.mypedcut).replace(".","p"),tempName,self.ftag))
             self.canvas.SaveAs("Results/energy/%s_pedCut%s_%s_%s.root"%(self.procname,str(self.mypedcut).replace(".","p"),tempName,self.ftag))
-        print "="*150
-        return OrderedDict(sorted(valPhys.items(), key=lambda x: x[0])),OrderedDict(sorted(self.myhist.items(), key=lambda x: x[0]))
+        print("="*150)
+        return OrderedDict(sorted(list(valPhys.items()), key=lambda x: x[0])),OrderedDict(sorted(list(self.myhist.items()), key=lambda x: x[0]))
 
 
 
@@ -764,13 +764,13 @@ def EstimateSPE(filelist, mypedcut, ftag, fitrange, options={}):
         tline = line.split(" ")
         if tline[0].find("#") != -1: continue
         fileName = tline[0]
-        print "+"*150
-        print "+"*150
+        print("+"*150)
+        print("+"*150)
         tmpTxt = (line.split("/")[1]).replace("-","_").replace(" ","_")
         sampleName = tline[1]
         sample = tline[1].split("-")[0]
-        print "[Est. SPE] Sample Name:", sampleName
-        print "[Est. SPE] TagName:", ftag
+        print("[Est. SPE] Sample Name:", sampleName)
+        print("[Est. SPE] TagName:", ftag)
 
         if fidx > len(mypedcut)-1: mypedcut.append(mypedcut[len(mypedcut)-1])
         anatmp = LYCosmicAna(fileName,sampleName,options,mypedcut[fidx],ftag,options.verbose)
@@ -781,7 +781,7 @@ def EstimateSPE(filelist, mypedcut, ftag, fitrange, options={}):
         anatmp.myfit[speName] = TF1("myfit_%s"%speName,"gaus",0.15,0.35)
         anatmp.myhist[speName].Fit("myfit_%s"%speName,"RL")
         anatmp.SPE = anatmp.myfit[speName].GetParameter(1)
-        print "[Est. SPE] SPE = %8.5f"%anatmp.SPE
+        print("[Est. SPE] SPE = %8.5f"%anatmp.SPE)
         vSPE.append(anatmp.SPE)
         del anatmp
         fidx+=1
@@ -794,10 +794,10 @@ def EstimateSPE(filelist, mypedcut, ftag, fitrange, options={}):
 ## print results on screen
 ###############################
 def PrintResults(vDconst, vInput, vOffset, sampleset, header, doselabel, refPlot, IrrPlots, fTag, poptions):
-    print "\n\n"
-    print "*"*150
+    print("\n\n")
+    print("*"*150)
     for n,v in sorted(vDconst.items()):
-        print "[PrintResults] Dose constant %-30s = %8.5f +/- %-8.5f [%5.2f %%]; R = %8.5f+/- %-8.5f"%(n,v[0],v[1],v[1]/v[0]*100.,v[2],v[3])
+        print("[PrintResults] Dose constant %-30s = %8.5f +/- %-8.5f [%5.2f %%]; R = %8.5f+/- %-8.5f"%(n,v[0],v[1],v[1]/v[0]*100.,v[2],v[3]))
 
     tblName={}
 
@@ -826,81 +826,81 @@ def PrintResults(vDconst, vInput, vOffset, sampleset, header, doselabel, refPlot
     filetag = header.replace(" ","_").replace("-","_")
     outTxtFile = "DoseConstants/DoseConst_Cosmic_%s_%s_%s_%s.txt"%(filetag,sampleset,refPlot[0],fnameTag)
     outf=open(outTxtFile,'w')
-    print "\n"
-    print "*"*150
+    print("\n")
+    print("*"*150)
     ## sorted by dose const
     outf.write("%-80s\t%8s\t%8s\t%8s\t%8s\n"%("Sample label","D","sigD ","R","sigR "))
     outf.write("Sorted by value:\n")
-    for n,v in sorted(vDconst.items(), key=lambda x: x[1]):
+    for n,v in sorted(list(vDconst.items()), key=lambda x: x[1]):
         #print "%-80s: %8.5f +/- %-8.5f; R = %8.5f+/- %-8.5f"%(tblName[n][1],v[0],v[1],v[2],v[3])
         outf.write("%-80s\t%8.5f\t%-8.5f\t%8.5f\t%-8.5f\n"%(tblName[n][1],v[0],v[1],v[2],v[3]))
 
     ## sorted by naming order
     outf.write("\nSorted by name:\n")
-    for k,n in sorted(tblName.items(), key=lambda x: x[1]):
+    for k,n in sorted(list(tblName.items()), key=lambda x: x[1]):
         #print k
-        print "[PrintResults] %-80s: D = %8.5f +/- %-8.5f; R = %8.5f+/- %-8.5f"%(n[1],vDconst[k][0],vDconst[k][1],vDconst[k][2],vDconst[k][3])
+        print("[PrintResults] %-80s: D = %8.5f +/- %-8.5f; R = %8.5f+/- %-8.5f"%(n[1],vDconst[k][0],vDconst[k][1],vDconst[k][2],vDconst[k][3]))
         outf.write("%-80s\t%8.5f\t%-8.5f\t%8.5f\t%-8.5f\n"%(n[1],vDconst[k][0],vDconst[k][1],vDconst[k][2],vDconst[k][3]))
 
     outf.close()
-    print "\n"
-    print "*"*150
-    print "[PrintResults] Save results to %s"%(outTxtFile)
-    print "*"*150
+    print("\n")
+    print("*"*150)
+    print("[PrintResults] Save results to %s"%(outTxtFile))
+    print("*"*150)
 
     ###############################
     ## print results for latex
     ###############################
-    print "\n\n[PrintResults] Result table in latex format\n"
-    print "\n"
-    print "\\begin{table}[!htbp]"
-    print "  \\begin{center}"
-    print "    \\begin{tabular}{l c c}"
-    print "    \hline\hline"
-    print "    Sample name & Dose constant (D) & Uncertainty ($\sigma_\mathrm{D}$)  \\\ "
-    print "    \hline"
+    print("\n\n[PrintResults] Result table in latex format\n")
+    print("\n")
+    print("\\begin{table}[!htbp]")
+    print("  \\begin{center}")
+    print("    \\begin{tabular}{l c c}")
+    print("    \hline\hline")
+    print("    Sample name & Dose constant (D) & Uncertainty ($\sigma_\mathrm{D}$)  \\\ ")
+    print("    \hline")
 
-    for k,n in sorted(tblName.items(), key=lambda x: x[1]):
-        print "    %-40s & %8.5f & %-8.5f  \\\ "%(n[1],vDconst[k][0],vDconst[k][1])
+    for k,n in sorted(list(tblName.items()), key=lambda x: x[1]):
+        print("    %-40s & %8.5f & %-8.5f  \\\ "%(n[1],vDconst[k][0],vDconst[k][1]))
 
-    print "    \hline"
-    print "    \end{tabular}"
-    print "  \end{center}"
-    print "\caption{Dose constant}"
-    print "\label{table:doseConst}"
-    print "\end{table}"
-    print "\n"
+    print("    \hline")
+    print("    \end{tabular}")
+    print("  \end{center}")
+    print("\caption{Dose constant}")
+    print("\label{table:doseConst}")
+    print("\end{table}")
+    print("\n")
 
 
     ###############################
     ## print npe/MeV results for latex
     ###############################
-    print "\n\n[PrintResults] Result npe/MIP table in latex format\n"
-    print "\n"
-    print "\\begin{table}[!htbp]"
-    print "  \\begin{center}"
-    print "    \\begin{tabular}{l c}"
-    print "    \hline\hline"
-    print "    Sample name & $n_{P.E.}/MeV$ \\\ "
-    print "    \hline"
+    print("\n\n[PrintResults] Result npe/MIP table in latex format\n")
+    print("\n")
+    print("\\begin{table}[!htbp]")
+    print("  \\begin{center}")
+    print("    \\begin{tabular}{l c}")
+    print("    \hline\hline")
+    print("    Sample name & $n_{P.E.}/MeV$ \\\ ")
+    print("    \hline")
 
-    print "    %-40s & %5.2f  \\\ "%(header,CalcNPEMIP(vInput[refPlot[0]][0],vOffset[0]))
-    for k,n in sorted(tblName.items(), key=lambda x: x[1]):
-        print "    %-40s & %5.2f  \\\ "%(n[1],vDconst[k][4])
+    print("    %-40s & %5.2f  \\\ "%(header,CalcNPEMIP(vInput[refPlot[0]][0],vOffset[0])))
+    for k,n in sorted(list(tblName.items()), key=lambda x: x[1]):
+        print("    %-40s & %5.2f  \\\ "%(n[1],vDconst[k][4]))
 
-    print "    \hline"
-    print "    \end{tabular}"
-    print "  \end{center}"
-    print "\caption{Number of photoelectrons per MeV.}"
-    print "\label{table:nPEpMeV}"
-    print "\end{table}"
-    print "\n"
+    print("    \hline")
+    print("    \end{tabular}")
+    print("  \end{center}")
+    print("\caption{Number of photoelectrons per MeV.}")
+    print("\label{table:nPEpMeV}")
+    print("\end{table}")
+    print("\n")
 
 
     ###############################
     ## print results for twiki
     ###############################
-    print "\n\n[PrintResults] Result table for twiki\n"
+    print("\n\n[PrintResults] Result table for twiki\n")
     idx=2
     for sigName in sorted(IrrPlots):
         tmpTxt = sigName.split("-")[1]
@@ -916,8 +916,8 @@ def PrintResults(vDconst, vInput, vOffset, sampleset, header, doselabel, refPlot
                 tblName[sigName] = ["%02i"%idx,"%s (%s; %3s days aft. irr.)"%(header, doselabel, tmpTxt.strip("0"))]
         idx+=1
 
-    for k,n in sorted(tblName.items(), key=lambda x: x[1]):
-        print "|  <verbatim>%s</verbatim>  |  <verbatim>%8.5f</verbatim>  |  <verbatim>%8.5f</verbatim>  |"%(n[1],vDconst[k][0],vDconst[k][1])
+    for k,n in sorted(list(tblName.items()), key=lambda x: x[1]):
+        print("|  <verbatim>%s</verbatim>  |  <verbatim>%8.5f</verbatim>  |  <verbatim>%8.5f</verbatim>  |"%(n[1],vDconst[k][0],vDconst[k][1]))
 
 
 
@@ -928,12 +928,12 @@ def PrintResults(vDconst, vInput, vOffset, sampleset, header, doselabel, refPlot
 ## print results on screen method2
 ###############################
 def PrintResults2(vDconst, vInput, vOffset, sampleset, header, doselabel, refPlots, IrrPlots, fTag, poptions):
-    print "\n\n"
-    print "*"*150
+    print("\n\n")
+    print("*"*150)
     for n0,v0 in sorted(vDconst.items()):
-        print "[PrintResults2] >>>>>> D w.r.t. un-irr. sample [%-30s]"%n0
+        print("[PrintResults2] >>>>>> D w.r.t. un-irr. sample [%-30s]"%n0)
         for n,v in sorted(v0.items()):
-            print "[PrintResults2] Dose constant %-30s = %8.5f +/- %-8.5f [%5.2f %%]; R = %8.5f+/- %-8.5f"%(n,v[0],v[1],v[1]/v[0]*100.,v[2],v[3])
+            print("[PrintResults2] Dose constant %-30s = %8.5f +/- %-8.5f [%5.2f %%]; R = %8.5f+/- %-8.5f"%(n,v[0],v[1],v[1]/v[0]*100.,v[2],v[3]))
 
     tblName={}
 
@@ -963,10 +963,10 @@ def PrintResults2(vDconst, vInput, vOffset, sampleset, header, doselabel, refPlo
         for n,v in sorted(v0.items()):
             vDCtemp["%s:%s"%(n0,n)] = v
 
-    print "\n"
-    print "*"*150
-    for k,v in sorted(vDCtemp.items(), key=lambda x: x[1]):
-        print "%8.5f\t%-8.5f\t%8.5f\t%-8.5f"%(v[0],v[1],v[2],v[3])
+    print("\n")
+    print("*"*150)
+    for k,v in sorted(list(vDCtemp.items()), key=lambda x: x[1]):
+        print("%8.5f\t%-8.5f\t%8.5f\t%-8.5f"%(v[0],v[1],v[2],v[3]))
 
     ###############################
     ## Save to a text file 
@@ -975,24 +975,24 @@ def PrintResults2(vDconst, vInput, vOffset, sampleset, header, doselabel, refPlo
     filetag = header.replace(" ","_").replace("-","_")
     outTxtFile = "DoseConstants/DoseConst_Cosmic_%s_%s_%s_all.txt"%(filetag,sampleset,fnameTag)
     outf=open(outTxtFile,'w')
-    print "\n"
-    print "*"*150
+    print("\n")
+    print("*"*150)
     ## sorted by dose const
     outf.write("%-80s\t%8s\t%8s\t%8s\t%8s\n"%("Sample label","D","sigD ","R","sigR "))
     outf.write("Sorted by value:\n")
-    for n0,v0 in sorted(vDconst.items(), key=lambda x: x[1]):
-        for n,v in sorted(v0.items(), key=lambda x: x[1]):
+    for n0,v0 in sorted(list(vDconst.items()), key=lambda x: x[1]):
+        for n,v in sorted(list(v0.items()), key=lambda x: x[1]):
             #print "%-80s: %8.5f +/- %-8.5f; R = %8.5f+/- %-8.5f"%(tblName[n0][n][1],v[0],v[1],v[2],v[3])
             outf.write("%-80s\t%8.5f\t%-8.5f\t%8.5f\t%-8.5f\n"%(tblName[n0][n][1],v[0],v[1],v[2],v[3]))
 
     ## sorted by naming order
     outf.write("\nSorted by name:\n")
-    for k0,n0 in sorted(tblName.items(), key=lambda x: x[1]):
+    for k0,n0 in sorted(list(tblName.items()), key=lambda x: x[1]):
         kidx = 0
-        for k,n in sorted(n0.items(), key=lambda x: x[1]):
+        for k,n in sorted(list(n0.items()), key=lambda x: x[1]):
             #print k
-            print "[PrintResults2] %-80s: D = %8.5f +/- %-8.5f; R = %8.5f+/- %-8.5f"%(
-                n[1],vDconst[k0][k][0],vDconst[k0][k][1],vDconst[k0][k][2],vDconst[k0][k][3])
+            print("[PrintResults2] %-80s: D = %8.5f +/- %-8.5f; R = %8.5f+/- %-8.5f"%(
+                n[1],vDconst[k0][k][0],vDconst[k0][k][1],vDconst[k0][k][2],vDconst[k0][k][3]))
             outf.write("%-80s\t%8.5f\t%-8.5f\t%8.5f\t%-8.5f\n"%(
                 n[1],vDconst[k0][k][0],vDconst[k0][k][1],vDconst[k0][k][2],vDconst[k0][k][3]))
             if kidx == 0: tmparray = numpy.array(vDconst[k0][k])
@@ -1004,68 +1004,68 @@ def PrintResults2(vDconst, vInput, vOffset, sampleset, header, doselabel, refPlo
             "Average",tmparray[0],tmparray[1],tmparray[2],tmparray[3]))
 
     outf.close()
-    print "\n"
-    print "*"*150
-    print "[PrintResults2] Save results to %s"%(outTxtFile)
-    print "*"*150
+    print("\n")
+    print("*"*150)
+    print("[PrintResults2] Save results to %s"%(outTxtFile))
+    print("*"*150)
 
     ###############################
     ## print results for latex
     ###############################
-    print "\n\n[PrintResults2] Result table in latex format\n"
-    print "\n"
-    print "\\begin{table}[!htbp]"
-    print "  \\begin{center}"
-    print "    \\begin{tabular}{l c c}"
-    print "    \hline\hline"
-    print "    Sample name & Dose constant (D) & Uncertainty ($\sigma_\mathrm{D}$)  \\\ "
+    print("\n\n[PrintResults2] Result table in latex format\n")
+    print("\n")
+    print("\\begin{table}[!htbp]")
+    print("  \\begin{center}")
+    print("    \\begin{tabular}{l c c}")
+    print("    \hline\hline")
+    print("    Sample name & Dose constant (D) & Uncertainty ($\sigma_\mathrm{D}$)  \\\ ")
 
-    for k0,n0 in sorted(tblName.items(), key=lambda x: x[1]):
-        print "    \hline"
-        print "    \multicolumn{3}{c}{$\\rm Un-irr~sample: %s$}  \\\ \hline"%(k0.replace("_","~"))
+    for k0,n0 in sorted(list(tblName.items()), key=lambda x: x[1]):
+        print("    \hline")
+        print("    \multicolumn{3}{c}{$\\rm Un-irr~sample: %s$}  \\\ \hline"%(k0.replace("_","~")))
         for k,n in sorted(n0.items()):
-            print "    %-40s & %8.5f & %-8.5f  \\\ "%(n[1],vDconst[k0][k][0],vDconst[k0][k][1])
+            print("    %-40s & %8.5f & %-8.5f  \\\ "%(n[1],vDconst[k0][k][0],vDconst[k0][k][1]))
 
-    print "    \hline"
-    print "    \end{tabular}"
-    print "  \end{center}"
-    print "\caption{Dose constant}"
-    print "\label{table:doseConst}"
-    print "\end{table}"
-    print "\n"
+    print("    \hline")
+    print("    \end{tabular}")
+    print("  \end{center}")
+    print("\caption{Dose constant}")
+    print("\label{table:doseConst}")
+    print("\end{table}")
+    print("\n")
 
 
     ###############################
     ## print npe/MeV results for latex
     ###############################
-    print "\n\n[PrintResults2] Result npe/MIP table in latex format\n"
-    print "\n"
-    print "\\begin{table}[!htbp]"
-    print "  \\begin{center}"
-    print "    \\begin{tabular}{l c}"
-    print "    \hline\hline"
-    print "    Sample name & $n_{P.E.}/MeV$ \\\ "
+    print("\n\n[PrintResults2] Result npe/MIP table in latex format\n")
+    print("\n")
+    print("\\begin{table}[!htbp]")
+    print("  \\begin{center}")
+    print("    \\begin{tabular}{l c}")
+    print("    \hline\hline")
+    print("    Sample name & $n_{P.E.}/MeV$ \\\ ")
 
-    for k0,n0 in sorted(tblName.items(), key=lambda x: x[1]):
-        print "    \hline"
-        print "    \multicolumn{2}{c}{$ \\rm Un-irr.~sample: %s$}  \\\ \hline"%(k0.replace("_","~"))
-        print "    %-40s & %5.2f  \\\ "%("%s (Un-irr.)"%header,CalcNPEMIP(vInput[k0][0],vOffset[0]))
+    for k0,n0 in sorted(list(tblName.items()), key=lambda x: x[1]):
+        print("    \hline")
+        print("    \multicolumn{2}{c}{$ \\rm Un-irr.~sample: %s$}  \\\ \hline"%(k0.replace("_","~")))
+        print("    %-40s & %5.2f  \\\ "%("%s (Un-irr.)"%header,CalcNPEMIP(vInput[k0][0],vOffset[0])))
         for k,n in sorted(n0.items()):
-            print "    %-40s & %5.2f  \\\ "%(n[1],vDconst[k0][k][4])
+            print("    %-40s & %5.2f  \\\ "%(n[1],vDconst[k0][k][4]))
 
-    print "    \hline"
-    print "    \end{tabular}"
-    print "  \end{center}"
-    print "\caption{Number of photoelectrons per MeV.}"
-    print "\label{table:nPEpMeV}"
-    print "\end{table}"
-    print "\n"
+    print("    \hline")
+    print("    \end{tabular}")
+    print("  \end{center}")
+    print("\caption{Number of photoelectrons per MeV.}")
+    print("\label{table:nPEpMeV}")
+    print("\end{table}")
+    print("\n")
 
 
     ###############################
     ## print results for twiki
     ###############################
-    print "\n\n[PrintResults2] Result table for twiki\n"
+    print("\n\n[PrintResults2] Result table for twiki\n")
     for refName in sorted(refPlots):
         idx=2
         for sigName in sorted(IrrPlots):
@@ -1082,7 +1082,7 @@ def PrintResults2(vDconst, vInput, vOffset, sampleset, header, doselabel, refPlo
                     tblName[refName][sigName] = ["%02i"%idx,"%s (%s; %3s days aft. irr.)"%(header, doselabel, tmpTxt.strip("0"))]
             idx+=1
 
-    for k0,n0 in sorted(tblName.items(), key=lambda x: x[1]):
-        print "%s %s %s"%("*"*64,k0,"*"*64)
+    for k0,n0 in sorted(list(tblName.items()), key=lambda x: x[1]):
+        print("%s %s %s"%("*"*64,k0,"*"*64))
         for k,n in sorted(n0.items()):
-            print "|  <verbatim>%s</verbatim>  |  <verbatim>%8.5f</verbatim>  |  <verbatim>%8.5f</verbatim>  |"%(n[1],vDconst[k0][k][0],vDconst[k0][k][1])
+            print("|  <verbatim>%s</verbatim>  |  <verbatim>%8.5f</verbatim>  |  <verbatim>%8.5f</verbatim>  |"%(n[1],vDconst[k0][k][0],vDconst[k0][k][1]))

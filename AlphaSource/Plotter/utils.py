@@ -40,7 +40,7 @@ def open_file( file_name ):
         open_files.append(f)
         return f
     else:
-        print 'ERROR file: %s doesn\'t exist' % file_name 
+        print('ERROR file: %s doesn\'t exist' % file_name) 
         return None
 
 #____________________________________________________________
@@ -57,10 +57,10 @@ def new_file( file_name ):
     if f:
         global open_files
         open_files.append(f)
-        print 'created new file: %s' % file_name 
+        print('created new file: %s' % file_name) 
         return f
     else:
-        print 'ERROR file: %s doesn\'t exist' % file_name 
+        print('ERROR file: %s doesn\'t exist' % file_name) 
         return None
 
 
@@ -143,7 +143,7 @@ def integral_error(h,xmin=None,xmax=None):
 #____________________________________________________________
 def generate_random_mc_hist(hin,hout):
     global grandom
-    for i in xrange(hin.GetNbinsX()+1):
+    for i in range(hin.GetNbinsX()+1):
         n = hin.GetBinContent(i)
         en = hin.GetBinError(i)
 
@@ -156,7 +156,7 @@ def generate_random_data_hist(mc_hists,hout):
     global grandom
     # method 1 
     hout.SetEntries(0)
-    for i in xrange(hout.GetNbinsX()+1):
+    for i in range(hout.GetNbinsX()+1):
         mctot = 0.
         for h in mc_hists: mctot+=h.GetBinContent(i)
         mctot = max(0.,mctot)
@@ -175,14 +175,14 @@ def generate_random_data_hist(mc_hists,hout):
 
 #____________________________________________________________
 def reset_hist(hin,hout):
-    for i in xrange(hin.GetNbinsX()+1):
+    for i in range(hin.GetNbinsX()+1):
         hout.SetBinContent(i,hin.GetBinContent(i))
         hout.SetBinError(i,hin.GetBinError(i))
 
 
 #____________________________________________________________
 def clear_hist(h):
-    for i in xrange(h.GetNbinsX()+1):
+    for i in range(h.GetNbinsX()+1):
         h.SetBinContent(i,0)
         h.SetBinError(i,0)
 
@@ -190,7 +190,7 @@ def clear_hist(h):
 
 #____________________________________________________________
 def zero_error_hist(h):
-    for i in xrange(h.GetNbinsX()+1):
+    for i in range(h.GetNbinsX()+1):
         h.SetBinError(i,0)
 
 

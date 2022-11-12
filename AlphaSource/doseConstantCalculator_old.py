@@ -119,15 +119,15 @@ if __name__ == '__main__':
         #### Give a temporary name of the form UnIrr_nameIrr_name)
         tmpName = "%s"%(plotSet[0])
         fNames[tmpName] = plotSet[0][ni]
-        print fNames[tmpName]
+        print(fNames[tmpName])
         trees_[tmpName]  = (myfile[fNames[tmpName]][1]).Get("tree")
         labels_[tmpName] = fNames[tmpName].split("-")[1]
         fitopt[tmpName] = myfile[fNames[tmpName]][2]
 
     if debug_:
-        print fNames
-        print trees_
-        print labels_
+        print(fNames)
+        print(trees_)
+        print(labels_)
 
     ###############################
     # Draw raw plots
@@ -137,7 +137,7 @@ if __name__ == '__main__':
         fntmp = "%s_%i"%(plotSet[0],ni)
         xmin, xmax = hxrng[type][1],hxrng[type][2]
         xbins = int(hxrng[type][0]*(xmax-xmin))
-        if debug_: print xbins, xmin, xmax
+        if debug_: print(xbins, xmin, xmax)
 
         myhist[fNames[fntmp]] = TH1D("myhist_%s"%(fNames[fntmp]),"",xbins,xmin,xmax)
         trees_[fntmp].Draw("area*1.e9>>myhist_%s"%(fNames[fntmp]),"","")
@@ -148,10 +148,10 @@ if __name__ == '__main__':
     for ni in range(len(plotSet[0])):
         tmpName = "%s_%i"%(plotSet[0],ni)
         sigName = fNames[tmpName]
-        print ">>>>>>>>>>> Processing:", sigName
+        print(">>>>>>>>>>> Processing:", sigName)
         vEng[sigName],sFit[sigName],myfit[sigName]=AlphaSourceFitter().GausFitEngPeak(myhist[sigName],sigName,fitopt[tmpName],1.)
         uncFit[sigName] = sFit[sigName]/vEng[sigName]
-        print "Uncertainty of %s Fit     = %-6.3f %%"%(sigName,uncFit[sigName]*100.)
+        print("Uncertainty of %s Fit     = %-6.3f %%"%(sigName,uncFit[sigName]*100.))
 
     ###############################
     ## Step 4: D calculation
@@ -159,8 +159,8 @@ if __name__ == '__main__':
     ###############################
 
     vDose = [float(finput[7][:-1]),float(finput[8][:-1])]
-    print "\n"
-    print "="*150
+    print("\n")
+    print("="*150)
     vDconst = {}
     vInput  = {}
     for ni in range(len(plotSet[1])):
@@ -173,11 +173,11 @@ if __name__ == '__main__':
         tmpName = "%s_%i"%(plotSet[0],ni)
         sigName = fNames[tmpName]
         if sigName.find("UnIrr") == -1:
-            print "Calculating Dose Constant for :", sigName
+            print("Calculating Dose Constant for :", sigName)
             vDconst[sigName] = CalcD(vDose,vInput[sigName],vInput[fNames["%s_0"%(nf)]],vOffset_i,vOffset_f,vRef_i,vRef_f)
 
     ## print uncertainties
-    print "Offset = %-8.5f"%(vOffset_f[0])
-    print "Uncertainty of [%30s] = %6.3f %%"%("Offset",math.fabs(vOffset_f[1]/vOffset_f[0]*100.))
+    print("Offset = %-8.5f"%(vOffset_f[0]))
+    print("Uncertainty of [%30s] = %6.3f %%"%("Offset",math.fabs(vOffset_f[1]/vOffset_f[0]*100.)))
     for n,v in sorted(uncEng.items()):
-        print "Uncertainty of [%30s] = %6.3f %%"%(n,v*100.)
+        print("Uncertainty of [%30s] = %6.3f %%"%(n,v*100.))
