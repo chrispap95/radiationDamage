@@ -17,8 +17,10 @@ Most of the code has been written by Geng-Yuan Jeng.
     └── Plotter                 # Routines for plotting, fitting and style configuration
 ```
 ## Prerequisites
-In order to able to run this code you should have already installed Python 2 and ROOT.
-**Warning: Do not use Python 3!**
+In order to able to run this code you should have already installed Python 3 and ROOT.
+
+**Warning: The instructions below are outdated! The code is updated to use python3!**
+
 You need Python 2 and Root installed in your system. Python is really easy to install on all machines: https://www.python.org/downloads/release/python-2715/
 Then you need ROOT. I suppose most people use macOS so I will give instructions for that:
 1) install xcode tools: ```xcode-select --install```
