@@ -3,6 +3,7 @@
 void energySpectrum(bool logY = 0) {
   set_root_style();
 
+  /*
   const Int_t Number = 3;
   Double_t Red[Number] = {1.00, 0.00, 0.00};
   Double_t Green[Number] = {0.00, 1.00, 0.00};
@@ -10,6 +11,7 @@ void energySpectrum(bool logY = 0) {
   Double_t Length[Number] = {0.90, 1.00, 0.9};
   Int_t nb = 9;
   TColor::CreateGradientColorTable(Number,Length,Red,Green,Blue,nb);
+  */
 
   /*
   TFile* fDark = TFile::Open("root/AlphaSource.nosync/DarkCurrent_HV1700_AutoTrigger_50.5mV_amp101mVpDiv_20161203.root");
@@ -24,14 +26,14 @@ void energySpectrum(bool logY = 0) {
   */
 
   TFile* fDark = TFile::Open("root/AlphaSource.nosync/DarkCurrent_HV1700_trigger_101mV_amp50p5mVpDiv_20181121.root");
-  TFile* fPre = TFile::Open("root/AlphaSource.nosync/Pu239new_EJ200PS-T1_3_Default_Nofoil_FaceA_FastFrame_20170109.root");
-  TFile* f0 = TFile::Open("root/AlphaSource.nosync/Pu239new_EJ200PS-T1_3_Default_Nofoil_FaceA_FastFrame_20170413.root");
-  //TFile* f1 = TFile::Open("root/AlphaSource.nosync/Pu239new_EJ200PS-T1_3_Default_Nofoil_FaceA_FastFrame_201.root");
-  //TFile* f8 = TFile::Open("root/AlphaSource.nosync/Pu239new_EJ200PS-T1_3_Default_Nofoil_FaceA_FastFrame_201.root");
-  TFile* f14 = TFile::Open("root/AlphaSource.nosync/Pu239new_EJ200PS-T1_3_Default_Nofoil_FaceA_FastFrame_20170427.root");
-  //TFile* f21 = TFile::Open("root/AlphaSource.nosync/Pu239new_EJ200PS-T1_3_Default_Nofoil_FaceA_FastFrame_201.root");
-  TFile* f28 = TFile::Open("root/AlphaSource.nosync/Pu239new_EJ200PS-T1_3_Default_Nofoil_FaceA_FastFrame_20170511.root");
-  TFile* f99 = TFile::Open("root/AlphaSource.nosync/Pu239new_EJ200PS-T1_3_Default_Nofoil_FaceA_FastFrame_20170608.root");
+  TFile* fPre = TFile::Open("root/AlphaSource.nosync/Pu239new_EJ200PS_T1_3_Default_Nofoil_FaceA_FastFrame_20170109.root");
+  TFile* f0 = TFile::Open("root/AlphaSource.nosync/Pu239new_EJ200PS_T1_3_Default_Nofoil_FaceA_FastFrame_20170413.root");
+  //TFile* f1 = TFile::Open("root/AlphaSource.nosync/Pu239new_EJ200PS_T1_3_Default_Nofoil_FaceA_FastFrame_201.root");
+  //TFile* f8 = TFile::Open("root/AlphaSource.nosync/Pu239new_EJ200PS_T1_3_Default_Nofoil_FaceA_FastFrame_201.root");
+  TFile* f14 = TFile::Open("root/AlphaSource.nosync/Pu239new_EJ200PS_T1_3_Default_Nofoil_FaceA_FastFrame_20170427.root");
+  //TFile* f21 = TFile::Open("root/AlphaSource.nosync/Pu239new_EJ200PS_T1_3_Default_Nofoil_FaceA_FastFrame_201.root");
+  TFile* f28 = TFile::Open("root/AlphaSource.nosync/Pu239new_EJ200PS_T1_3_Default_Nofoil_FaceA_FastFrame_20170511.root");
+  TFile* f99 = TFile::Open("root/AlphaSource.nosync/Pu239new_EJ200PS_T1_3_Default_Nofoil_FaceA_FastFrame_20170608.root");
 
   TTree* tDark = (TTree*)fDark->Get("tree");
   TTree* tPre = (TTree*)fPre->Get("tree");
@@ -109,6 +111,8 @@ void energySpectrum(bool logY = 0) {
   h99->Fit("f1");
 
   TCanvas* c = new TCanvas("c","c",1);
+  gStyle->SetPalette(kViridis);
+  //c->SetGrayscale();
   if (logY) c->SetLogy();
 
   THStack* hs1 = new THStack();
@@ -154,6 +158,16 @@ void energySpectrum(bool logY = 0) {
   lg2->AddEntry(h99,"56 days after irr.","l");
   lg2->Draw();
 
-  f1->Draw("same");
+  TF1* fitPre = new TF1("fitPre","gaus");
+  TF1* fit99 = new TF1("fit99","gaus");
+  fitPre->SetLineColor(kBlack);
+  fit99->SetLineColor(kYellow);
+  hPre->Fit("fitPre","0","");
+  h99->Fit("fit99","0","");
 
+  fitPre->Draw("L");
+  fit99->Draw("L");
+
+  f1->Draw("same");
+  c->Print("paperPlots/ver17/fig3t_energy_spectrum_linear_fit.pdf");
 }

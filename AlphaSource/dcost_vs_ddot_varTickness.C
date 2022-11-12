@@ -44,16 +44,10 @@ void dcost_vs_ddot_varTickness(TString tagTime="") {
     // Ideally, this is the ONLY section that needs to be updated whenever a new measurement is available.
 
     vector<TString> incMeas;
-    //incMeas.push_back("EJ200PVT-T1");
-    //incMeas.push_back("EJ200PVT-T2");
-    //incMeas.push_back("EJ200PVT-T3");
-    //incMeas.push_back("EJ200PVT-T4");
-    //incMeas.push_back("EJ200PVT-T5");
     incMeas.push_back("EJ200PS-T1");
     incMeas.push_back("EJ200PS-T2");
     incMeas.push_back("EJ200PS-T3");
     incMeas.push_back("EJ200PS-T4");
-    incMeas.push_back("EJ200PS-T5");
 
     vector<measurement> measurements;
     measurements.push_back(
@@ -94,7 +88,7 @@ void dcost_vs_ddot_varTickness(TString tagTime="") {
             {"Co-60 (NIST)","Co-60 (NIST)","Gamma(GSFC REF)","Gamma(GSFC REF)"},
             {"20170301","20170302","20181130","20181130"},
             {"2","3","5","N1"},
-            0.6,3,22,1.4,"EJ200PVT 6 mm",1,NULL
+            0.6,3,33,1.4,"EJ200PVT 6 mm",1,NULL
         }
     );
 
@@ -108,7 +102,7 @@ void dcost_vs_ddot_varTickness(TString tagTime="") {
             {"Co-60 (NIST)","Co-60 (NIST)","Gamma(GSFC REF)","Gamma(GSFC REF)"},
             {"20170301","20170302","20181130","20181130"},
             {"2","3","5","N1"},
-            0.4,4,23,1.4,"EJ200PVT 4 mm",1,NULL
+            0.4,4,34,1.4,"EJ200PVT 4 mm",1,NULL
         }
     );
 
@@ -122,7 +116,7 @@ void dcost_vs_ddot_varTickness(TString tagTime="") {
             {"Gamma(GSFC REF)"},
             {"20181130"},
             {"N1"},
-            0.2,6,34,1.4,"EJ200PVT 2 mm",1,NULL
+            0.2,28,22,1.4,"EJ200PVT 2 mm",1,NULL
         }
     );
 
@@ -164,7 +158,7 @@ void dcost_vs_ddot_varTickness(TString tagTime="") {
             {"Co-60 (NIST)","Co-60 (NIST)","Co-60 (NIST)","Gamma(GSFC REF)","Gamma(GSFC REF)"},
             {"20170412","20170413","20171107","20181130","20181130"},
             {"2","3","4","5","N1"},
-            0.6,3,22,1.4,"EJ200PS 6 mm",1,NULL
+            0.6,3,33,1.4,"EJ200PS 6 mm",1,NULL
         }
     );
 
@@ -178,7 +172,7 @@ void dcost_vs_ddot_varTickness(TString tagTime="") {
             {"Co-60 (NIST)","Co-60 (NIST)","Co-60 (NIST)","Gamma(GSFC REF)","Gamma(GSFC REF)"},
             {"20170412","20170413","20171107","20181130","20181130"},
             {"2","3","4","5","N1"},
-            0.4,4,23,1.4,"EJ200PS 4 mm",1,NULL
+            0.4,4,34,1.4,"EJ200PS 4 mm",1,NULL
         }
     );
 
@@ -193,7 +187,7 @@ void dcost_vs_ddot_varTickness(TString tagTime="") {
             {"Gamma(GSFC REF)"},
             {"20181130"},
             {"N1"},
-            0.2,6,34,1.4,"EJ200PS 2 mm",1,NULL
+            0.2,28,22,1.4,"EJ200PS 2 mm",1,NULL
         }
     );
 
@@ -211,13 +205,13 @@ void dcost_vs_ddot_varTickness(TString tagTime="") {
         // skip measurements not to be included
         bool includeMeasurement = 0;
         for (vector<TString>::iterator it = incMeas.begin(); it!=incMeas.end();++it){
-            if ((*it).CompareTo(i->include) == 0) {
+            if ((*it).CompareTo(i->name) == 0) {
                 includeMeasurement = 1;
             }
         }
         if (!includeMeasurement) continue;
         if (filename != "") filename += "_";
-        filename += i->include;
+        filename += i->name;
 
         // check sanity of input
         unsigned int n = i->x.size();
@@ -273,19 +267,21 @@ void dcost_vs_ddot_varTickness(TString tagTime="") {
     TCanvas *canv = new TCanvas("canv","D versus doserate",200,10,800,600);
     canv->SetFillColor(0);
     canv->SetLogx();
+    gStyle->SetPalette(kViridis);
+    //canv->SetGrayscale();
     //canv->SetLogx();
 
     // MultiGraph with all data points
     TMultiGraph *allgraphs = new TMultiGraph();
     for (vector<measurement>::iterator i = measurements.begin(); i!=measurements.end();++i){
         for (vector<TString>::iterator it = incMeas.begin(); it!=incMeas.end();++it){
-            if ((*it).CompareTo(i->include) == 0) {
+            if ((*it).CompareTo(i->name) == 0) {
                 allgraphs->Add(i->graph);
             }
         }
     }
 
-    allgraphs->Draw("AP");
+    allgraphs->Draw("AP PMC PLC");
     allgraphs->GetXaxis()->SetTitle("Dose rate (krad/h)");
     if (multiplyOn){
       allgraphs->GetYaxis()->SetTitle("Dose Constant#times Thickness (Mrad#times cm)");
@@ -324,7 +320,7 @@ void dcost_vs_ddot_varTickness(TString tagTime="") {
     legendA->SetTextSize(0.04);
     for (vector<measurement>::iterator i = measurements.begin(); i!=measurements.end();++i){
         for (vector<TString>::iterator it = incMeas.begin(); it!=incMeas.end();++it){
-            if ((*it).CompareTo(i->include) == 0 && i->legendId == 1) {
+            if ((*it).CompareTo(i->name) == 0 && i->legendId == 1) {
                 legendA->AddEntry(i->graph,i->legendLabel.c_str(),"p");
             }
         }
@@ -336,7 +332,7 @@ void dcost_vs_ddot_varTickness(TString tagTime="") {
     legendB->SetFillColor(0);
     for (vector<measurement>::iterator i = measurements.begin(); i!=measurements.end();++i){
         for (vector<TString>::iterator it = incMeas.begin(); it!=incMeas.end();++it){
-            if ((*it).CompareTo(i->include) == 0 && i->legendId == 2) {
+            if ((*it).CompareTo(i->name) == 0 && i->legendId == 2) {
                 legendB->AddEntry(i->graph,i->legendLabel.c_str(),"p");
             }
         }
@@ -354,5 +350,5 @@ void dcost_vs_ddot_varTickness(TString tagTime="") {
 
     filename+=tagTime;
 
-    canv->SaveAs("paperPlots/ver9/"+filename+".pdf");
+    canv->SaveAs("paperPlots/ver17/"+filename+".pdf");
 }

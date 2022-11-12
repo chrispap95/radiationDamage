@@ -7,7 +7,7 @@
 #include "RootStyle.cc"
 using namespace std;
 
-void csv2root() {
+void emissionSpectra() {
   set_root_style();
 
   vector<float> x1,y1,x2,y2;
@@ -27,6 +27,7 @@ void csv2root() {
   myfile2.close();
 
   TCanvas* c = new TCanvas("c","c",1);
+  c->SetGrayscale();
   TGraph* gr1 = new TGraph(x1.size(),x1.data(),y1.data());
   TGraph* gr2 = new TGraph(x2.size(),x2.data(),y2.data());
   TMultiGraph* gr = new TMultiGraph();
@@ -45,10 +46,11 @@ void csv2root() {
 
   gr->Draw("AC");
 
-  TLegend* lg = new TLegend(0.65,0.65,0.89,0.85);
+  TLegend* lg = new TLegend(0.2,0.65,0.5,0.85);
   lg->AddEntry(gr1,"EJ-200","l");
   lg->AddEntry(gr2,"EJ-260","l");
   lg->SetBorderSize(0);
+  lg->SetFillColorAlpha(kWhite,0);
   lg->Draw();
 
   TArrow* ar1 = new TArrow(330,0.0,330,0.2,0.02,"<|");
@@ -65,5 +67,6 @@ void csv2root() {
   ar2->SetFillColor(kGreen);
   ar2->Draw();
 
+  c->Print("paperPlots/ver17/fig1_spectrum_overlay.pdf");
   return;
 }

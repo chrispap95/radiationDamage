@@ -8,6 +8,9 @@
 void annealing(){
   set_root_style();
 
+  TCanvas* c1 = new TCanvas("c1","c1",200,10,800,600);
+  gStyle->SetPalette(kViridis);
+
   //float t1[] = {0.2087233539,0.376208645,0.4547739771,0.4864266894};
   //float t2[] = {0.2232406769,0.4119699427,0.4981510846,0.5036381999};
   //float t3[] = {0.2552055238,0.4936085638,0.5124200947,0.5178644369};
@@ -49,8 +52,8 @@ void annealing(){
 
   gr1->SetMarkerStyle(20);
   gr2->SetMarkerStyle(21);
-  gr3->SetMarkerStyle(22);
-  gr4->SetMarkerStyle(23);
+  gr3->SetMarkerStyle(33);
+  gr4->SetMarkerStyle(34);
   gr1->SetMarkerColor(1);
   gr2->SetMarkerColor(2);
   gr3->SetMarkerColor(3);
@@ -66,13 +69,17 @@ void annealing(){
   mg->Add(gr3);
   mg->Add(gr4);
   mg->SetTitle(";Days after irr. end date;Dose Constant (Gy)");
-  mg->Draw("AP");
+  mg->Draw("AP PLC PMC");
 
   TLegend* lg = new TLegend(0.45,0.2,0.7,0.4);
   lg->SetBorderSize(0);
-  lg->AddEntry(gr1,"10 mm","lp");
-  lg->AddEntry(gr2,"8 mm","lp");
-  lg->AddEntry(gr3,"6 mm","lp");
-  lg->AddEntry(gr4,"4 mm","lp");
+  lg->SetFillColor(0);
+  lg->SetTextSize(0.04);
+  lg->AddEntry(gr1,"10 mm","p");
+  lg->AddEntry(gr2, "8 mm","p");
+  lg->AddEntry(gr3, "6 mm","p");
+  lg->AddEntry(gr4, "4 mm","p");
   lg->Draw();
+
+  c1->Print("paperPlots/ver17/fig10t_annealing_dcost.pdf");
 }
