@@ -4,6 +4,7 @@
 #include <TAxis.h>
 #include <TCanvas.h>
 #include <TString.h>
+#include <TF1.h>
 #include <iostream>
 #include <vector>
 #include <string>

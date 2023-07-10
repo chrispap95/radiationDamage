@@ -9,3 +9,5 @@
 *.so
 *.pcm
 *.pyc
+__pycache__/
+.vscode/
