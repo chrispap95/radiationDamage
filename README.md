@@ -27,10 +27,11 @@ In order to able to run this code you should have already installed Python 3 and
 In order to create .root files for your measurements, just place the .txt files under ```AlphaSource/Data/AlphaSource``` and then run the txt2root.sh script from the alphaSource directory:
 
 ```bash
-sh txt2root.sh <date>
+cd AlphaSource
+sh txt2root.sh [pattern]
 ```
 
-where `<date>` stands for the measurements' date eg. 20181024
+where `[pattern]` is a string that matches the files you want to convert. For example, the date of the measurements can be used.
 
 You can fit a single measurement by issuing
 
